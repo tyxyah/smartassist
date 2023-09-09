@@ -31,12 +31,12 @@ To get started with SmartAssist, follow the simple steps below:
 
 Before you can set up and run SmartAssist on your local system, please ensure that you have the following prerequisites installed:
 
-- **Node.js and npm:** Node.js and npm for server-side and client-side development. Download link: [Node.js website](https://nodejs.org/).
+- **Node.js and npm** for server-side and client-side development. Download link: [Node.js website](https://nodejs.org/).
 
-- **MongoDB:** MongoDB as its database. Download link: [MongoDB website](https://www.mongodb.com/try/download/community).
+- **MongoDB** as its database. Download link: [MongoDB website](https://www.mongodb.com/try/download/community).
 
-- **Git:** Git for version control and to clone the SmartAssist repository. Download link: [official Git website](https://git-scm.com/).
+- **Git** for version control and to clone the SmartAssist repository. Download link: [official Git website](https://git-scm.com/).
 
-- **Text Editor/IDE:** For code editing. Popular options include Visual Studio Code, Sublime Text, or IntelliJ IDEA.
+- **Text Editor/IDE** for code editing. Popular options include Visual Studio Code, Sublime Text, or IntelliJ IDEA.
 
 ### Installation
