@@ -1,3 +1,4 @@
+import ResponsiveDialog from "./components/ResponsiveDialog";
 
 function App() {
   return (
@@ -5,6 +6,7 @@ function App() {
         <p>
           Welcome to SMARTASSIST
         </p>
+        <ResponsiveDialog />
     </div>
   );
 }
