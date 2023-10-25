@@ -18,3 +18,7 @@ code {
   justify-content: center;
   flex-direction: column;
 }
+
+.clear-button:hover {
+  background-color: transparent !important;
+}
