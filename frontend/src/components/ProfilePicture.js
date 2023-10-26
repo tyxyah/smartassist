@@ -2,14 +2,6 @@ import React, { useState } from "react";
 import profile from "../assets/default-profile.png";
 
 function ProfilePicture() {
-
-  const circularImageStyles = {
-    width: "88px",
-    height: "88px",
-    objectFit: "cover",
-    borderRadius: "50%",
-  };
-
   const [image, setImage] = useState(null);
 
   const handleImageChange = (e) => {
@@ -29,19 +21,11 @@ function ProfilePicture() {
 
   return (
     <div>
-      <div
-        className="profile-container"
-        onClick={handleDefaultImageClick}
-        style={{ cursor: "pointer" }}
-      >
+      <div className="profile-container" onClick={handleDefaultImageClick}>
         {image ? (
-          <img src={image} alt="User's profile" style={circularImageStyles} />
+          <img src={image} alt="User's profile" className="circular-image" />
         ) : (
-          <img
-            src={profile}
-            alt="Default Profile"
-            style={circularImageStyles}
-          />
+          <img src={profile} alt="Default Profile" className="circular-image" />
         )}
       </div>
       <input
@@ -51,8 +35,8 @@ function ProfilePicture() {
         id="profile-image-upload"
         style={{ display: "none" }}
       />
-      <div>
-        <p style={{textAlign: "center"}}>Add details here</p>
+      <div className="user-details">
+        <p>Add details here</p>
       </div>
     </div>
   );

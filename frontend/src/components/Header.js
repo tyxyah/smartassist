@@ -16,13 +16,8 @@ export default function UseFormControl() {
   };
 
   return (
-    <form noValidate autoComplete="on" position="fixed">
-      <Box
-        sx={{
-          height: 80,
-          backgroundColor: "white",
-        }}
-      >
+    <form noValidate autoComplete="on" className="form-container"> 
+      <Box>
         <Grid container spacing={2}>
           <Grid item xs={2.2}></Grid>
           <Grid item xs={7}>
@@ -40,13 +35,13 @@ export default function UseFormControl() {
                     <Button
                       style={{
                         cursor: "pointer",
-                        padding: 0, // Remove padding
-                        minWidth: "auto", // Set minimum width to "auto"
+                        padding: 0,
+                        minWidth: "auto",
                       }}
                       classes={{
                         root: "clear-button",
                       }}
-                      onClick={handleClearClick} // Add onClick handler
+                      onClick={handleClearClick}
                     >
                       <Clear />
                     </Button>
@@ -58,7 +53,7 @@ export default function UseFormControl() {
             </FormControl>
           </Grid>
           <Grid item xs={2.7}>
-            <p style={{ fontSize: "23px", margin: "13px", textAlign: "right" }}>
+            <p className="logo"> 
               <strong>SMART</strong>
               <i>ASSIST</i>
             </p>

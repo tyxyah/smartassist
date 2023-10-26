@@ -12,13 +12,68 @@ code {
     monospace;
 }
 
+/* SideBar */
+.custom-drawer .MuiDrawer-paper{
+  width: 247px;
+  flex-shrink: 0;
+}
+
+.drawerPaper .MuiDrawer-paper{
+  width: 247px;
+  box-sizing: border-box;
+}
+
+.welcomeText {
+  font-size: 20px;
+  text-align: center;
+}
+
+.clear-button:hover {
+  background-color: transparent !important;
+}
+
+.list-item:hover .MuiListItemText-primary{
+  color: #2D68FE; 
+  cursor: pointer;
+}
+
+/* ProfilePicture */
 .profile-container {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  cursor: pointer;
 }
 
-.clear-button:hover {
-  background-color: transparent !important;
+.circular-image {
+  width: 88px;
+  height: 88px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.user-details {
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* Header */
+
+.form-container {
+  height: 80;
+  background-color: "white";
+}
+
+.clear-button {
+  cursor: pointer;
+  padding: 0;
+  min-width: auto;
+}
+
+.logo {
+  font-size: 23px;
+  margin: 13px;
+  text-align: right;
 }
