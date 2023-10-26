@@ -4,7 +4,7 @@ import Sidebar from "../components/SideBar";
 import Dropdown from "../components/Dropdown";
 import { Box } from "@mui/material";
 import LinearProgress from "../components/LinearProgress";
-
+import Table from "../components/Table";
 function HistoryPage() {
   return (
     <div>
@@ -19,6 +19,9 @@ function HistoryPage() {
         <p>Registration History :</p>
         <Dropdown />
       </div>
+      <Box sx={{paddingTop: 1}}>
+      <Table />
+      </Box>
       </Box>
     </div>
   );
