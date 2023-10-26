@@ -51,8 +51,8 @@ export default function CustomizedTables() {
   }, []);
 
   return (
-    <TableContainer sx={{ maxWidth: 950 }} component={Paper}>
-      <Table sx={{ minWidth: 900 }} aria-label="customized table">
+    <TableContainer sx={{ maxWidth: 1045 }} component={Paper}>
+      <Table sx={{ minWidth: 1045 }} aria-label="customized table">
         <TableHead>
           <TableRow>
             <StyledTableCell>No.</StyledTableCell>
