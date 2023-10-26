@@ -60,7 +60,6 @@ code {
 }
 
 /* Header */
-
 .form-container {
   height: 80;
   background-color: "white";
@@ -76,4 +75,10 @@ code {
   font-size: 23px;
   margin: 13px;
   text-align: right;
+}
+
+/* HistoryPage */
+.history-page {
+  display: flex;
+  justify-content: left;
 }

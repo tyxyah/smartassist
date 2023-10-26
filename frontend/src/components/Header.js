@@ -19,7 +19,7 @@ export default function UseFormControl() {
     <form noValidate autoComplete="on" className="form-container"> 
       <Box>
         <Grid container spacing={2}>
-          <Grid item xs={2.2}></Grid>
+          <Grid item xs={2.24}></Grid>
           <Grid item xs={7}>
             <FormControl sx={{ margin: "13px", width: "35ch" }}>
               <OutlinedInput
