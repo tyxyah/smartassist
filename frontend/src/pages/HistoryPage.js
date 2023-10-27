@@ -31,6 +31,11 @@ function HistoryPage() {
         <Box sx={{ paddingTop: 1 }}>
           <Table selectedSemester={selectedSemester} />
         </Box>
+        <Box sx={{ paddingLeft: 84 }}>
+          <p>
+            <em># : Tidak dikira dalam kredit bergraduat</em>
+          </p>
+        </Box>
       </Box>
     </div>
   );

@@ -13,7 +13,7 @@ const courseSchema = new Schema({
         required: true
     },
     credit_hrs: {
-        type: Number,
+        type: String,
         required: true
     },
     prerequisite: {

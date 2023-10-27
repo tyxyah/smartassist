@@ -82,3 +82,7 @@ code {
   display: flex;
   justify-content: left;
 }
+
+em {
+  color: grey;
+}
