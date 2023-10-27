@@ -12,6 +12,10 @@ const courseSchema = new Schema({
         type: String,
         required: true
     },
+    course_type: {
+        type: Number,
+        required: true
+    },
     credit_hrs: {
         type: String,
         required: true

@@ -27,13 +27,14 @@ const getCourse = async (req, res) => {
 
 // create new course
 const createCourse = async (req, res) => {
-  const { code, name, credit_hrs, prerequisite, status, semester } = req.body;
+  const { code, name, course_type, credit_hrs, prerequisite, status, semester} = req.body;
 
   // add doc to db
   try {
     const course = await Course.create({
       code,
       name,
+      course_type,
       credit_hrs,
       prerequisite,
       status,

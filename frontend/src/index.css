@@ -86,3 +86,9 @@ code {
 em {
   color: grey;
 }
+
+/* ProgressPage */
+.progress-page {
+  display: flex;
+  justify-content: left;
+}
