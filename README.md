@@ -1,7 +1,5 @@
 # SmartAssist
 
-![SmartAssist Logo](link-to-your-logo.png)
-
 SmartAssist is an innovative online assistance registration system designed to streamline the registration process for students, ensuring they efficiently track their progress and adhere to their study scheme. This platform goes beyond traditional registration systems by providing intelligent course recommendations for upcoming semesters, empowering students to make informed decisions about their academic journey.
 
 ## Table of Contents
