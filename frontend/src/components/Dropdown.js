@@ -4,11 +4,13 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-export default function SelectSmall() {
+export default function Dropdown({ onSemesterChange }) {
   const [semester, setSemester] = React.useState('');
 
   const handleChange = (event) => {
-    setSemester(event.target.value);
+    const newSemester = event.target.value;
+    setSemester(newSemester);
+    onSemesterChange(newSemester); // Call the callback function with the selected semester
   };
 
   return (

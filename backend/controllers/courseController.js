@@ -27,7 +27,7 @@ const getCourse = async (req, res) => {
 
 // create new course
 const createCourse = async (req, res) => {
-  const { code, name, credit_hrs, prerequisite } = req.body;
+  const { code, name, credit_hrs, prerequisite, status, semester } = req.body;
 
   // add doc to db
   try {
@@ -36,6 +36,8 @@ const createCourse = async (req, res) => {
       name,
       credit_hrs,
       prerequisite,
+      status,
+      semester,
     });
     res.status(200).json(course);
   } catch (error) {

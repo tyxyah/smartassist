@@ -17,11 +17,15 @@ const courseSchema = new Schema({
         required: true
     },
     prerequisite: {
-        type: Boolean,
+        type: String,
         required: true
     },
     status: {
-        type: String,
+        type: Boolean,
+        required: true
+    },
+    semester: {
+        type: Number,
         required: true
     }
 }, { timestamps: true})
