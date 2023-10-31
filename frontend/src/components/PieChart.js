@@ -7,6 +7,8 @@ const size = {
   height: 200,
 };
 
+const palette = ['#1976D2', '#A7CAED'];
+
 const StyledText = styled("text")(({ theme }) => ({
   fill: theme.palette.text.primary,
   textAnchor: "middle",
@@ -71,6 +73,7 @@ export default function PieChartWithCenterLabel({ selectedCourseType }) {
   return (
     <div style={{ width: "100%" }}>
       <PieChart
+      colors={palette}
         series={[{ data: filteredData, innerRadius: 70 }]}
         slotProps={{
           legend: { hidden: true },
