@@ -5,6 +5,7 @@ import CourseTypeDropdown from "../components/CourseTypeDropdown";
 import { Box } from "@mui/material";
 import LinearProgress from "../components/LinearProgress";
 import ProgressTable from "../components/ProgressTable";
+import PieChart from "../components/PieChart";
 
 function ProgressPage() {
   const [selectedCourseType, setSelectedCourseType] = useState(1);
@@ -28,9 +29,22 @@ function ProgressPage() {
           <p>Academic Progress:</p>
           <CourseTypeDropdown onCourseTypeChange={handleCourseTypeChange} />
         </div>
-        <Box sx={{ paddingTop: 1 }}>
-          <ProgressTable selectedCourseType={selectedCourseType} />
+        <Box sx={{ display: "flex" }}>
+          <div style={{ flex: 1 }}>
+            <ProgressTable selectedCourseType={selectedCourseType} />
+          </div>
+          <div
+          style={{
+            position: "absolute",
+            top: "140px", // Adjust this value to control the vertical position
+            right: "-20px", // Adjust this value to control the horizontal position
+            flex: 1,
+          }}
+        >
+          <PieChart />
+        </div>
         </Box>
+        
       </Box>
     </div>
   );
