@@ -41,7 +41,7 @@ function ProgressPage() {
             flex: 1,
           }}
         >
-          <PieChart />
+          <PieChart selectedCourseType={selectedCourseType} />
         </div>
         </Box>
         
