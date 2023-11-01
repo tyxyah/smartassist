@@ -37,7 +37,7 @@ function ProgressPage() {
           style={{
             position: "absolute",
             top: "140px", // Adjust this value to control the vertical position
-            right: "-20px", // Adjust this value to control the horizontal position
+            right: "0px", // Adjust this value to control the horizontal position
             flex: 1,
           }}
         >
