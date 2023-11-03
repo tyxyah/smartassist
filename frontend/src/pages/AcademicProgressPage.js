@@ -9,7 +9,6 @@ import PieChart from "../components/PieChart";
 
 function ProgressPage() {
   const [selectedCourseType, setSelectedCourseType] = useState(1);
-
   const handleCourseTypeChange = (newCourseType) => {
     setSelectedCourseType(newCourseType);
   };

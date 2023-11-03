@@ -8,7 +8,6 @@ import Table from "../components/Table";
 
 function HistoryPage() {
   const [selectedSemester, setSelectedSemester] = useState(1);
-
   const handleSemesterChange = (newSemester) => {
     setSelectedSemester(newSemester);
   };

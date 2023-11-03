@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 
 // import App from './App';
-import ProgressPage from "./pages/AcademicProgressPage";
+import SuggestionPage from "./pages/SuggestionPage"
 
 <link
   rel="stylesheet"
@@ -13,7 +13,7 @@ import ProgressPage from "./pages/AcademicProgressPage";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <ProgressPage />
+    <SuggestionPage />
   </React.StrictMode>
 );
 
