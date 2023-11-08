@@ -13,10 +13,7 @@ import Stack from "@mui/material/Stack";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 
-//set table margin to 78 percent
-var pageWidth = window.innerWidth;
-var maxWidth78 = pageWidth * 0.78;
-
+// Define styled components for table cell and table row
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.white,
@@ -32,16 +29,32 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(even)": {
     backgroundColor: theme.palette.action.hover,
   },
-  // hide last border
   "&:last-child td, &:last-child th": {
     border: 0,
   },
 }));
 
-export default function CoursePlan() {
-  const [courses, setCourses] = useState([]);
-  const [upcomingCourses, setUpcomingCourses] = useState([]);
+// Function to map course types to their names
+function mapCourseType(courseType) {
+  switch (courseType) {
+    case 1:
+      return "Universiti Course";
+    case 2:
+      return "Core Course";
+    case 3:
+      return "Elective: Limited";
+    case 4:
+      return "Elective: General";
+    default:
+      return "Unknown Course Type";
+  }
+}
 
+export default function CoursePlan() {
+  const [courses, setCourses] = useState([]); // State for storing all courses
+  const [upcomingCourses, setUpcomingCourses] = useState([]); // State for storing upcoming courses
+
+  // Use the useEffect hook to fetch data when the component mounts
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -49,20 +62,17 @@ export default function CoursePlan() {
         const userResponse = await fetch("http://localhost:4000/api/user/64fc2560fbeb499208c719e7", {
           // Add any necessary headers for user authentication
         });
-  
+
         if (userResponse.ok) {
           const userData = await userResponse.json();
-          // Assuming userData contains the user's current semester
           const currentSemester = userData.current_semester;
-          console.log({currentSemester})
-  
+
           // Fetch course data
           const courseResponse = await fetch("http://localhost:4000/api/course");
           if (courseResponse.ok) {
             const courseData = await courseResponse.json();
             setCourses(courseData);
-            console.log({courseData})
-  
+
             // Calculate and set upcomingCourses based on the user's current semester
             const upcomingCourses = courseData.filter(course => course.semester === currentSemester + 1);
             setUpcomingCourses(upcomingCourses);
@@ -76,26 +86,25 @@ export default function CoursePlan() {
         console.error("Error:", error);
       }
     };
-  
-    fetchData();
-  }, []);
 
+    fetchData();
+  }, []); // The empty dependency array ensures this effect runs once on component mount
+
+  // Handle status change when the user toggles the status button
   const handleStatusChange = (event, courseId) => {
     const newStatus = event.target.value;
-    const updatedCourses = courses.map((course) => {
+    const updatedCourses = courses.map(course => {
       if (course._id === courseId) {
-        // Update the status of the selected course
-        course.status = newStatus === "Completed" ? true : false;
+        course.status = newStatus === "completed";
 
         // Call API to update the status in the database using fetch
         fetch(`http://localhost:4000/api/course/${course._id}`, {
           method: "PATCH",
-          // Headers indicates that request body contains JSON data
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ status: course.status }),
-        }).then((response) => {
+        }).then(response => {
           if (response.ok) {
             console.log("Status updated successfully");
           } else {
@@ -111,11 +120,11 @@ export default function CoursePlan() {
     setCourses(updatedCourses);
   };
 
+  var pageWidth = window.innerWidth;
+  var maxWidth78 = pageWidth * 0.78;
+
   return (
-    <TableContainer
-      sx={{ display: "flex", maxWidth: maxWidth78 }}
-      component={Paper}
-    >
+    <TableContainer sx={{ display: "flex", maxWidth: maxWidth78 }} component={Paper}>
       <Table sx={{ minWidth: 950 }} aria-label="customized table">
         <TableHead>
           <TableRow>
@@ -123,7 +132,7 @@ export default function CoursePlan() {
             <StyledTableCell sx={{ columnWidth: 118.25, align: "left" }}>
               Course Code
             </StyledTableCell>
-            <StyledTableCell sx={{ columnWidth: 475, align: "left" }}>
+            <StyledTableCell sx={{ columnWidth: 300, align: "left" }}>
               Course Name
             </StyledTableCell>
             <StyledTableCell sx={{ columnWidth: 118.25, textAlign: "center" }}>
@@ -140,31 +149,19 @@ export default function CoursePlan() {
         <TableBody>
           {upcomingCourses.map((course, index) => (
             <StyledTableRow key={course._id}>
-              <StyledTableCell align="center" component="th" scope="row">
-                {index + 1 + "."}
-              </StyledTableCell>
-              <StyledTableCell align="left">{course.code}</StyledTableCell>
-              <StyledTableCell align="left">{course.name}</StyledTableCell>
-              <StyledTableCell align="center">
-                {course.credit_hrs}
-              </StyledTableCell>
-              <StyledTableCell align="center">{course.type}</StyledTableCell>
-              <StyledTableCell align="center">
+              <StyledTableCell>{index + 1}.</StyledTableCell>
+              <StyledTableCell>{course.code}</StyledTableCell>
+              <StyledTableCell>{course.name}</StyledTableCell>
+              <StyledTableCell>{course.credit_hrs}</StyledTableCell>
+              <StyledTableCell>{mapCourseType(course.course_type)}</StyledTableCell>
+              <StyledTableCell>
                 <Stack direction="row">
-                  <ToggleButtonGroup
-                    style={{
-                      minWidth: "auto",
-                      minHeight: "auto",
-                    }}
-                    onClick={() => handleStatusChange()}
-                  >
+                  <ToggleButtonGroup>
                     <ToggleButton value="failed">
-                      <ClearOutlinedIcon style={{ color: "red" }} />{" "}
-                      {/* Set color to red */}
+                      <ClearOutlinedIcon style={{ color: "red" }} />
                     </ToggleButton>
                     <ToggleButton value="completed">
-                      <CheckOutlinedIcon style={{ color: "green" }} />{" "}
-                      {/* Set color to green */}
+                      <CheckOutlinedIcon style={{ color: "green" }} />
                     </ToggleButton>
                   </ToggleButtonGroup>
                 </Stack>
