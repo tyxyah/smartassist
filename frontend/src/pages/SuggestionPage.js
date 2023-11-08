@@ -23,7 +23,7 @@ function SuggestionPage() {
           <SuggestedCourse />
         </div>
         <div>
-          <h3>Course Plan</h3>
+          <h3>Course Plan for Semester Session {}</h3>
           <CoursePlan />
         </div>
       </Box>

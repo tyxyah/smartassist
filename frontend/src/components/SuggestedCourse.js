@@ -37,7 +37,7 @@ const SuggestedCourses = () => {
               style={{
                 maxWidth: '277px',
                 maxHeight: '90px',
-                margin: '10px',
+                marginRight: '20px',
                 flex: '1',
                 display: 'flex',
                 flexDirection: 'row', // Make content align horizontally
