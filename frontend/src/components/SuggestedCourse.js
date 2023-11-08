@@ -28,7 +28,6 @@ const SuggestedCourses = () => {
 
   return (
     <div>
-      <h3>Suggested Courses</h3>
       <div style={{ display: 'flex', flexWrap: 'wrap' }}>
         {courses.map((course, index) => {
           const avatarData = getAvatarData(course.type);
@@ -68,8 +67,6 @@ const SuggestedCourses = () => {
           );
         })}
       </div>
-      <h3>Table List</h3>
-      {/* Implement your table component here */}
     </div>
   );
 };
