@@ -40,7 +40,7 @@ const SuggestedCourses = () => {
                 marginRight: '20px',
                 flex: '1',
                 display: 'flex',
-                flexDirection: 'row', // Make content align horizontally
+                flexDirection: 'row',
               }}
             >
               <CardContent
@@ -58,7 +58,6 @@ const SuggestedCourses = () => {
                     minWidth: 'auto',
                     minHeight: 'auto',
                   }}
-                  onClick={() => handleAddToTable(course)}
                 >
                   <AddCircleOutlineOutlinedIcon />
                 </Button>
@@ -69,11 +68,6 @@ const SuggestedCourses = () => {
       </div>
     </div>
   );
-};
-
-const handleAddToTable = (course) => {
-  // Implement the logic to add the course to your table list here
-  console.log('Added to table:', course);
 };
 
 export default SuggestedCourses;
