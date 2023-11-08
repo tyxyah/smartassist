@@ -26,7 +26,7 @@ const getUser = async (req, res) => {
 
 // create new user
 const createUser = async (req, res) => {
-  const { email, username, password, user_type, muet_band, start_session } =
+  const { email, username, password, user_type, muet_band, start_session, current_semester } =
     req.body;
 
   // add doc to db
@@ -38,6 +38,7 @@ const createUser = async (req, res) => {
       user_type,
       muet_band,
       start_session,
+      current_semester,
     });
     res.status(200).json(user);
   } catch (error) {

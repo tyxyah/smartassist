@@ -38,25 +38,46 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-export default function CustomizedTables({ selectedSemester }) {
+export default function CoursePlan() {
   const [courses, setCourses] = useState([]);
+  const [upcomingCourses, setUpcomingCourses] = useState([]);
 
   useEffect(() => {
-    const fetchCourses = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:4000/api/course");
-        if (response.ok) {
-          const data = await response.json();
-          setCourses(data);
+        // Fetch user data
+        const userResponse = await fetch("http://localhost:4000/api/user/64fc2560fbeb499208c719e7", {
+          // Add any necessary headers for user authentication
+        });
+  
+        if (userResponse.ok) {
+          const userData = await userResponse.json();
+          // Assuming userData contains the user's current semester
+          const currentSemester = userData.current_semester;
+          console.log({currentSemester})
+  
+          // Fetch course data
+          const courseResponse = await fetch("http://localhost:4000/api/course");
+          if (courseResponse.ok) {
+            const courseData = await courseResponse.json();
+            setCourses(courseData);
+            console.log({courseData})
+  
+            // Calculate and set upcomingCourses based on the user's current semester
+            const upcomingCourses = courseData.filter(course => course.semester === currentSemester + 1);
+            setUpcomingCourses(upcomingCourses);
+          } else {
+            console.error("Failed to fetch course data");
+          }
         } else {
-          console.error("Failed to fetch data");
+          console.error("Failed to fetch user data");
         }
       } catch (error) {
         console.error("Error:", error);
       }
     };
-
-    fetchCourses();
+  
+    fetchData();
   }, []);
 
   const handleStatusChange = (event, courseId) => {
@@ -90,11 +111,6 @@ export default function CustomizedTables({ selectedSemester }) {
     setCourses(updatedCourses);
   };
 
-  // Filter courses based on the selected semester
-  const filteredCourses = courses.filter(
-    (course) => course.semester === selectedSemester
-  );
-
   return (
     <TableContainer
       sx={{ display: "flex", maxWidth: maxWidth78 }}
@@ -122,7 +138,7 @@ export default function CustomizedTables({ selectedSemester }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {filteredCourses.map((course, index) => (
+          {upcomingCourses.map((course, index) => (
             <StyledTableRow key={course._id}>
               <StyledTableCell align="center" component="th" scope="row">
                 {index + 1 + "."}

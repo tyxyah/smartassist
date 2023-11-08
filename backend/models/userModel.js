@@ -27,7 +27,11 @@ const userSchema = new Schema({
     start_session: {
         type: String,
         required: false
-    }
+    },
+    current_semester: {
+        type: Number,
+        required: true
+    },
 }, { timestamps: true})
 
 module.exports = mongoose.model('User', userSchema)
