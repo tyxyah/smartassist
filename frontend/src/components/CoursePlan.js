@@ -103,7 +103,7 @@ export default function CoursePlan() {
 
   return (
     <TableContainer sx={{ display: "flex", maxWidth: maxWidth78 }} component={Paper}>
-      <Table sx={{ minWidth: 950 }} aria-label="customized table">
+      <Table sx={{ minWidth: 775 }} aria-label="customized table">
         <TableHead>
           <TableRow>
             <StyledTableCell sx={{ columnWidth: 2 }}>No.</StyledTableCell>
