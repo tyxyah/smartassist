@@ -1,5 +1,6 @@
 const Course = require("../models/courseModel");
 const mongoose = require("mongoose");
+const { DecisionTreeModel } = require('../models/decisionTreeModel');
 
 // get all courses
 const getCourses = async (req, res) => {
