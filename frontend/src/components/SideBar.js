@@ -13,14 +13,15 @@ import EditCalendarOutlinedIcon from '@mui/icons-material/EditCalendarOutlined';
 import HistoryOutlinedIcon from '@mui/icons-material/HistoryOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import ProfilePicture from './ProfilePicture';
+import {Link} from 'react-router-dom'
 
 export default function PermanentDrawerLeft() {
   const items = [
-    { text: 'Profile', icon: <PermIdentityOutlinedIcon /> },
-    { text: 'Dashboard', icon: <DashboardCustomizeOutlinedIcon /> },
-    { text: 'Academic Progress', icon: <ShowChartOutlinedIcon /> },
-    { text: 'Course Plan', icon: <EditCalendarOutlinedIcon /> },
-    { text: 'History', icon: <HistoryOutlinedIcon /> },
+    { text: 'Profile', icon: <PermIdentityOutlinedIcon />, link: 'Profile' },
+    { text: 'Dashboard', icon: <DashboardCustomizeOutlinedIcon />, link: 'Dashboard' },
+    { text: 'Academic Progress', icon: <ShowChartOutlinedIcon />, link: 'AcademicProgress' },
+    { text: 'Course Plan', icon: <EditCalendarOutlinedIcon />, link: 'Suggestion' },
+    { text: 'History', icon: <HistoryOutlinedIcon />, link: 'History' },
   ];
 
   return (
@@ -33,13 +34,12 @@ export default function PermanentDrawerLeft() {
         <p className="welcomeText"> 
           <strong>Welcome Back!</strong>
         </p>
-
         <ProfilePicture />
         <Box sx={{ flexGrow: 1 }}>
           <List>
             {items.map((item) => (
               <ListItem key={item.text} disablePadding>
-                <ListItemButton className="list-item">
+                <ListItemButton className="list-item" component={Link} to={`/${item.link}`}>
                   <ListItemIcon>{item.icon}</ListItemIcon>
                   <ListItemText primary={item.text} />
                 </ListItemButton>

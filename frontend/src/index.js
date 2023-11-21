@@ -1,9 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-
-// import App from './App';
-import SuggestionPage from "./pages/SuggestionPage"
+import App from './App';
 
 <link
   rel="stylesheet"
@@ -13,7 +11,7 @@ import SuggestionPage from "./pages/SuggestionPage"
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <SuggestionPage />
+    <App />
   </React.StrictMode>
 );
 
