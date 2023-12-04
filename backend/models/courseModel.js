@@ -6,7 +6,8 @@ const Schema = mongoose.Schema
 const courseSchema = new Schema({
     code: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     name: {
         type: String,
