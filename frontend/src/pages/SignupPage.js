@@ -3,19 +3,30 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import Alert from "@mui/material/Alert";
+import Stack from "@mui/material/Stack";
+import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { useSignup } from "../hooks/useSignup";
+import { Link } from "react-router-dom";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const { signup, error, isLoading } = useSignup();
 
   const handleSignup = async (e) => {
-    e.preventDefault()
-    
-    console.log("Login clicked");
-    console.log("Username:", username);
-    console.log("Email:", email);
-    console.log("Password:", password);
+    e.preventDefault();
+
+    await signup(email, username, password);
+  };
+
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
   return (
@@ -27,7 +38,7 @@ const Signup = () => {
         height: "100vh",
       }}
     >
-      <Card sx={{ width: 390, padding: "10px" }}>
+      <Card sx={{ width: 390, paddingX: "10px" }}>
         <CardContent>
           <p
             style={{
@@ -67,6 +78,7 @@ const Signup = () => {
           />
           <TextField
             label="Email"
+            type="email"
             variant="outlined"
             margin="normal"
             fullWidth
@@ -75,21 +87,47 @@ const Signup = () => {
           />
           <TextField
             label="Password"
-            type="password"
+            type={showPassword ? "text" : "password"}
             variant="outlined"
             margin="normal"
             fullWidth
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={handleTogglePasswordVisibility}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
-          <Button
-            fullWidth
-            variant="contained"
-            color="primary"
-            onClick={handleSignup}
-          >
-            Sign up
-          </Button>
+          <Stack sx={{ width: "100%", marginY: 1 }} spacing={2}>
+            <Button
+              disabled={isLoading}
+              fullWidth
+              variant="contained"
+              color="primary"
+              onClick={handleSignup}
+            >
+              Sign up
+            </Button>
+            {error && <Alert severity="error">{error}</Alert>}
+            <div
+              style={{
+                margin: "15px 0", // Adjust the margin between the button and the line here
+                border: "0.5px solid #ccc", // Adjust the thickness and color here
+              }}
+            />
+            <div style={{ margin: "0px", textAlign: "center" }}>
+              Already have an account?{" "}
+              <Link to="/login">Login here</Link>
+            </div>
+          </Stack>
         </CardContent>
       </Card>
     </div>

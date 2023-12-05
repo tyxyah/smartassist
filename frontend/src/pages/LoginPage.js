@@ -26,7 +26,7 @@ const LoginPage = () => {
         height: "100vh",
       }}
     >
-      <Card sx={{width: 400}}>
+      <Card sx={{ width: 390, paddingX: "10px"}}>
         <CardContent>
           <p
             style={{

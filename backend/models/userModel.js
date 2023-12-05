@@ -46,7 +46,7 @@ userSchema.statics.signup = async function(email, username, password) {
         throw Error('All fields must be filled')
     }
     if (!validator.isEmail(email)) {
-        throw Error('Email is not valid')
+        throw Error('Invalid email')
     }
     if (!validator.isStrongPassword(password)) {
         throw Error('Password is not strong enough')
@@ -56,6 +56,18 @@ userSchema.statics.signup = async function(email, username, password) {
 
     if (exists) {
         throw Error('User already exist')
+    }
+
+    const existingEmailUser = await this.findOne({ email });
+
+    if (existingEmailUser) {
+        throw Error('Email already in use');
+    }
+
+    const existingUsernameUser = await this.findOne({ username });
+
+    if (existingUsernameUser) {
+        throw Error('Username already in use');
     }
 
     //hashed the password using bcrypt
