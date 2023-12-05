@@ -18,7 +18,7 @@ import {Link} from 'react-router-dom'
 export default function PermanentDrawerLeft() {
   const items = [
     { text: 'Profile', icon: <PermIdentityOutlinedIcon />, link: 'Profile' },
-    { text: 'Dashboard', icon: <DashboardCustomizeOutlinedIcon />, link: ' ' },
+    { text: 'Dashboard', icon: <DashboardCustomizeOutlinedIcon />, link: 'Dashboard' },
     { text: 'Course Plan', icon: <EditCalendarOutlinedIcon />, link: 'Suggestion' },
     { text: 'Academic Progress', icon: <ShowChartOutlinedIcon />, link: 'AcademicProgress' },
     { text: 'History', icon: <HistoryOutlinedIcon />, link: 'History' },
