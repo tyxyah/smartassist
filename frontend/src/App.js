@@ -5,12 +5,14 @@ import ProgressPage from "./pages/AcademicProgressPage";
 import DashboardPage from "./pages/DashboardPage";
 import ProfilePage from "./pages/ProfilePage";
 import LoginPage from "./pages/LoginPage";
+import SignupPage from "./pages/SignupPage"
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<LoginPage />} />
+        <Route path="/Login" element={<LoginPage />} />
+        <Route path="/" element={<SignupPage />} />
         <Route path="/Profile" element={<ProfilePage />} />
         <Route path="/AcademicProgress" element={<ProgressPage />} />
         <Route path="/Dashboard" element={<DashboardPage />} />
