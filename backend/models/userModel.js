@@ -20,7 +20,7 @@ const userSchema = new Schema({
         required: true,
         unique: true
     },
-    user_type: {
+    student_type: {
         type: String,
         required: false
     },

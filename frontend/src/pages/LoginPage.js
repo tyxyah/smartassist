@@ -100,7 +100,7 @@ const LoginPage = () => {
               color="primary"
               onClick={handleLogin}
             >
-              Sign in
+              Log in
             </Button>
             {error &&<Alert severity="error">{error}</Alert>}
             <div
