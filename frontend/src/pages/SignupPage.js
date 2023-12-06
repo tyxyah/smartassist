@@ -142,7 +142,7 @@ const Signup = () => {
             />
             <div style={{ margin: "0px", textAlign: "center" }}>
               Already have an account?{" "}
-              <Link to="/login">Login here</Link>
+              <Link to="/">Login here</Link>
             </div>
           </Stack>
         </CardContent>

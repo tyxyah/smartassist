@@ -1,5 +1,5 @@
-// LoginPage.js
 import React, { useState } from "react";
+import { useLogin } from "../hooks/useLogin";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import TextField from "@mui/material/TextField";
@@ -16,12 +16,12 @@ const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const { login, error, isLoading } = useLogin()
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("Login clicked");
-    console.log("Username:", username);
-    console.log("Password:", password);
+    
+    await login(username, password)
   };
 
   const handleTogglePasswordVisibility = () => {
@@ -94,6 +94,7 @@ const LoginPage = () => {
           />
           <Stack sx={{ width: "100%", marginY: 1 }} spacing={2}>
             <Button
+              disabled={isLoading}
               fullWidth
               variant="contained"
               color="primary"
@@ -101,7 +102,7 @@ const LoginPage = () => {
             >
               Sign in
             </Button>
-            <Alert severity="warning"></Alert>
+            {error &&<Alert severity="warning">{error}</Alert>}
             <div
               style={{
                 margin: "15px 0", // Adjust the margin between the button and the line here
