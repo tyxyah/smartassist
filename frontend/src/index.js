@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
-//import LoginPage from "./pages/LoginPage";
 import { AuthContextProvider } from "./context/AuthContext";
 
 <link
@@ -14,7 +13,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <AuthContextProvider>
-      <App />
+      <App/>
     </AuthContextProvider>
   </React.StrictMode>
 );

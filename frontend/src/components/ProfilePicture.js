@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import profile from "../assets/default-profile.png";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 function ProfilePicture() {
   const [image, setImage] = useState(null);
+  const {user} = useAuthContext()
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -35,9 +37,9 @@ function ProfilePicture() {
         id="profile-image-upload"
         style={{ display: "none" }}
       />
-      <div className="user-details">
-        <p>Add details here</p>
-      </div>
+      {user&&<div className="user-details">
+        <span>{user.username}</span>
+      </div>}
     </div>
   );
 }

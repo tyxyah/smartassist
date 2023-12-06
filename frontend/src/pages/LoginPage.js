@@ -102,7 +102,7 @@ const LoginPage = () => {
             >
               Sign in
             </Button>
-            {error &&<Alert severity="warning">{error}</Alert>}
+            {error &&<Alert severity="error">{error}</Alert>}
             <div
               style={{
                 margin: "15px 0", // Adjust the margin between the button and the line here

@@ -41,7 +41,7 @@ export default function CoursePlan() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userResponse = await fetch("http://localhost:4000/api/user/64fc2560fbeb499208c719e7", {
+        const userResponse = await fetch("http://localhost:4000/api/user", {
           // Add any necessary headers for user authentication
         });
 
@@ -134,7 +134,7 @@ export default function CoursePlan() {
               <StyledTableCell>{mapCourseType(course.course_type)}</StyledTableCell>
               <StyledTableCell>
                 <Stack direction="row">
-                  <ToggleButtonGroup>
+                  <ToggleButtonGroup onChange={handleStatusChange}>
                     <ToggleButton value="failed">
                       <ClearOutlinedIcon style={{ color: "red" }} />
                     </ToggleButton>
