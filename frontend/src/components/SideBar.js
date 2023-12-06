@@ -14,6 +14,7 @@ import HistoryOutlinedIcon from '@mui/icons-material/HistoryOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import ProfilePicture from './ProfilePicture';
 import {Link} from 'react-router-dom'
+import { useLogout } from '../hooks/useLogout';
 
 export default function PermanentDrawerLeft() {
   const items = [
@@ -23,6 +24,13 @@ export default function PermanentDrawerLeft() {
     { text: 'Academic Progress', icon: <ShowChartOutlinedIcon />, link: 'AcademicProgress' },
     { text: 'History', icon: <HistoryOutlinedIcon />, link: 'History' },
   ];
+
+  const logoutItem = {text: 'Logout', icon: <LogoutOutlinedIcon />, link: ''}
+
+  const { logout } = useLogout()
+  const handleClick = () => {
+    logout()
+  }
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -50,11 +58,11 @@ export default function PermanentDrawerLeft() {
 
         <List>
           <ListItem disablePadding>
-            <ListItemButton className="list-item">
+            <ListItemButton className="list-item" onClick={handleClick} component={Link} to={`/${logoutItem.link}`}>
               <ListItemIcon>
-                <LogoutOutlinedIcon />
+                {logoutItem.icon}
               </ListItemIcon>
-              <ListItemText primary="Logout" />
+              <ListItemText primary={logoutItem.text} />
             </ListItemButton>
           </ListItem>
         </List>

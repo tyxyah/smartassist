@@ -17,12 +17,22 @@ const Signup = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const { signup, error, isLoading } = useSignup();
 
   const handleSignup = async (e) => {
     e.preventDefault();
 
-    await signup(email, username, password);
+    // Perform signup
+    const signupSuccess = await signup(email, username, password);
+
+    // Clear the form only on successful signup
+    if (signupSuccess) {
+      setEmail("");
+      setUsername("");
+      setPassword("");
+      setShowSuccessAlert(true);
+    }
   };
 
   const handleTogglePasswordVisibility = () => {
@@ -116,7 +126,14 @@ const Signup = () => {
             >
               Sign up
             </Button>
-            {error && <Alert severity="error">{error}</Alert>}
+            
+            {/* Conditional rendering of error and success alerts */}
+            {error ? (
+              <Alert severity="error">{error}</Alert>
+            ) : showSuccessAlert ? (
+              <Alert severity="success">Signup successful! Try login now.</Alert>
+            ) : null}
+
             <div
               style={{
                 margin: "15px 0", // Adjust the margin between the button and the line here
