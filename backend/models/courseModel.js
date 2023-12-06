@@ -4,34 +4,29 @@ const Schema = mongoose.Schema
 
 // define the data structure
 const courseSchema = new Schema({
-    code: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    name: {
-        type: String,
-        required: true
-    },
-    course_type: {
+    semester_id: {
         type: Number,
         required: true
     },
-    credit_hrs: {
+    course_code: {
+        type: String,
+        required: false
+    },
+    course_name: {
+        type: String,
+        required: false
+    },
+    credit_hours: {
         type: String,
         required: true
     },
     prerequisite: {
         type: String,
-        required: true
+        required: false
     },
-    status: {
-        type: Boolean,
-        required: true
-    },
-    semester: {
+    course_type: {
         type: Number,
-        required: true
+        required: false
     }
 }, { timestamps: true})
 

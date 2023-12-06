@@ -1,6 +1,6 @@
 const Course = require("../models/courseModel");
 const mongoose = require("mongoose");
-const { DecisionTreeModel } = require('../models/decisionTreeModel');
+const { DecisionTreeModel } = require("../models/decisionTreeModel");
 
 // get all courses
 const getCourses = async (req, res) => {
@@ -28,18 +28,24 @@ const getCourse = async (req, res) => {
 
 // create new course
 const createCourse = async (req, res) => {
-  const { code, name, course_type, credit_hrs, prerequisite, status, semester} = req.body;
+  const {
+    semester_id,
+    course_code,
+    course_name,
+    credit_hours,
+    prerequisite,
+    course_type,
+  } = req.body;
 
   // add doc to db
   try {
     const course = await Course.create({
-      code,
-      name,
+      semester_id,
+      course_code,
+      course_name,
       course_type,
-      credit_hrs,
+      credit_hours,
       prerequisite,
-      status,
-      semester,
     });
     res.status(200).json(course);
   } catch (error) {
