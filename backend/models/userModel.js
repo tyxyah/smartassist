@@ -22,59 +22,59 @@ const userSchema = new Schema({
     },
     student_type: {
         type: String,
-        required: false
+        required: true
     },
-    muet_band: {
+    muet: {
         type: String,
-        required: false
+        required: true
     },
     start_session: {
         type: String,
-        required: false
+        required: true
     },
     current_semester: {
         type: Number,
-        required: false
+        required: true
     },
 })
 
 //static sigup method
-userSchema.statics.signup = async function(email, username, password) {
+userSchema.statics.signup = async function(email, username, password, student_type, start_session, muet, current_semester) {
 
     //vaidation
-    if (!email || !password || !username) {
-        throw Error('All fields must be filled')
+    if (!email || !password || !username || !student_type || !start_session || !muet || !current_semester) {
+        throw Error('Please fill in all required fields.')
     }
     if (!validator.isEmail(email)) {
-        throw Error('Invalid email')
+        throw Error('Invalid email format. Please enter a correct email address.')
     }
     if (!validator.isStrongPassword(password)) {
-        throw Error('Password is not strong enough')
+        throw Error('Password should be at least 8 characters long and include a combination of letters, numbers, and symbols.')
     }
 
     const exists = await this.findOne({ email, username })
 
     if (exists) {
-        throw Error('User already exist')
+        throw Error('Username already exists. Please try a different username.')
     }
 
     const existingEmailUser = await this.findOne({ email });
 
     if (existingEmailUser) {
-        throw Error('Email already in use');
+        throw Error('This email address is already registered. Please log in or use a different email.');
     }
 
     const existingUsernameUser = await this.findOne({ username });
 
     if (existingUsernameUser) {
-        throw Error('Username already in use');
+        throw Error('This username is already registered. Please log in or choose a different username for new registrations');
     }
 
     //hashed the password using bcrypt
     const salt = await bcrypt.genSalt(10)
     const hash = await bcrypt.hash(password, salt)
  
-    const user = await this.create({ email, username, password: hash })
+    const user = await this.create({ email, username, password: hash, student_type, start_session, muet, current_semester })
 
     return user
 }
@@ -83,18 +83,18 @@ userSchema.statics.signup = async function(email, username, password) {
 userSchema.statics.login = async function(username, password){
    
     if (!password || !username) {
-        throw Error('All fields must be filled')
+        throw Error('Please fill in all required fields.')
     }
 
     const user = await this.findOne({ username })
     if (!user) {
-        throw Error('Incorrect username')
+        throw Error('Invalid credentials. Verify your login details and attempt to log in once more.')
     }
 
     const match = await bcrypt.compare(password, user.password)
 
     if (!match) {
-        throw Error('Incorrect password')
+        throw Error('Invalid credentials. Verify your login details and attempt to log in once more.')
     }
 
     return user

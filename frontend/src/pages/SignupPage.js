@@ -32,7 +32,7 @@ const Signup = () => {
     e.preventDefault();
 
     // Perform signup
-    const signupSuccess = await signup(email, username, password);
+    const signupSuccess = await signup(email, username, password, studentType, startSession, muet, currentSemester);
 
     // Clear the form only on successful signup
     if (signupSuccess) {
@@ -45,22 +45,6 @@ const Signup = () => {
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
-  };
-
-  const handleStudentType = (event) => {
-    setStudentType(event.target.value);
-  };
-
-  const handleStartSession = (event) => {
-    setStartSession(event.target.value);
-  };
-
-  const handleMuet = (event) => {
-    setMuet(event.target.value);
-  };
-
-  const handleCurrentSemester = (event) => {
-    setCurrentSemester(event.target.value);
   };
 
   return (
@@ -130,7 +114,7 @@ const Signup = () => {
               id="studentType"
               value={studentType}
               label="Student Type"
-              onChange={handleStudentType}
+              onChange={(e) => setStudentType(e.target.value)}
               size="small"
               fullWidth
             >
@@ -144,7 +128,7 @@ const Signup = () => {
               id="startSession"
               value={startSession}
               label="Start Session"
-              onChange={handleStartSession}
+              onChange={(e) => setStartSession(e.target.value)}
               size="small"
               fullWidth
             >
@@ -159,7 +143,7 @@ const Signup = () => {
               id="muet"
               value={muet}
               label="Muet"
-              onChange={handleMuet}
+              onChange={(e) => setMuet(e.target.value)}
               size="small"
               fullWidth
             >
@@ -174,7 +158,7 @@ const Signup = () => {
               id="currentSemester"
               value={currentSemester}
               label="Current Semester"
-              onChange={handleCurrentSemester}
+              onChange={(e) => setCurrentSemester(e.target.value)}
               size="small"
               fullWidth
             >
