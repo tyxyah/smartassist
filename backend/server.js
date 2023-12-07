@@ -34,9 +34,9 @@ Promise.all([
 
     // routes
     app.use('/api/student', studentRoutes);
-    app.use('/api/study_scheme/2020_2021_12', SS202112Routes);
-    app.use('/api/study_scheme/2020_2021_34', SS202134Routes);
-    app.use('/api/study_scheme/2020_2021_56', SS202156Routes);
+    app.use('/api/study_scheme/11', SS202112Routes);
+    app.use('/api/study_scheme/12', SS202134Routes);
+    app.use('/api/study_scheme/13', SS202156Routes);
 
     // listen for request
     const port = process.env.PORT || 3000;

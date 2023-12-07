@@ -147,9 +147,9 @@ const Signup = () => {
               size="small"
               fullWidth
             >
-              <MenuItem value={1}>1 and 2</MenuItem>
-              <MenuItem value={2}>3 and 4</MenuItem>
-              <MenuItem value={3}>5 and 6</MenuItem>
+              <MenuItem value={1}>1 or 2</MenuItem>
+              <MenuItem value={2}>3 or 4</MenuItem>
+              <MenuItem value={3}>5 or 6</MenuItem>
             </Select>
           </FormControl>
           <FormControl sx={{minWidth: 170 }} size="small">
