@@ -5,7 +5,7 @@ const validator = require('validator')
 const Schema = mongoose.Schema
 
 // define the data structure
-const userSchema = new Schema({
+const studentSchema = new Schema({
     email: {
         type: String,
         required: true,
@@ -39,7 +39,7 @@ const userSchema = new Schema({
 })
 
 //static sigup method
-userSchema.statics.signup = async function(email, username, password, student_type, start_session, muet, current_semester) {
+studentSchema.statics.signup = async function(email, username, password, student_type, start_session, muet, current_semester) {
 
     //vaidation
     if (!email || !password || !username || !student_type || !start_session || !muet || !current_semester) {
@@ -80,7 +80,7 @@ userSchema.statics.signup = async function(email, username, password, student_ty
 }
 
 //static login method
-userSchema.statics.login = async function(username, password){
+studentSchema.statics.login = async function(username, password){
    
     if (!password || !username) {
         throw Error('Please fill in all required fields.')
@@ -100,4 +100,4 @@ userSchema.statics.login = async function(username, password){
     return user
 }
 
-module.exports = mongoose.model('User', userSchema)
+module.exports = mongoose.model('Student', studentSchema)
