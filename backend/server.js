@@ -8,6 +8,8 @@ const { connectToUserDatabase, connectToStudySchemeDatabase } = require('./db');
 // invoke routes
 const studentRoutes = require('./routes/student');
 const SS202112Routes = require('./routes/202112');
+const SS202134Routes = require('./routes/202134');
+const SS202156Routes = require('./routes/202156');
 
 // express app
 const app = express();
@@ -33,6 +35,8 @@ Promise.all([
     // routes
     app.use('/api/student', studentRoutes);
     app.use('/api/study_scheme/2020_2021_12', SS202112Routes);
+    app.use('/api/study_scheme/2020_2021_34', SS202134Routes);
+    app.use('/api/study_scheme/2020_2021_56', SS202156Routes);
 
     // listen for request
     const port = process.env.PORT || 3000;
