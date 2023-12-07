@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const validator = require('validator')
+const { connectToUserDatabase } = require('../db');
 
 const Schema = mongoose.Schema
 
@@ -100,4 +101,5 @@ studentSchema.statics.login = async function(username, password){
     return user
 }
 
-module.exports = mongoose.model('Student', studentSchema)
+const studentDB = connectToUserDatabase();
+module.exports = studentDB.model("Student", studentSchema);
