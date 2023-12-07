@@ -27,7 +27,15 @@ const courseSchema = new Schema({
     course_type: {
         type: Number,
         required: false
+    },
+    status: {
+        type: String,
+        required: true
+    },
+    user_id: {
+        type: String,
+        required: true
     }
-}, { timestamps: true})
+})
 
 module.exports = mongoose.model('Course', courseSchema)

@@ -16,9 +16,9 @@ var dt = new DecisionTree(class_name, features);
 dt.train(courseData);
 
 // Predict class label for an instance
-var predicted_class = dt.predict({
-  prerequisite: "SSK3101",
-  pass_status: "false",
-});
+// var predicted_class = dt.predict({
+//  prerequisite: "SSK3101",
+//  pass_status: "false",
+// });
 
-console.log("Predicted class:", predicted_class);
+//console.log("Predicted class:", predicted_class);

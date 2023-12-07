@@ -4,7 +4,9 @@ const { DecisionTreeModel } = require("../models/decisionTreeModel");
 
 // get all courses
 const getCourses = async (req, res) => {
-  const courses = await Course.find({}).sort({ cretedAt: -1 });
+  const user_id = req.user._id
+
+  const courses = await Course.find({ user_id }).sort({ cretedAt: -1 });
 
   res.status(200).json(courses);
 };
@@ -35,10 +37,12 @@ const createCourse = async (req, res) => {
     credit_hours,
     prerequisite,
     course_type,
+    status
   } = req.body;
 
   // add doc to db
   try {
+    const user_id = req.user._id
     const course = await Course.create({
       semester_id,
       course_code,
@@ -46,6 +50,8 @@ const createCourse = async (req, res) => {
       course_type,
       credit_hours,
       prerequisite,
+      status,
+      user_id
     });
     res.status(200).json(course);
   } catch (error) {
