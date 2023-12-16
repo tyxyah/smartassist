@@ -47,3 +47,10 @@ Promise.all([
   .catch((error) => {
     console.error('Error connecting to databases:', error);
   });
+
+// try the suggest modules
+const runCourseSuggestion = require('./runCourseSuggestion');
+
+runCourseSuggestion('202134Model', 2);
+
+
