@@ -3,17 +3,17 @@ import Header from "../components/Header";
 import Sidebar from "../components/SideBar";
 import LinearProgress from "../components/LinearProgress";
 import { Box } from "@mui/material";
+import AcademicProgressCard from "../components/DashboardAcademicProgressCard";
 
 const DashboardPage = () => {
   return (
     <div>
       <Header />
       <LinearProgress />
-      <Box sx={{ display: "flex" }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', paddingLeft: 34 }}>
         <Sidebar />
+        <AcademicProgressCard />
       </Box>
-      <h2>Dashboard Page</h2>
-      <p>This is the profile page content.</p>
     </div>
   );
 };

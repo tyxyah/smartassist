@@ -7,6 +7,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -31,11 +32,16 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function CustomizedTables({ selectedCourseType }) {
   const [courses, setCourses] = useState([]);
+  const {user} = useAuthContext()
 
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await fetch("http://localhost:4000/api/course");
+        const response = await fetch("http://localhost:4000/api/study_scheme/12", {
+          headers: {
+            'Authorization':`Bearer ${user.token}`
+          }
+        });
         if (response.ok) {
           const data = await response.json();
           setCourses(data);
@@ -48,10 +54,10 @@ export default function CustomizedTables({ selectedCourseType }) {
     };
 
     fetchCourses();
-  }, []);
+  }, [user.token]);
 
   // Filter courses based on the selected type
-  const filteredCourses = courses.filter((course) => course.course_type === selectedCourseType);
+  const filteredCourses = courses.filter((course) => parseInt(course.course_type) === selectedCourseType);
 
   return (
     <TableContainer sx={{ maxWidth: 750 }} component={Paper}>
@@ -79,10 +85,10 @@ export default function CustomizedTables({ selectedCourseType }) {
               <StyledTableCell align="center" component="th" scope="row">
                 {index + 1 + "."}
               </StyledTableCell>
-              <StyledTableCell align="left">{course.code}</StyledTableCell>
-              <StyledTableCell align="left">{course.name}</StyledTableCell>
+              <StyledTableCell align="left">{course.course_code}</StyledTableCell>
+              <StyledTableCell align="left">{course.course_name}</StyledTableCell>
               <StyledTableCell align="center">
-                {course.credit_hrs}
+                {course.credit_hours}
               </StyledTableCell>
               <StyledTableCell align="center">
                 {course.status ? "Completed" : "Failed"}

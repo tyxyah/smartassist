@@ -205,8 +205,6 @@ const Signup = () => {
             >
               Sign up
             </Button>
-
-            {/* Conditional rendering of error and success alerts */}
             {error ? (
               <Alert severity="error">{error}</Alert>
             ) : showSuccessAlert ? (

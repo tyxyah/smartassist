@@ -28,22 +28,21 @@ function ProgressPage() {
           <p>Academic Progress:</p>
           <CourseTypeDropdown onCourseTypeChange={handleCourseTypeChange} />
         </div>
-        <Box sx={{ display: "flex" }}>
+        <Box sx={{ display: "flex"}}>
           <div style={{ flex: 1 }}>
             <ProgressTable selectedCourseType={selectedCourseType} />
           </div>
           <div
-          style={{
-            position: "absolute",
-            top: "140px", // Adjust this value to control the vertical position
-            right: "0px", // Adjust this value to control the horizontal position
-            flex: 1,
-          }}
-        >
-          <PieChart selectedCourseType={selectedCourseType} />
-        </div>
+            style={{
+              position: "absolute",
+              top: "142px", // Adjust this value to control the vertical position
+              right: "16px", // Adjust this value to control the horizontal position
+              flex: 1,
+            }}
+          >
+            <PieChart selectedCourseType={selectedCourseType} />
+          </div>
         </Box>
-        
       </Box>
     </div>
   );
