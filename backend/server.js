@@ -10,6 +10,7 @@ const studentRoutes = require('./routes/student');
 const SS202112Routes = require('./routes/202112');
 const SS202134Routes = require('./routes/202134');
 const SS202156Routes = require('./routes/202156');
+const courseSuggestionRoute = require('./routes/suggestCourse');
 
 // express app
 const app = express();
@@ -37,6 +38,7 @@ Promise.all([
     app.use('/api/study_scheme/11', SS202112Routes);
     app.use('/api/study_scheme/12', SS202134Routes);
     app.use('/api/study_scheme/13', SS202156Routes);
+    app.use('/api/suggest_course', courseSuggestionRoute);
 
     // listen for request
     const port = process.env.PORT || 3000;
@@ -48,9 +50,5 @@ Promise.all([
     console.error('Error connecting to databases:', error);
   });
 
-// try the suggest modules
-const runCourseSuggestion = require('./runCourseSuggestion');
-
-runCourseSuggestion('202134Model', 2);
 
 
