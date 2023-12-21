@@ -1,4 +1,3 @@
-// runCourseSuggestion.js
 const suggestFailedCoursesModule = require("./suggestFailedCourse");
 
 async function runCourseSuggestion(modelName, currentSemester) {

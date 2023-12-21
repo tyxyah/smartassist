@@ -1,4 +1,3 @@
-// CourseSuggestion.js
 import React, { useState } from 'react';
 import { Button, TextField, Container, Typography, List, ListItem, ListItemText } from '@mui/material';
 
