@@ -50,5 +50,27 @@ Promise.all([
     console.error('Error connecting to databases:', error);
   });
 
+  // otherFile.js
+
+const { importStudySchemeCsvToDB } = require('./importCsvFilesToDB');
+
+// Example usage:
+const csvFilePath = './csv_files/1_2.csv'; // Replace with your actual CSV file path
+//importStudySchemeCsvToDB(csvFilePath, "657192af7d5212f663ee4a3f" );
+
+// Another file in your application
+
+const removeManyDocuments = require('./deleteDocument');
+
+// Replace with your MongoDB Atlas details
+const uri = 'mongodb+srv://207704:OARS123@smartassist.nujj0n2.mongodb.net';
+const dbName = 'study_scheme';
+const collectionName = '202134';
+const userId = '657192af7d5212f663ee4a3f';
+
+// Call the function to remove many documents for the specified user
+removeManyDocuments(uri, dbName, collectionName, userId)
+  .catch(console.error);
+
 
 
