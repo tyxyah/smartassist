@@ -1,7 +1,9 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const validator = require('validator')
+const path = require('path');
 const { connectToUserDatabase } = require('../db');
+const { importStudySchemeCsvToDB } = require('../importCsvFilesToDB');
 
 const Schema = mongoose.Schema
 
@@ -39,46 +41,57 @@ const studentSchema = new Schema({
     },
 })
 
-//static sigup method
-studentSchema.statics.signup = async function(email, username, password, student_type, start_session, muet, current_semester) {
-
-    //vaidation
+// Static signup method
+studentSchema.statics.signup = async function (
+    email,
+    username,
+    password,
+    student_type,
+    start_session,
+    muet,
+    current_semester
+) {
+    // Validation
     if (!email || !password || !username || !student_type || !start_session || !muet || !current_semester) {
-        throw Error('Please fill in all required fields.')
+        throw Error('Please fill in all required fields.');
     }
     if (!validator.isEmail(email)) {
-        throw Error('Invalid email format. Please enter a correct email address.')
+        throw Error('Invalid email format. Please enter a correct email address.');
     }
     if (!validator.isStrongPassword(password)) {
-        throw Error('Password should be at least 8 characters long and include a combination of letters, numbers, and symbols.')
+        throw Error('Password should be at least 8 characters long and include a combination of letters, numbers, and symbols.');
     }
 
-    const exists = await this.findOne({ email, username })
-
+    // Check if the user already exists
+    const exists = await this.findOne({ email, username });
     if (exists) {
-        throw Error('Username already exists. Please try a different username.')
+        throw Error('Username or email already exists. Please try a different username or email.');
     }
 
-    const existingEmailUser = await this.findOne({ email });
+    // Hash the password using bcrypt
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(password, salt);
 
-    if (existingEmailUser) {
-        throw Error('This email address is already registered. Please log in or use a different email.');
+    try {
+        // Create the user
+        const user = await this.create({ email, username, password: hash, student_type, start_session, muet, current_semester });
+
+        // Construct the CSV file path
+        const csvFilePath = path.resolve(__dirname, `../csv_files/${start_session}_${muet}.csv`);
+        console.log(csvFilePath);
+
+        // Call the import function with the provided parameters
+        await importStudySchemeCsvToDB(csvFilePath, user._id, start_session, muet);
+
+        // Log the success message
+        console.log('Study scheme import completed for the user with ID:', user._id);
+
+        return user;
+    } catch (error) {
+        console.error('Error during user creation:', error);
+        throw error; // Propagate the error to handle it appropriately in your application
     }
-
-    const existingUsernameUser = await this.findOne({ username });
-
-    if (existingUsernameUser) {
-        throw Error('This username is already registered. Please log in or choose a different username for new registrations');
-    }
-
-    //hashed the password using bcrypt
-    const salt = await bcrypt.genSalt(10)
-    const hash = await bcrypt.hash(password, salt)
- 
-    const user = await this.create({ email, username, password: hash, student_type, start_session, muet, current_semester })
-
-    return user
-}
+};
 
 //static login method
 studentSchema.statics.login = async function(username, password){

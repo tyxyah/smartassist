@@ -1,4 +1,4 @@
-const SS202134 = require("../models/202134Model");
+const SS202134 = require("../models/1_2Model");
 const mongoose = require("mongoose");
 
 // get all courses

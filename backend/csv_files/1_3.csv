@@ -1,3 +1,4 @@
+semester_id,course_code,course_name,credit_hours,prerequisite,course_type,status
 1,SSK3100,Pengaturcaraan Komputer I / Computer Programming I,4,,Core
 1,SSK3003,Struktur Diskret / Discrete Structures,3,,Core
 1,SKP2101*,Kenegaraan Malaysia / Malaysian Nationhood,3,,University

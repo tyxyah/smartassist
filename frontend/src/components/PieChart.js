@@ -43,7 +43,7 @@ export default function PieChartWithCenterLabel({ selectedCourseType }) {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://localhost:4000/api/study_scheme/12",
+          "http://localhost:4000/api/study_scheme/StudyScheme12",
           {
             headers: {
               Authorization: `Bearer ${user.token}`,

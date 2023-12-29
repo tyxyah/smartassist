@@ -41,7 +41,7 @@ export default function CoursePlan() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userResponse = await fetch("http://localhost:4000/api/user", {
+        const userResponse = await fetch("http://localhost:4000/api/student", {
           // Add any necessary headers for user authentication
         });
 
@@ -49,7 +49,7 @@ export default function CoursePlan() {
           const userData = await userResponse.json();
           const currentSemester = userData.current_semester;
 
-          const courseResponse = await fetch("http://localhost:4000/api/course");
+          const courseResponse = await fetch("http://localhost:4000/api/study_scheme/StudyScheme12");
           if (courseResponse.ok) {
             const courseData = await courseResponse.json();
             setCourses(courseData);
@@ -76,7 +76,7 @@ export default function CoursePlan() {
       if (course._id === courseId) {
         course.status = newStatus === "completed";
 
-        fetch(`http://localhost:4000/api/course/${course._id}`, {
+        fetch(`http://localhost:4000/api/study_scheme/StudyScheme12/${course._id}`, {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",

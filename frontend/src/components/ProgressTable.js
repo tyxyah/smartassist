@@ -37,7 +37,7 @@ export default function CustomizedTables({ selectedCourseType }) {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await fetch("http://localhost:4000/api/study_scheme/12", {
+        const response = await fetch("http://localhost:4000/api/study_scheme/StudyScheme12", {
           headers: {
             'Authorization':`Bearer ${user.token}`
           }

@@ -2,8 +2,8 @@ const mongoose = require('mongoose')
 const { connectToStudySchemeDatabase } = require('../db');
 const Schema = mongoose.Schema
 
-// SS: Study Scheme, 2021: Session 2020/2021, 56: Muet 5/6 => SS202156
-const SS202156_Schema = new Schema({
+// SS: Study Scheme, 2021: Session 2020/2021, 34: Muet 3/4 => SS202134
+const SS202134_Schema = new Schema({
     semester_id: {
         type: Number,
         required: true
@@ -39,4 +39,4 @@ const SS202156_Schema = new Schema({
 })
 
 const studySchemeDB = connectToStudySchemeDatabase();
-module.exports = studySchemeDB.model('202156', SS202156_Schema)
+module.exports = studySchemeDB.model('1_2', SS202134_Schema)

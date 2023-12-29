@@ -1,4 +1,4 @@
-const SS202156 = require("../models/202156Model");
+const SS202156 = require("../models/1_3Model");
 const mongoose = require("mongoose");
 
 // get all courses
@@ -66,7 +66,7 @@ const deleteCourse = async (req, res) => {
     return res.status(400).json({ error: "No such course" });
   }
 
-  const course = await Course.findOneAndDelete({ _id: id });
+  const course = await SS202156.findOneAndDelete({ _id: id });
 
   if (!course) {
     return res.status(400).json({ error: "No such course" });

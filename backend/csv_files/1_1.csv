@@ -1,3 +1,4 @@
+semester_id,course_code,course_name,credit_hours,prerequisite,course_type,status
 1,SSK3100,Pengaturcaraan Komputer I / Computer Programming I,4,,Core,false 
 1,SSK3003,Struktur Diskret / Discrete Structures,3,,Core,false 
 1,SKP2101*,Kenegaraan Malaysia / Malaysian Nationhood,3,,University,false 
@@ -5,7 +6,6 @@
 1,SKP3112*,Falsafah dan Isu Semasa / Philosophy and Current Issues,2,,University,false 
 1,"SKP3113** ,  SKP3123**","Falsafah dan Isu Semasa Masyarakat Sivil / Philosophy and Current Issues in Civil Society , Penghayatan Etika dan Peradaban di Malaysia / Internalization of Ethics and Civilization in Malaysia
 ",3,,University,false 
-,,,,,,
 1,PRT2009,Pertanian dan Kehidupan / Agriculture and Life,2,,University,false 
 1,LPE2401,Pembacaan Bagi Tujuan Akademik / Reading for Academic Purposes,3,,University,false 
 1,,Ko-kurikulum/ Co-curriculum,;1,,,false 

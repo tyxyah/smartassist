@@ -39,4 +39,4 @@ const SS202112_Schema = new Schema({
 })
 
 const studySchemeDB = connectToStudySchemeDatabase();
-module.exports = studySchemeDB.model('202112', SS202112_Schema)
+module.exports = studySchemeDB.model('1_1', SS202112_Schema)
