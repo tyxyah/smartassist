@@ -134,7 +134,7 @@ export default function PieChartWithCenterLabel({ selectedCourseType }) {
             >
               <PieCenterLabel>{percentage}%</PieCenterLabel>
             </PieChart>
-            <Stack direction="rows" spacing={2} justifyContent="center" alignItems="center" style={{ paddingTop: 16 }}>
+            <Stack direction="row" spacing={2} justifyContent="center" alignItems="center" style={{ paddingTop: 16 }}>
               <Typography>
                 {filteredData[0].label}
               </Typography>
