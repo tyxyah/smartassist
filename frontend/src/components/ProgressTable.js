@@ -9,6 +9,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useAuthContext } from "../hooks/useAuthContext";
 
+// Styled components
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.white,
@@ -30,16 +31,16 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-export default function CustomizedTables({ selectedCourseType }) {
+const CustomizedTables = ({ selectedCourseType }) => {
   const [courses, setCourses] = useState([]);
-  const {user} = useAuthContext()
+  const { user } = useAuthContext();
 
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await fetch("http://localhost:4000/api/study_scheme/StudyScheme12", {
+        const response = await fetch("http://localhost:4000/api/study_scheme/StudyScheme11", {
           headers: {
-            'Authorization':`Bearer ${user.token}`
+            'Authorization': `Bearer ${user.token}`
           }
         });
         if (response.ok) {
@@ -56,8 +57,10 @@ export default function CustomizedTables({ selectedCourseType }) {
     fetchCourses();
   }, [user.token]);
 
-  // Filter courses based on the selected type
-  const filteredCourses = courses.filter((course) => parseInt(course.course_type) === selectedCourseType);
+  // Filter completed courses based on the selected type
+  const filteredCourses = courses.filter(
+    (course) => parseInt(course.course_type) === selectedCourseType && course.status
+  );
 
   return (
     <TableContainer sx={{ maxWidth: 750 }} component={Paper}>
@@ -99,4 +102,6 @@ export default function CustomizedTables({ selectedCourseType }) {
       </Table>
     </TableContainer>
   );
-}
+};
+
+export default CustomizedTables;

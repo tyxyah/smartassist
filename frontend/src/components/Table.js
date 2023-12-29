@@ -39,7 +39,7 @@ export default function CustomizedTables({selectedSemester}) {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await fetch("http://localhost:4000/api/study_scheme/StudyScheme12", {
+        const response = await fetch("http://localhost:4000/api/study_scheme/StudyScheme11", {
           headers: {
             'Authorization':`Bearer ${user.token}`
           }
@@ -71,7 +71,7 @@ export default function CustomizedTables({selectedSemester}) {
         course.status = newStatus === "Completed" ? true : false;
 
         // Call API to update the status in the database using fetch
-        fetch(`http://localhost:4000/api/study_scheme/StudyScheme12/${course._id}`, {
+        fetch(`http://localhost:4000/api/study_scheme/StudyScheme11/${course._id}`, {
           method: "PATCH",
           // Headers indicates that request body contains JSON data
           headers: {

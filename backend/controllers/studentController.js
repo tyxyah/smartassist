@@ -38,4 +38,23 @@ const signupStudent= async (req, res) => {
   }
 }
 
-module.exports = { signupStudent, loginStudent}
+// Function to get user details by ID
+const getStudentDetails = async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    // Retrieve user details by ID
+    const user = await Student.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const { _id, username, email, start_session, muet, current_semester } = user;
+    res.status(200).json({ _id, username, email, start_session, muet, current_semester });
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
+module.exports = { signupStudent, loginStudent, getStudentDetails}
