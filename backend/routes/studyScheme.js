@@ -5,7 +5,7 @@ const {
   getCourse,
   deleteCourse,
   updateCourse,
-  createCourse,
+  suggestFailedCourses
 } = require('../controllers/studySchemeController');
 const requireAuth = require('../middleware/requireAuth');
 
@@ -21,7 +21,9 @@ router.post('/:modelName', (req, res) => createCourse(req, res, req.params.model
 
 router.delete('/:modelName/:id', (req, res) => deleteCourse(req, res, req.params.modelName));
 
-// UPDATE a course
 router.patch('/:modelName/:id', (req, res) => updateCourse(req, res, req.params.modelName));
+
+// Route for suggesting failed courses
+router.post('/:id/suggest-failed-courses/:modelName', suggestFailedCourses);
 
 module.exports = router;
