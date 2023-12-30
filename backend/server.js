@@ -2,16 +2,11 @@ require('dotenv').config();
 
 const express = require('express');
 const cors = require('cors');
-const mongoose = require('mongoose');
 const { connectToUserDatabase, connectToStudySchemeDatabase } = require('./db');
 
 // invoke routes
 const studentRoutes = require('./routes/student');
-//const SS202112Routes = require('./routes/202112');
-//const SS202134Routes = require('./routes/202134');
-//const SS202156Routes = require('./routes/202156');
 const studySchemeRoute = require('./routes/studyScheme');
-const courseSuggestionRoute = require('./routes/suggestCourse');
 
 // express app
 const app = express();
@@ -36,11 +31,7 @@ Promise.all([
 
     // routes
     app.use('/api/student', studentRoutes);
-    //app.use('/api/study_scheme/11', SS202112Routes);
-    //app.use('/api/study_scheme/12', SS202134Routes);
-    //app.use('/api/study_scheme/13', SS202156Routes);
-    app.use('/api/study_scheme', studySchemeRoute)
-    app.use('/api/suggest_course', courseSuggestionRoute);
+    app.use('/api/study_scheme', studySchemeRoute);
 
     // listen for request
     const port = process.env.PORT || 3000;

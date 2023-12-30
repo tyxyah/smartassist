@@ -119,7 +119,7 @@ export default function PieChartWithCenterLabel({ selectedCourseType }) {
       {filteredData.length === 0 ? (
         <div>Loading...</div>
       ) : (
-        <Card sx={{ width: 280, padding: 2 }}>
+        <Card sx={{ width: 240, padding: 2 }}>
           <CardContent sx={{ textAlign: "center" }}>
             <Typography variant="h6" fontWeight="bold" color="primary" gutterBottom>
               Progress Overview
