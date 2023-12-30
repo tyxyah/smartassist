@@ -5,6 +5,7 @@ import Dropdown from "../components/Dropdown";
 import { Box } from "@mui/material";
 import LinearProgress from "../components/LinearProgress";
 import Table from "../components/Table";
+import HistoryPieChart from "../components/HistoryPieChart"
 
 function HistoryPage() {
   const [selectedSemester, setSelectedSemester] = useState(1);
@@ -34,6 +35,16 @@ function HistoryPage() {
           <p>
             <em># : Tidak dikira dalam kredit bergraduat</em>
           </p>
+          <div
+            style={{
+              position: "absolute",
+              top: "150px", // value to control the vertical position
+              right: "16px", // value to control the horizontal position
+              flex: 1,
+            }}
+          >
+            <HistoryPieChart selectedSemester={selectedSemester} />
+          </div>
         </Box>
       </Box>
     </div>

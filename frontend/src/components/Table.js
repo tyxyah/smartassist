@@ -49,7 +49,7 @@ const PaginationWrapper = styled("div")({
 export default function CustomizedTables({ selectedSemester }) {
   const [courses, setCourses] = useState([]);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(7);
+  const [rowsPerPage, setRowsPerPage] = useState(6);
   const { user } = useAuthContext();
 
   useEffect(() => {
@@ -110,22 +110,20 @@ export default function CustomizedTables({ selectedSemester }) {
   };
 
   const handleChangeRowsPerPage = () => {
-    // Fixed rows per page to 7
-    setRowsPerPage(7);
+    setRowsPerPage(6);
     setPage(0);
   };
 
   return (
     <TableWrapper>
-      <TableContainer sx={{ maxWidth: 1050 }} component={Paper}>
-        <Table sx={{ minWidth: 950 }} aria-label="customized table">
+      <TableContainer sx={{ maxWidth: 790 }} component={Paper}>
+        <Table sx={{ minWidth: 750 }} aria-label="customized table">
           <TableHead>
             <TableRow>
               <StyledTableCell sx={{ columnWidth: 2 }}>No.</StyledTableCell>
               <StyledTableCell sx={{ columnWidth: 118.25, align: "left" }}>Course Code</StyledTableCell>
               <StyledTableCell sx={{ columnWidth: 475, align: "left" }}>Course Name</StyledTableCell>
               <StyledTableCell sx={{ columnWidth: 118.25, textAlign: "center" }}>Credit Hours</StyledTableCell>
-              <StyledTableCell sx={{ columnWidth: 118.25, textAlign: "center" }}>Prerequisite</StyledTableCell>
               <StyledTableCell sx={{ columnWidth: 118.25, textAlign: "center" }}>Status</StyledTableCell>
             </TableRow>
           </TableHead>
@@ -138,7 +136,6 @@ export default function CustomizedTables({ selectedSemester }) {
                 <StyledTableCell align="left">{course.course_code}</StyledTableCell>
                 <StyledTableCell align="left">{course.course_name}</StyledTableCell>
                 <StyledTableCell align="center">{course.credit_hours}</StyledTableCell>
-                <StyledTableCell align="center">{course.prerequisite}</StyledTableCell>
                 <StyledTableCell align="center">
                   <Select
                     value={course.status ? "Completed" : "Failed"}
@@ -158,7 +155,7 @@ export default function CustomizedTables({ selectedSemester }) {
 
       <PaginationWrapper>
         <TablePagination
-          rowsPerPageOptions={[7]}
+          rowsPerPageOptions={[6]}
           component="div"
           count={filteredCourses.length}
           rowsPerPage={rowsPerPage}
