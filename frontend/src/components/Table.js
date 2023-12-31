@@ -118,12 +118,13 @@ export default function CustomizedTables({ selectedSemester }) {
     <TableWrapper>
       <TableContainer sx={{ maxWidth: 790 }} component={Paper}>
         <Table sx={{ minWidth: 750 }} aria-label="customized table">
+        <caption># : Tidak dikira dalam kredit bergraduat</caption>
           <TableHead>
             <TableRow>
               <StyledTableCell sx={{ columnWidth: 2 }}>No.</StyledTableCell>
               <StyledTableCell sx={{ columnWidth: 118.25, align: "left" }}>Course Code</StyledTableCell>
               <StyledTableCell sx={{ columnWidth: 475, align: "left" }}>Course Name</StyledTableCell>
-              <StyledTableCell sx={{ columnWidth: 118.25, textAlign: "center" }}>Credit Hours</StyledTableCell>
+              <StyledTableCell sx={{ columnWidth: 118.25, textAlign: "center" }}>Credit</StyledTableCell>
               <StyledTableCell sx={{ columnWidth: 118.25, textAlign: "center" }}>Status</StyledTableCell>
             </TableRow>
           </TableHead>

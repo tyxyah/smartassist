@@ -28,11 +28,12 @@ function PieCenterLabel({ children }) {
 
 const palette = ["#1976D2", "#A7CAED"];
 
-const calculateTotalCreditHours = (courses) =>
-  courses.reduce(
+const calculateTotalCreditHours = (courses) => {
+  return courses.reduce(
     (total, course) => total + (parseFloat(course.credit_hours) || 0),
     0
   );
+};
 
 const calculateNeededTotalCreditHours = (selectedSemester, courses) => {
   const filteredCourses = courses.filter(
@@ -46,10 +47,11 @@ const calculateNeededTotalCreditHours = (selectedSemester, courses) => {
 
 const calculateProgressData = (selectedSemester, courses) => {
   const filteredCourses = courses.filter(
-    (course) => course.semester_id === selectedSemester && course.status
+    (course) => course.semester_id === selectedSemester
   );
 
-  const completedCreditHours = calculateTotalCreditHours(filteredCourses);
+  const completedCourses = filteredCourses.filter((course) => course.status);
+  const completedCreditHours = calculateTotalCreditHours(completedCourses);
   const totalCreditHoursNeeded = calculateNeededTotalCreditHours(
     selectedSemester,
     courses
@@ -113,11 +115,15 @@ const PieChartWithCenterLabel = ({ selectedSemester }) => {
     const completedCreditHours =
       progressData.length > 0 ? progressData[0].value : 0;
 
-    const calculatedPercentage = (
-      (completedCreditHours / totalCreditHoursNeeded) *
-      100
-    ).toFixed(1);
-    setPercentage(calculatedPercentage);
+    if (totalCreditHoursNeeded !== 0) {
+      const calculatedPercentage = (
+        (completedCreditHours / totalCreditHoursNeeded) *
+        100
+      ).toFixed(1);
+      setPercentage(calculatedPercentage);
+    } else {
+      setPercentage(0);
+    }
 
     setFilteredData(progressData);
   }, [selectedSemester, courses]);
@@ -127,39 +133,41 @@ const PieChartWithCenterLabel = ({ selectedSemester }) => {
       {filteredData.length === 0 ? (
         <div>Loading...</div>
       ) : (
-        <Card sx={{ width: 240, padding: 2 }}>
-          <CardContent sx={{ textAlign: "center" }}>
-            <Typography
-              variant="h6"
-              fontWeight="bold"
-              color="primary"
-              gutterBottom
-            >
-              Progress Overview
-            </Typography>
-            <PieChart
-              colors={palette}
-              series={[{ data: filteredData, innerRadius: 70 }]}
-              slotProps={{
-                legend: { hidden: true },
-              }}
-              width={300}
-              height={200}
-            >
-              <PieCenterLabel>{percentage}%</PieCenterLabel>
-            </PieChart>
-            <Stack
-              direction="row"
-              spacing={2}
-              justifyContent="center"
-              alignItems="center"
-              style={{ paddingTop: 16 }}
-            >
-              <Typography>{filteredData[0]?.label}</Typography>
-              <Typography>{filteredData[1]?.label}</Typography>
-            </Stack>
-          </CardContent>
-        </Card>
+        <div>
+          <Card sx={{ width: 240, padding: 2, marginBottom: 2 }}>
+            <CardContent sx={{ textAlign: "center" }}>
+              <Typography
+                variant="h6"
+                fontWeight="bold"
+                color="primary"
+                gutterBottom
+              >
+                Progress Overview
+              </Typography>
+              <PieChart
+                colors={palette}
+                series={[{ data: filteredData, innerRadius: 70 }]}
+                slotProps={{
+                  legend: { hidden: true },
+                }}
+                width={300}
+                height={200}
+              >
+                <PieCenterLabel>{percentage}%</PieCenterLabel>
+              </PieChart>
+              <Stack
+                direction="row"
+                spacing={2}
+                justifyContent="center"
+                alignItems="center"
+                style={{ paddingTop: 16 }}
+              >
+                <Typography>{filteredData[0].label}</Typography>
+                <Typography>{filteredData[1].label}</Typography>
+              </Stack>
+            </CardContent>
+          </Card>
+        </div>
       )}
     </div>
   );

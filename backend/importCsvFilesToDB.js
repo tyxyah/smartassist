@@ -1,9 +1,10 @@
 const fs = require('fs');
 const mongoose = require('mongoose');
 const csvtojson = require('csvtojson');
-const studySchemeModels = require('./models/studySchemeModel'); 
+const studySchemeModels = require('./models/studySchemeModel');
+const { filterCourseCodes } = require('./utils/filterCourse_StudentType');
 
-async function importStudySchemeCsvToDB(csvFilePath, user_id, start_session, muet) {
+async function importStudySchemeCsvToDB(csvFilePath, user_id, start_session, muet, student_type) {
     try {
         // Determine the model based on start_session and muet
         const modelName = `StudyScheme${start_session}${muet}`;
@@ -22,8 +23,16 @@ async function importStudySchemeCsvToDB(csvFilePath, user_id, start_session, mue
         // Add the user_id to each row
         const jsonArrayWithUserId = jsonArray.map(row => ({ ...row, user_id }));
 
-        // Insert the JSON data into the MongoDB collection
-        await StudySchemeModel.insertMany(jsonArrayWithUserId, { validate: false });
+        // Filter course codes based on student type
+        const allCourseCodes = jsonArrayWithUserId.map(row => row.course_code);
+        const userCourseCodes = filterCourseCodes(allCourseCodes, student_type);
+        console.log('Filtered course:', userCourseCodes);
+
+        // Filter the rows based on the user's student type
+        const filteredRows = jsonArrayWithUserId.filter(row => userCourseCodes.includes(row.course_code));
+
+        // Insert the filtered JSON data into the MongoDB collection
+        await StudySchemeModel.insertMany(filteredRows, { validate: false });
 
         console.log('Study scheme import completed.');
     } catch (error) {

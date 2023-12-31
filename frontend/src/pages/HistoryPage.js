@@ -32,9 +32,6 @@ function HistoryPage() {
           <Table selectedSemester={selectedSemester} />
         </Box>
         <Box sx={{ paddingLeft: 84 }}>
-          <p>
-            <em># : Tidak dikira dalam kredit bergraduat</em>
-          </p>
           <div
             style={{
               position: "absolute",

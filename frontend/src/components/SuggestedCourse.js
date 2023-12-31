@@ -1,26 +1,23 @@
 import React from 'react';
 import { Card, CardContent, Typography, Avatar, Button } from '@mui/material';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
-import { red, teal, pink, deepPurple } from '@mui/material/colors';
+import { red, teal, deepPurple } from '@mui/material/colors';
 
 const SuggestedCourses = () => {
   const courses = [
-    { title: 'Course 1', type: 'Universiti Courses' },
-    { title: 'Course 2', type: 'Core Courses' },
-    { title: 'Course 3', type: 'Elective: Limited' },
-    { title: 'Course 4', type: 'Elective: General' },
+    { title: 'Course 1', type: 1, name: 'Universiti' },
+    { title: 'Course 2', type: 2, name: 'Core' },
+    { title: 'Course 3', type: 3, name: 'Elective' },
   ];
 
   const getAvatarData = (courseType) => {
     switch (courseType) {
-      case 'Universiti Courses':
-        return { value: 'U', color: red[500] };
-      case 'Core Courses':
-        return { value: 'C', color: teal[500] };
-      case 'Elective: Limited':
-        return { value: 'L', color: pink[500] };
-      case 'Elective: General':
-        return { value: 'G', color: deepPurple[500] };
+      case 1:
+        return { value: 'U', color: teal[500] };
+      case 2:
+        return { value: 'C', color: red[500] };
+      case 3:
+        return { value: 'E', color: deepPurple[500] };
       default:
         return { value: '', color: 'grey' };
     }
@@ -51,7 +48,7 @@ const SuggestedCourses = () => {
                 </Avatar>
                 <div style={{ flex: '1', marginLeft: '17px' }}>
                   <Typography variant="h6">{course.title}</Typography>
-                  <Typography variant="body2">{course.type}</Typography>
+                  <Typography variant="body2">{course.name}</Typography>
                 </div>
                 <Button
                   style={{

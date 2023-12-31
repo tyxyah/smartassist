@@ -25,8 +25,7 @@ export default function Dropdown({ onCourseTypeChange }) {
       >
         <MenuItem value={1}>Universiti Courses</MenuItem>
         <MenuItem value={2}>Core Courses</MenuItem>
-        <MenuItem value={3}>Elective: Limited</MenuItem>
-        <MenuItem value={4}>Elective: General</MenuItem>
+        <MenuItem value={3}>Elective</MenuItem>
       </Select>
     </FormControl>
   );

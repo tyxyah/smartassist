@@ -24,7 +24,7 @@ const studentSchema = new Schema({
         unique: true
     },
     student_type: {
-        type: String,
+        type: Number,
         required: true
     },
     muet: {
@@ -81,10 +81,10 @@ studentSchema.statics.signup = async function (
         console.log(csvFilePath);
 
         // Call the import function with the provided parameters
-        await importStudySchemeCsvToDB(csvFilePath, user._id, start_session, muet);
+        await importStudySchemeCsvToDB(csvFilePath, user._id, start_session, muet, student_type);
 
         // Log the success message
-        console.log('Study scheme import completed for the user with ID:', user._id);
+        console.log('Study scheme import completed for the user with ID:', user._id, 'student type', student_type);
 
         return user;
     } catch (error) {

@@ -104,7 +104,7 @@ const CustomizedTables = ({ selectedCourseType }) => {
                 Course Name
               </StyledTableCell>
               <StyledTableCell sx={{ columnWidth: 118.25, textAlign: "center" }}>
-                Credit Hours
+                Credit
               </StyledTableCell>
               <StyledTableCell sx={{ columnWidth: 118.25, textAlign: "center" }}>
                 Status

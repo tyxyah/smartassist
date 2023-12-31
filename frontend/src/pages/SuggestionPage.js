@@ -5,7 +5,6 @@ import LinearProgress from "../components/LinearProgress";
 import { Box } from "@mui/material";
 import SuggestedCourse from "../components/SuggestedCourse";
 import CoursePlan from "../components/CoursePlan"
-import CourseSuggestion from "../components/CourseSuggestion";
 
 function SuggestionPage() {
   return (
@@ -26,7 +25,6 @@ function SuggestionPage() {
         <div>
           <h3>Course Plan for Semester Session {}</h3>
           <CoursePlan />
-          <CourseSuggestion />
         </div>
       </Box>
     </div>
