@@ -123,7 +123,7 @@ export default function PieChartWithCenterLabel({ selectedCourseType }) {
   }, [selectedCourseType, courses]);
 
   return (
-    <div>
+    <div style={{ paddingTop: 16 }}>
       {filteredData.length === 0 ? (
         <div>Loading...</div>
       ) : (

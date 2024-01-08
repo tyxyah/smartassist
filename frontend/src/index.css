@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+@import 'slick-carousel/slick/slick.css';
+@import 'slick-carousel/slick/slick-theme.css';
 
 body {
   margin: 0;
@@ -30,13 +32,32 @@ code {
   text-align: center;
 }
 
-.clear-button:hover {
-  background-color: transparent !important;
+.list-item .MuiListItemText-root {
+  font-size: 14px;
+}
+
+.list-item:hover {
+  background-color: #E3F2FD;
+  border-radius: 8px;
 }
 
 .list-item:hover .MuiListItemText-primary{
   color: #2D68FE; 
   cursor: pointer;
+}
+
+.list-item:hover .MuiSvgIcon-root {
+  color: #2D68FE;
+}
+
+.list-item.selected {
+  background-color: #E3F2FD; /* Light blue background */
+  color: #2D68FE; /* Blue-black font color */
+  border-radius: 8px;
+}
+
+.list-item.selected .MuiSvgIcon-root {
+  color: #2D68FE;
 }
 
 /* ProfilePicture */

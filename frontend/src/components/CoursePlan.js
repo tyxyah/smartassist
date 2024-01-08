@@ -21,9 +21,17 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     backgroundColor: theme.palette.common.white,
     color: theme.palette.common.black,
     fontWeight: "bold",
+    textAlign: "center", // Center horizontally
+    verticalAlign: "middle", // Center vertically
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
+    textAlign: "center", // Center horizontally
+    verticalAlign: "middle", // Center vertically
+  },
+  "&.course-name": {
+    textAlign: "left", // Align to the left for the 'course_name' cell
+    verticalAlign: "middle", // Center vertically
   },
 }));
 
@@ -49,7 +57,7 @@ export default function CoursePlan() {
   const [upcomingCourses, setUpcomingCourses] = useState([]);
   const [bulkStatus, setBulkStatus] = useState(null); // Initialize with null
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(4);
   const { user } = useAuthContext();
 
   useEffect(() => {
@@ -190,15 +198,19 @@ export default function CoursePlan() {
   return (
     <div>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
-        <Stack direction="row" alignItems="center">
-          <h3>Course Plan for Semester {currentSemester + 1}</h3>
+        <Stack
+          direction="row"
+          alignItems="center"
+          style={{ marginBottom: "15px" }}
+        >
+          <p style={{ fontSize: '18px' }}>Course Plan for Semester {currentSemester + 1}</p>
         </Stack>
         <Stack
           direction="row"
           alignItems="center"
           style={{ marginRight: "85px" }}
         >
-          <div style={{ marginRight: "10px" }}>Mark All:</div>
+          <div style={{ marginRight: "10px" }}>Mark All :</div>
           <ToggleButtonGroup
             exclusive
             value={bulkStatus}
@@ -225,16 +237,19 @@ export default function CoursePlan() {
               <StyledTableCell sx={{ columnWidth: 118.25, align: "left" }}>
                 Course Code
               </StyledTableCell>
-              <StyledTableCell sx={{ columnWidth: 475, align: "left" }}>
+              <StyledTableCell
+                sx={{ columnWidth: 470, textAlign: "left" }}
+                className={`${tableCellClasses.body} course-name`}
+              >
                 Course Name
               </StyledTableCell>
               <StyledTableCell sx={{ columnWidth: 118.25, textAlign: "left" }}>
                 Credit
               </StyledTableCell>
-              <StyledTableCell sx={{ columnWidth: 118.25, textAlign: "left" }}>
+              <StyledTableCell sx={{ columnWidth: 121.25, textAlign: "left" }}>
                 Course Type
               </StyledTableCell>
-              <StyledTableCell sx={{ columnWidth: 118.25, textAlign: "left" }}>
+              <StyledTableCell sx={{ columnWidth: 120.25, textAlign: "left" }}>
                 Status
               </StyledTableCell>
             </TableRow>
@@ -252,7 +267,11 @@ export default function CoursePlan() {
                   {index + 1 + page * rowsPerPage}.
                 </StyledTableCell>
                 <StyledTableCell>{course.course_code}</StyledTableCell>
-                <StyledTableCell>{course.course_name}</StyledTableCell>
+                <StyledTableCell
+                  className={`${tableCellClasses.body} course-name`}
+                >
+                  {course.course_name}
+                </StyledTableCell>
                 <StyledTableCell>{course.credit_hours}</StyledTableCell>
                 <StyledTableCell>
                   {mapCourseType(course.course_type)}
@@ -282,7 +301,7 @@ export default function CoursePlan() {
       </TableContainer>
       <PaginationWrapper>
         <TablePagination
-          rowsPerPageOptions={[5]}
+          rowsPerPageOptions={[4]}
           component="div"
           count={upcomingCourses.length}
           rowsPerPage={rowsPerPage}

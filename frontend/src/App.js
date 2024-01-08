@@ -3,7 +3,6 @@ import SuggestionPage from "./pages/SuggestionPage";
 import HistoryPage from "./pages/HistoryPage";
 import ProgressPage from "./pages/AcademicProgressPage";
 import DashboardPage from "./pages/DashboardPage";
-import ProfilePage from "./pages/ProfilePage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import { useAuthContext } from "./hooks/useAuthContext";
@@ -16,7 +15,6 @@ function App() {
         <Routes>
           <Route path="/" element={!user ? <LoginPage /> : <Navigate to="Dashboard" />} />
           <Route path="/signup" element={!user ? <SignupPage /> : <Navigate to="/" />} />
-          <Route path="/Profile" element={user? <ProfilePage /> : <Navigate to="/"/>} />
           <Route path="/AcademicProgress" element={user? <ProgressPage /> : <Navigate to="/"/>} />
           <Route path="/Dashboard" element={user? <DashboardPage /> : <Navigate to="/"/>} />
           <Route path="/Suggestion" element={user? <SuggestionPage /> : <Navigate to="/"/>} />

@@ -24,8 +24,8 @@ function HistoryPage() {
         component="main"
         sx={{ flexGrow: 1, bgcolor: "background.default", paddingLeft: 34 }}
       >
-        <div className="history-page">
-          <p>Registration History:</p>
+        <div className="history-page" >
+          <p style={{ fontSize: '18px' }}>Registration History:</p>
           <Dropdown onSemesterChange={handleSemesterChange} />
         </div>
         <Box sx={{ paddingTop: 1 }}>

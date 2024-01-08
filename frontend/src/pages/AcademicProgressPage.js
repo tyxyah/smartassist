@@ -24,11 +24,11 @@ function ProgressPage() {
         component="main"
         sx={{ flexGrow: 1, bgcolor: "background.default", paddingLeft: 34 }}
       >
-        <div className="progress-page">
-          <p>Academic Progress:</p>
+        <div className="progress-page" >
+          <p style={{ fontSize: '18px' }}>Academic Progress:</p>
           <CourseTypeDropdown onCourseTypeChange={handleCourseTypeChange} />
         </div>
-        <Box sx={{ display: "flex"}}>
+        <Box sx={{ display: "flex", paddingTop: 2}}>
           <div style={{ flex: 1 }}>
             <ProgressTable selectedCourseType={selectedCourseType} />
           </div>

@@ -56,10 +56,10 @@ const csvFilePath = './csv_files/1_2.csv'; // Replace with your actual CSV file 
 const removeManyDocuments = require('./deleteDocument');
 
 // Replace with your MongoDB Atlas details
-//const uri = 'mongodb+srv://207704:OARS123@smartassist.nujj0n2.mongodb.net';
-//const dbName = 'study_scheme';
-//const collectionName = '1_1Model';
-//const userId = '659122d4a6af74e5528c9f0b';
+const uri = 'mongodb+srv://207704:OARS123@smartassist.nujj0n2.mongodb.net';
+const dbName = 'study_scheme';
+const collectionName = '1_1Model';
+const userId = '659123034ab427468abea4a9';
 
 //Call the function to remove many documents for the specified user
 //removeManyDocuments(uri, dbName, collectionName, userId)
