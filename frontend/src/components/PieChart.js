@@ -82,7 +82,7 @@ export default function PieChartWithCenterLabel({ selectedCourseType }) {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://localhost:4000/api/study_scheme/StudyScheme11",
+          "http://localhost:4000/api/study_scheme",
           {
             headers: {
               Authorization: `Bearer ${user.token}`,
@@ -91,7 +91,7 @@ export default function PieChartWithCenterLabel({ selectedCourseType }) {
         );
         if (response.ok) {
           const data = await response.json();
-          setCourses(data);
+          setCourses(data.courses);
         } else {
           console.error("Failed to fetch data");
           setCourses([]);
@@ -108,9 +108,17 @@ export default function PieChartWithCenterLabel({ selectedCourseType }) {
   useEffect(() => {
     const progressData = calculateProgressData(selectedCourseType, courses);
     const totalCreditHoursNeeded = calculateNeededTotalCreditHours(selectedCourseType, courses);
-    const calculatedPercentage = (progressData[0].value / totalCreditHoursNeeded * 100).toFixed(1);
 
-    setPercentage(calculatedPercentage);
+    if (totalCreditHoursNeeded !== 0) {
+      const calculatedPercentage = (
+        (progressData[0].value  / totalCreditHoursNeeded) *
+        100
+      ).toFixed(1);
+      setPercentage(calculatedPercentage);
+    } else {
+      setPercentage(0);
+    }
+
     setFilteredData(progressData);
   }, [selectedCourseType, courses]);
 

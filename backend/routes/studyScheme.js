@@ -13,17 +13,15 @@ const requireAuth = require('../middleware/requireAuth');
 router.use(requireAuth);
 
 // Define routes
-router.get('/:modelName', (req, res) => getCourses(req, res, req.params.modelName));
+router.get('/', (req, res) => getCourses(req, res));
 
-router.get('/:modelName/:id', (req, res) => getCourse(req, res, req.params.modelName));
-
-router.post('/:modelName', (req, res) => createCourse(req, res, req.params.modelName));
+router.get('/:id', (req, res) => getCourse(req, res));
 
 router.delete('/:modelName/:id', (req, res) => deleteCourse(req, res, req.params.modelName));
 
-router.patch('/:modelName/:id', (req, res) => updateCourse(req, res, req.params.modelName));
+router.patch('/:id', (req, res) => updateCourse(req, res));
 
 // Route for suggesting failed courses
-router.post('/:id/suggest-failed-courses/:modelName', suggestFailedCourses);
+router.post('/suggest-failed-courses', (req,res) => suggestFailedCourses(req, res));
 
 module.exports = router;

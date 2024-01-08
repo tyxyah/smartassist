@@ -30,42 +30,75 @@ const getStudySchemeModel = (modelName) => {
 
 // Function to get all courses
 const getCourses = async (req, res) => {
-  const user_id = req.user._id;
-  const modelName = req.params.modelName;
+  try {
+    const user_id = req.user._id;
 
-  const StudySchemeModel = getStudySchemeModel(modelName);
+    // Your logic to fetch user data (start_session and muet)
+    const user = await Student.findById(user_id);
 
-  if (!isValidString(modelName) || !StudySchemeModel) {
-    return res.status(400).json({ error: 'Invalid modelName' });
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    // Construct the model name based on user data
+    const modelName = `StudyScheme${user.start_session}${user.muet}`;
+
+    // Get the StudySchemeModel based on the dynamically determined modelName
+    const StudySchemeModel = getStudySchemeModel(modelName);
+
+    if (!isValidString(modelName) || !StudySchemeModel) {
+      return res.status(400).json({ error: 'Invalid modelName' });
+    }
+
+    const courses = await StudySchemeModel.find({ user_id }).sort({
+      createdAt: -1,
+    });
+
+    console.log(`getCourses - Model: ${modelName}, User ID: ${user_id}`);
+    res.status(200).json({ current_semester: user.current_semester, courses });
+  } catch (error) {
+    console.error('Error fetching courses:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
-
-  const courses = await StudySchemeModel.find({ user_id }).sort({
-    createdAt: -1,
-  });
-
-  console.log(`getCourses - Model: ${modelName}, User ID: ${user_id}`);
-  res.status(200).json(courses);
 };
 
 // Function to get a single course
 const getCourse = async (req, res) => {
-  const { id, modelName } = req.params;
+  const { id } = req.params;
+  
+  try {
+    const user_id = req.user._id;
 
-  const StudySchemeModel = getStudySchemeModel(modelName);
+    // Your logic to fetch user data (start_session and muet)
+    const user = await Student.findById(user_id);
 
-  if (!isValidString(modelName) || !StudySchemeModel) {
-    return res.status(400).json({ error: 'Invalid modelName' });
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    // Construct the model name based on user data
+    const modelName = `StudyScheme${user.start_session}${user.muet}`;
+
+    // Get the StudySchemeModel based on the dynamically determined modelName
+    const StudySchemeModel = getStudySchemeModel(modelName);
+
+    if (!isValidString(modelName) || !StudySchemeModel) {
+      return res.status(400).json({ error: 'Invalid modelName' });
+    }
+
+    const course = await StudySchemeModel.findById(id);
+
+    if (!course) {
+      console.log(`Course not found - Model: ${modelName}, Course ID: ${id}`);
+      return res.status(404).json({ error: 'No such course' });
+    }
+
+    console.log(`getCourse - Model: ${modelName}, Course ID: ${id}`);
+    res.status(200).json(course);
+  } catch (error) {
+    console.error('Error fetching course:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
-
-  const course = await StudySchemeModel.findById(id);
-  console.log(`getCourse - Model: ${modelName}, Course ID: ${id}`);
-
-  if (!course) {
-    console.log(`Course not found - Model: ${modelName}, Course ID: ${id}`);
-    return res.status(404).json({ error: 'No such course' });
-  }
-
-  res.status(200).json(course);
 };
 
 // Function to delete a course
@@ -90,66 +123,83 @@ const deleteCourse = async (req, res) => {
 
 // Function to update a course
 const updateCourse = async (req, res) => {
-  const { id, modelName } = req.params;
+  const { id } = req.params;
 
-  const StudySchemeModel = getStudySchemeModel(modelName);
+  try {
+    const user_id = req.user._id;
 
-  if (!isValidString(modelName) || !StudySchemeModel) {
-    return res.status(400).json({ error: 'Invalid modelName' });
+    // Your logic to fetch user data (start_session and muet)
+    const user = await Student.findById(user_id);
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    // Construct the model name based on user data
+    const modelName = `StudyScheme${user.start_session}${user.muet}`;
+
+    // Get the StudySchemeModel based on the dynamically determined modelName
+    const StudySchemeModel = getStudySchemeModel(modelName);
+
+    if (!isValidString(modelName) || !StudySchemeModel) {
+      return res.status(400).json({ error: 'Invalid modelName' });
+    }
+
+    const course = await StudySchemeModel.findOneAndUpdate(
+      { _id: id },
+      { ...req.body },
+      { new: true }
+    );
+
+    if (!course) {
+      console.log(`Course not found - Model: ${modelName}, Course ID: ${id}`);
+      return res.status(404).json({ error: 'No such course' });
+    }
+
+    console.log(`updateCourse - Model: ${modelName}, Course ID: ${id}`);
+    res.status(200).json(course);
+  } catch (error) {
+    console.error('Error updating course:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
-
-  const course = await StudySchemeModel.findOneAndUpdate(
-    { _id: id },
-    { ...req.body },
-    { new: true }
-  );
-  console.log(`updateCourse - Model: ${modelName}, Course ID: ${id}`);
-
-  if (!course) {
-    console.log(`Course not found - Model: ${modelName}, Course ID: ${id}`);
-    return res.status(404).json({ error: 'No such course' });
-  }
-
-  res.status(200).json(course);
 };
 
 // Function to suggest failed courses
 const suggestFailedCoursesController = async (req, res) => {
   const user_id = req.user._id;
-  const modelName = req.params.modelName;
-
-  const StudySchemeModel = getStudySchemeModel(modelName);
-
-  if (!isValidString(modelName) || !StudySchemeModel) {
-    return res.status(400).json({ error: 'Invalid modelName' });
-  }
 
   try {
-    // Fetch the user instance to get the current_semester
-    const student = await Student.findOne({ _id: user_id });
+    // Logic to fetch user data (start_session and muet)
+    const user = await Student.findById(user_id);
 
-    if (!student) {
-      return res.status(404).json({ error: 'User not found' });
+    if (!user) {
+      throw new Error('User not found');
     }
 
-    // Access the current_semester field
-    const current_semester = student.current_semester;
+    // Construct the model name based on user data
+    const modelName = `StudyScheme${user.start_session}${user.muet}`;
 
-    // Use the suggestFailedCourses function from the helper file
-    const failedCourses = await suggestFailedCourses(StudySchemeModel, user_id, current_semester);
+    // Get the StudySchemeModel based on the dynamically determined modelName
+    const StudySchemeModel = getStudySchemeModel(modelName);
 
-    res.status(200).json({ suggestedCourses: failedCourses });
+    if (!isValidString(modelName) || !StudySchemeModel) {
+      return res.status(400).json({ error: 'Invalid modelName' });
+    }
+
+    // Call suggestFailedCourses with the correct parameters
+    const suggestedCourses = await suggestFailedCourses(StudySchemeModel, user_id, user.current_semester);
+
+    res.status(200).json({ suggestedCourses });
   } catch (error) {
     console.error('Error suggesting failed courses:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 };
 
-
 module.exports = {
   getCourses,
   getCourse,
   deleteCourse,
   updateCourse,
-  suggestFailedCourses: suggestFailedCoursesController
+  suggestFailedCourses : suggestFailedCoursesController
 };

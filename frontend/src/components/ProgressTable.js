@@ -48,20 +48,20 @@ const PaginationWrapper = styled("div")({
 const CustomizedTables = ({ selectedCourseType }) => {
   const [courses, setCourses] = useState([]);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(8); 
+  const [rowsPerPage, setRowsPerPage] = useState(8);
   const { user } = useAuthContext();
 
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await fetch("http://localhost:4000/api/study_scheme/StudyScheme11", {
+        const response = await fetch("http://localhost:4000/api/study_scheme", {
           headers: {
             'Authorization': `Bearer ${user.token}`
           }
         });
         if (response.ok) {
           const data = await response.json();
-          setCourses(data);
+          setCourses(data.courses);
         } else {
           console.error("Failed to fetch data");
         }
@@ -86,7 +86,7 @@ const CustomizedTables = ({ selectedCourseType }) => {
   // Event handler for changing the number of rows per page
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setPage(0); // Reset to the first page when changing rows per page
   };
 
   return (

@@ -55,14 +55,16 @@ export default function CustomizedTables({ selectedSemester }) {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await fetch("http://localhost:4000/api/study_scheme/StudyScheme11", {
+        const response = await fetch("http://localhost:4000/api/study_scheme", {
           headers: {
             'Authorization': `Bearer ${user.token}`
           }
         });
         if (response.ok) {
           const data = await response.json();
-          setCourses(data);
+          // Log the received data to inspect its structure
+          console.log('Received Data:', data.courses);
+          setCourses(data.courses);
         } else {
           console.error("Failed to fetch data");
         }
@@ -80,7 +82,7 @@ export default function CustomizedTables({ selectedSemester }) {
       if (course._id === courseId) {
         course.status = newStatus === "Completed" ? true : false;
 
-        fetch(`http://localhost:4000/api/study_scheme/StudyScheme11/${course._id}`, {
+        fetch(`http://localhost:4000/api/study_scheme/${course._id}`, {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
@@ -105,14 +107,14 @@ export default function CustomizedTables({ selectedSemester }) {
 
   const filteredCourses = courses.filter((course) => course.semester_id === selectedSemester);
 
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = (event,newPage) => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = () => {
-    setRowsPerPage(6);
-    setPage(0);
-  };
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0); // Reset to the first page when changing rows per page
+  };  
 
   return (
     <TableWrapper>

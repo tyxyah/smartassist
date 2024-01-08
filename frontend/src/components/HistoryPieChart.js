@@ -75,7 +75,7 @@ const calculateProgressData = (selectedSemester, courses) => {
 const fetchData = async (userToken, setCourses) => {
   try {
     const response = await fetch(
-      "http://localhost:4000/api/study_scheme/StudyScheme11",
+      "http://localhost:4000/api/study_scheme",
       {
         headers: {
           Authorization: `Bearer ${userToken}`,
@@ -85,7 +85,7 @@ const fetchData = async (userToken, setCourses) => {
 
     if (response.ok) {
       const data = await response.json();
-      setCourses(data);
+      setCourses(data.courses);
     } else {
       console.error("Failed to fetch data");
       setCourses([]);

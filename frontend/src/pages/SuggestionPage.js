@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import Header from "../components/Header";
 import Sidebar from "../components/SideBar";
 import LinearProgress from "../components/LinearProgress";
@@ -23,7 +23,6 @@ function SuggestionPage() {
           <SuggestedCourse />
         </div>
         <div>
-          <h3>Course Plan for Semester Session {}</h3>
           <CoursePlan />
         </div>
       </Box>

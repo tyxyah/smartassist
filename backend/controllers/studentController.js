@@ -8,10 +8,10 @@ const createToken = (_id) => {
 
 //login user
 const loginStudent = async (req, res) => {
-  const {username, password} = req.body
+  const {username, password, _id} = req.body
 
   try {
-    const user = await Student.login(username, password)
+    const user = await Student.login(username, password, _id)
 
     //create token
     const token = createToken(user._id)
