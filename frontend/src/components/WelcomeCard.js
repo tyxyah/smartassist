@@ -10,7 +10,7 @@ import { useAuthContext } from "../hooks/useAuthContext";
 export default function WelcomeCard() {
   const [isCardVisible, setIsCardVisible] = useState(true);
   const { user } = useAuthContext();
-  const [matricNum, setMatricNum] = useState(); 
+  const [matricNum, setMatricNum] = useState();
 
   const handleDismiss = () => {
     setIsCardVisible(false);
@@ -20,14 +20,14 @@ export default function WelcomeCard() {
     const fetchCourses = async () => {
       try {
         const response = await fetch("http://localhost:4000/api/student", {
-            method: "GET",
+          method: "GET",
           headers: {
-            'Authorization': `Bearer ${user.token}`
-          }
+            Authorization: `Bearer ${user.token}`,
+          },
         });
         if (response.ok) {
           const data = await response.json();
-          console.log(data)
+          console.log(data);
           setMatricNum(data.username);
         } else {
           console.error("Failed to fetch data");
@@ -45,14 +45,14 @@ export default function WelcomeCard() {
       {isCardVisible && (
         <Card
           sx={{
-            width: 550,
+            width: 745,
             height: 200,
             position: "relative",
-            borderRadius: 3,
             boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)", // Subtle shadow
             display: "flex",
             flexDirection: "row", // Ensure image and content are side by side
             padding: 2, // Adjust the padding as needed
+            backgroundColor: "#E3F2FD"
           }}
         >
           <CardContent>
@@ -90,11 +90,15 @@ export default function WelcomeCard() {
           </CardContent>
           <CardMedia
             component="img"
-            height="100%"
-            width="50px" // Adjust the width to make the image smaller
             alt="Dashboard"
             image={picture}
-            sx={{ borderTopLeftRadius: 3, borderBottomLeftRadius: 3 }}
+            sx={{
+              borderTopLeftRadius: 3,
+              borderBottomLeftRadius: 3,
+              width: "auto", // Maintain aspect ratio
+              height: "100%", // Fit the height of the container
+              maxWidth: "50%", // Set the maximum width as needed
+            }}
           />
         </Card>
       )}
