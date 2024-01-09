@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Card, CardContent, Typography, Avatar, Button } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Avatar,
+  Button,
+  CardActions,
+} from "@mui/material";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import { red, teal, deepPurple } from "@mui/material/colors";
 import { useAuthContext } from "../hooks/useAuthContext";
@@ -154,10 +161,36 @@ const SuggestedCourses = () => {
                     maxWidth: "339px",
                     maxHeight: "105px",
                     margin: "2px 10px 10px 10px",
+                    position: "relative",
                     display: "flex",
                     flexDirection: "column",
                   }}
                 >
+                  <CardActions
+                    sx={{
+                      position: "absolute",
+                      top: "50%",
+                      right: 0,
+                      transform: "translateY(-50%)",
+                      "& button": {
+                        minWidth: "auto",
+                        minHeight: "auto",
+                        "&:hover": {
+                          backgroundColor: "transparent",
+                        },
+                      },
+                    }}
+                  >
+                    <Button
+                      style={{
+                        minWidth: "auto",
+                        minHeight: "auto",
+                      }}
+                      onClick={() => handleAddCourseClick(course)}
+                    >
+                      <AddCircleOutlineOutlinedIcon />
+                    </Button>
+                  </CardActions>
                   <CardContent>
                     <Box
                       sx={{
@@ -200,15 +233,6 @@ const SuggestedCourses = () => {
                           {/* Add additional information here if needed */}
                         </div>
                       </div>
-                      <Button
-                        style={{
-                          minWidth: "auto",
-                          minHeight: "auto",
-                        }}
-                        onClick={() => handleAddCourseClick(course)}
-                      >
-                        <AddCircleOutlineOutlinedIcon />
-                      </Button>
                     </Box>
                   </CardContent>
                 </Card>

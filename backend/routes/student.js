@@ -1,4 +1,5 @@
 const express = require('express')
+const requireAuth = require('../middleware/requireAuth'); // Import the middleware
 
 //controller functions
 const { signupStudent, loginStudent, getStudentDetails } = require('../controllers/studentController')
@@ -14,6 +15,6 @@ router.post('/login', loginStudent)
 router.post('/signup', signupStudent)
 
 //get student
-router.get('/:id', getStudentDetails)
+router.get('/', requireAuth, (req, res)=> getStudentDetails(req, res))
 
 module.exports = router

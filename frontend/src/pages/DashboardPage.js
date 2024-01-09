@@ -3,15 +3,21 @@ import Header from "../components/Header";
 import Sidebar from "../components/SideBar";
 import LinearProgress from "../components/LinearProgress";
 import { Box } from "@mui/material";
-//import AcademicProgressCard from "../components/DashboardAcademicProgressCard";
+import WelcomecCard from "../components/WelcomeCard";
 
 const DashboardPage = () => {
   return (
     <div>
       <Header />
       <LinearProgress />
-      <Box sx={{ display: 'flex', alignItems: 'center', paddingLeft: 34 }}>
+      <Box>
         <Sidebar />
+      </Box>
+      <Box
+        component="main"
+        sx={{ flexGrow: 1, bgcolor: "background.default", paddingLeft: 34, paddingTop: 2 }}
+      >
+        <WelcomecCard />
       </Box>
     </div>
   );
