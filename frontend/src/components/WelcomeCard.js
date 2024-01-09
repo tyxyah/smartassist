@@ -45,13 +45,13 @@ export default function WelcomeCard() {
       {isCardVisible && (
         <Card
           sx={{
-            width: 745,
+            width: 760,
             height: 200,
             position: "relative",
             boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)", // Subtle shadow
             display: "flex",
             flexDirection: "row", // Ensure image and content are side by side
-            padding: 2, // Adjust the padding as needed
+            padding: 1, // Adjust the padding as needed
             backgroundColor: "#E3F2FD"
           }}
         >

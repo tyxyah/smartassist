@@ -2,37 +2,30 @@ import React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import CircularWithValueLabel from "./CircularLabel";
-import { Stack, Divider } from "@mui/material";
+import Alert from "@mui/material/Alert";
+import { Divider, Stack, LinearProgress } from "@mui/material";
 
-const DashboardCard = ({ title, data}) => {
+const TotalCreditCard = () => {
+  const totalRequiredCredits = 83;
+  const totalEarnedCredits = 78;
+  const progressPercentage = Math.floor((totalEarnedCredits / totalRequiredCredits) * 100);
+
   return (
-    <Card
-      className="dashboard-card"
-      style={{
-        minWidth: "248px",
-        height: "255px", // Increased height to accommodate circular progress
-        borderRadius: 3,
-        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)", // Subtle shadow
-      }}
-    >
-      <CardContent>
-        <Typography
-          variant="body"
-          component="div"
-          sx={{ fontWeight: 500, marginBottom: "10px", textAlign: "left" }}
-        >
-          {title}
-        </Typography>
-        {data.map((courseType, index) => (
-          <div key={index}>
-            <CircularWithValueLabel value={courseType.progress} />
-          </div>
-        ))}
-        {data.map((course, index) => (
+    <div>
+      <Typography sx={{ fontSize: "18px", marginBottom: 1, marginTop: 3 }}>
+        Total Credit Hours <strong>125</strong>
+      </Typography>
+      <Card
+        className="dashboard-card"
+        style={{
+          width: "248px",
+          borderRadius: 3,
+          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)", // Subtle shadow
+        }}
+      >
+        <CardContent>
           <Stack direction={"column"}>
             <Stack
-              key={index}
               direction="row"
               spacing={2}
               paddingLeft={4}
@@ -55,7 +48,7 @@ const DashboardCard = ({ title, data}) => {
                 >
                   Required
                 </Typography>
-                <Typography>{course.required}</Typography>
+                <Typography>{totalRequiredCredits}</Typography>
               </Stack>
               <Divider orientation="vertical" variant="middle" flexItem />
               <Stack
@@ -73,30 +66,24 @@ const DashboardCard = ({ title, data}) => {
                 >
                   Earned
                 </Typography>
-                <Typography>{course.earned}</Typography>
+                <Typography>{totalEarnedCredits}</Typography>
               </Stack>
             </Stack>
+            <LinearProgress
+              variant="determinate"
+              value={progressPercentage}
+              sx={{ height: 10, marginTop: 2 }}
+            />
           </Stack>
-        ))}
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+      <div style={{ paddingTop: 2 }}>
+        <Alert severity="info" sx={{ width: "218px", marginTop: 2 }}>
+          Progress: <strong>{progressPercentage}% Complete</strong>
+        </Alert>
+      </div>
+    </div>
   );
 };
 
-// Example data for different types of courses
-export const coreProgress = [
-  { progress: 75, earned: 2, required: 3 },
-  // Add more courses as needed
-];
-
-export const uniProgress = [
-  { progress: 90, earned: 2, required: 3 },
-  // Add more courses as needed
-];
-
-export const electiveProgress = [
-  { progress: 90, earned: 2, required: 3 },
-  // Add more courses as needed
-];
-
-export default DashboardCard;
+export default TotalCreditCard;

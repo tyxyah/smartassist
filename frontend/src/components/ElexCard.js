@@ -2,16 +2,16 @@ import React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import CircularWithValueLabel from "./CircularLabel";
-import { Stack, Divider } from "@mui/material";
+import LinearProgress from "@mui/material/LinearProgress";
+import Stack from "@mui/material/Stack";
+import Divider from "@mui/material/Divider";
 
-const DashboardCard = ({ title, data}) => {
+const ElexCard = ({ title, data }) => {
   return (
     <Card
       className="dashboard-card"
       style={{
         minWidth: "248px",
-        height: "255px", // Increased height to accommodate circular progress
         borderRadius: 3,
         boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)", // Subtle shadow
       }}
@@ -20,15 +20,10 @@ const DashboardCard = ({ title, data}) => {
         <Typography
           variant="body"
           component="div"
-          sx={{ fontWeight: 500, marginBottom: "10px", textAlign: "left" }}
+          sx={{ fontWeight: 500, textAlign: "left" }}
         >
           {title}
         </Typography>
-        {data.map((courseType, index) => (
-          <div key={index}>
-            <CircularWithValueLabel value={courseType.progress} />
-          </div>
-        ))}
         {data.map((course, index) => (
           <Stack direction={"column"}>
             <Stack
@@ -76,6 +71,18 @@ const DashboardCard = ({ title, data}) => {
                 <Typography>{course.earned}</Typography>
               </Stack>
             </Stack>
+
+            <Stack direction="row" spacing={1} alignItems="center">
+              <LinearProgress
+                variant="determinate"
+                value={course.progress}
+                sx={{ height: 10, width: "100%" }}
+              />
+              <Typography
+                variant="body2"
+                color="text.secondary"
+              >{`${course.progress}%`}</Typography>
+            </Stack>
           </Stack>
         ))}
       </CardContent>
@@ -84,19 +91,19 @@ const DashboardCard = ({ title, data}) => {
 };
 
 // Example data for different types of courses
-export const coreProgress = [
-  { progress: 75, earned: 2, required: 3 },
+export const LAXProgress = [
+  { progress: 12, earned: 2, required: 3 },
   // Add more courses as needed
 ];
 
-export const uniProgress = [
-  { progress: 90, earned: 2, required: 3 },
+export const CELProgress = [
+  { progress: 50, earned: 6, required: 24 },
   // Add more courses as needed
 ];
 
-export const electiveProgress = [
-  { progress: 90, earned: 2, required: 3 },
+export const LPEProgress = [
+  { progress: 30, earned: 2, required: 2 },
   // Add more courses as needed
 ];
 
-export default DashboardCard;
+export default ElexCard;
