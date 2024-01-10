@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from "react";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -7,30 +7,45 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TablePagination from '@mui/material/TablePagination';
 import Paper from '@mui/material/Paper';
-
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData('1', 159, 6.0),
-  createData('2', 237, 9.0),
-  createData('3', 262, 16.0),
-  createData('4', 159, 6.0),
-  createData('5', 237, 9.0),
-  createData('6', 262, 16.0),
-  createData('7', 237, 9.0),
-  createData('8', 262, 16.0),
-];
-
-const rowsPerPage = 4;
+import { useAuthContext } from "../hooks/useAuthContext";
 
 export default function HistoryTable() {
-  const [page, setPage] = React.useState(0);
+  const [page, setPage] = useState(0);
+  const [progressData, setProgressData] = useState([]);
+  const [rowsPerPage, setRowsPerPage] = useState(4);
+  const { user } = useAuthContext();
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0); // Reset to the first page when changing rows per page
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:4000/api/dashboard/credit-hours-by-semester", {
+          headers: {
+            'Authorization': `Bearer ${user.token}`
+          }
+        });
+        if (response.ok) {
+          const data = await response.json();
+          console.log('Received Data:', data.credit_hours_by_semester);
+          setProgressData(data.credit_hours_by_semester);
+        } else {
+          console.error("Failed to fetch data");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    fetchData();
+  }, [user]);
 
   return (
     <div style={{ width: 520 }}>
@@ -39,63 +54,37 @@ export default function HistoryTable() {
         <Table size="small" aria-label="a dense table">
           <TableHead>
             <TableRow>
-              <TableCell
-                align="center"
-                style={{
-                  backgroundColor: '#1565C0',
-                  color: 'white',
-                  fontWeight: 525,
-                }}
-              >
-                Semester
-              </TableCell>
-              <TableCell
-                align="center"
-                style={{
-                  backgroundColor: '#1565C0',
-                  color: 'white',
-                  fontWeight: 525,
-                }}
-              >
-                Taken Credit Hours
-              </TableCell>
-              <TableCell
-                align="center"
-                style={{
-                  backgroundColor: '#1565C0',
-                  color: 'white',
-                  fontWeight: 525,
-                }}
-              >
-                Required Credit Hours
-              </TableCell>
+              <TableCell align="center" style={{ backgroundColor: '#1565C0', color: 'white', fontWeight: 525 }}>Semester ID</TableCell>
+              <TableCell align="center" style={{ backgroundColor: '#1565C0', color: 'white', fontWeight: 525 }}>Required Credit Hours</TableCell>
+              <TableCell align="center" style={{ backgroundColor: '#1565C0', color: 'white', fontWeight: 525 }}>Completed Credit Hours</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
+            {Object.entries(progressData).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(([semesterId, row], index) => (
               <TableRow
-                key={row.name}
+                key={index}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
-                <TableCell align="center" component="th" scope="row">
-                  {row.name}
+                <TableCell align="center">{semesterId}</TableCell>
+                <TableCell align="center">{row.required}</TableCell>
+                <TableCell align="center" style={{ color: row.completed < row.required ? 'red' : 'green', fontWeight: 'bold' }}>
+                  {row.completed}
                 </TableCell>
-                <TableCell align="center">{row.calories}</TableCell>
-                <TableCell align="center">{row.fat}</TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
       {/* TablePagination component rendered right below the Table */}
-        <TablePagination
-          rowsPerPageOptions={[]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-        />
+      <TablePagination
+        rowsPerPageOptions={[]}
+        component="div"
+        count={Object.keys(progressData).length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
     </div>
   );
 }

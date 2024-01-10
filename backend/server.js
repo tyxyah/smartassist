@@ -7,6 +7,7 @@ const { connectToUserDatabase, connectToStudySchemeDatabase } = require('./db');
 // invoke routes
 const studentRoutes = require('./routes/student');
 const studySchemeRoute = require('./routes/studyScheme');
+const dashboardRoute = require('./routes/dashboard')
 
 // express app
 const app = express();
@@ -32,6 +33,7 @@ Promise.all([
     // routes
     app.use('/api/student', studentRoutes);
     app.use('/api/study_scheme', studySchemeRoute);
+    app.use('/api/dashboard', dashboardRoute);
 
     // listen for request
     const port = process.env.PORT || 3000;

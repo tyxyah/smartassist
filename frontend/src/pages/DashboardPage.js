@@ -65,10 +65,7 @@ const DashboardPage = () => {
             <Stack direction="row" spacing={2}>
               <DashboardCard title="Core Courses" data={coreProgress} />
               <DashboardCard title="Universiti Courses" data={uniProgress} />
-              <DashboardCard
-                title="Electives"
-                data={electiveProgress}
-              />
+              <DashboardCard title="Electives" data={electiveProgress} />
             </Stack>
           </Box>
 
@@ -82,9 +79,7 @@ const DashboardPage = () => {
             </Stack>
           </Box>
         </Grid>
-        <Grid item xs={2.5}>
-        
-        </Grid>
+        <Grid item xs={2.5}></Grid>
       </Grid>
     </Box>
   );
