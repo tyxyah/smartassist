@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Sidebar from "../components/SideBar";
 import LinearProgress from "../components/LinearProgress";
@@ -9,31 +9,52 @@ import ElexCard, {
   LPEProgress,
   CELProgress,
 } from "../components/ElexCard";
-import DashboardCard, {
-  coreProgress,
-  uniProgress,
-  electiveProgress,
-} from "../components/DashboardCard";
+import DashboardCard from "../components/DashboardCard";
 import TotalCreditCard from "../components/TotalCreditCard";
 import RegistrationHistory from "../components/RegistrationHistory";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const DashboardPage = () => {
+  const [progressData, setProgressData] = useState([]);
+  const { user } = useAuthContext();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:4000/api/dashboard/credit-hours-by-type",
+          {
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+            },
+          }
+        );
+        if (response.ok) {
+          const data = await response.json();
+          console.log("Received Data:", data.credit_hours_by_type);
+          setProgressData(data.credit_hours_by_type);
+        } else {
+          console.error("Failed to fetch data");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    fetchData();
+  }, [user]);
+
   return (
-    // Outer container with hidden overflow to prevent scrollbars
     <Box>
-      {/* Header and LinearProgress components */}
       <Header />
       <LinearProgress />
 
-      {/* Main content grid */}
       <Grid container spacing={1} paddingLeft={34} paddingBottom={10}>
         <Grid item xs={8.5}>
-          {/* Sidebar */}
           <Box>
             <Sidebar />
           </Box>
 
-          {/* Welcome card */}
           <Box
             sx={{
               flexGrow: 1,
@@ -44,7 +65,6 @@ const DashboardPage = () => {
             <WelcomeCard />
           </Box>
 
-          {/* Registration History and Total Credit Card in a horizontal Stack */}
           <Stack direction="row" spacing={1.5}>
             <Box sx={{ flexGrow: 1, bgcolor: "background.default" }}>
               <RegistrationHistory />
@@ -59,17 +79,29 @@ const DashboardPage = () => {
             </Box>
           </Stack>
 
-          {/* Academic Progress cards */}
           <Box sx={{ flexGrow: 1, bgcolor: "background.default" }}>
             <p style={{ fontSize: "18px" }}>Academic Progress</p>
             <Stack direction="row" spacing={2}>
-              <DashboardCard title="Core Courses" data={coreProgress} />
-              <DashboardCard title="Universiti Courses" data={uniProgress} />
-              <DashboardCard title="Electives" data={electiveProgress} />
+              {Object.entries(progressData)
+                .filter(([key]) => key !== "NaN")
+                .map(([key, courseType]) => (
+                  <DashboardCard
+                    key={key}
+                    title={
+                      key === "1"
+                        ? "Universiti Courses"
+                        : key === "2"
+                        ? "Core Courses"
+                        : key === "3"
+                        ? "Electives"
+                        : ""
+                    }
+                    courseType={courseType}
+                  />
+                ))}
             </Stack>
           </Box>
 
-          {/* ELEx Packages cards */}
           <Box sx={{ flexGrow: 1, bgcolor: "background.default" }}>
             <p style={{ fontSize: "18px" }}>ELEx Packages</p>
             <Stack direction="row" spacing={2}>

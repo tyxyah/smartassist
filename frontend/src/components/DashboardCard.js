@@ -1,11 +1,32 @@
-import React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import CircularWithValueLabel from "./CircularLabel";
 import { Stack, Divider } from "@mui/material";
+import { red, teal, deepPurple, grey } from "@mui/material/colors";
 
-const DashboardCard = ({ title, data}) => {
+const DashboardCard = ({ title, courseType }) => {
+  const { progress, required, completed } = courseType;
+  let color;
+  let remainingColor;
+  switch (title) {
+    case 'Universiti Courses':
+      color = teal[500];
+      remainingColor = teal[100]
+      break;
+    case 'Core Courses':
+      color = red[500];
+      remainingColor = red[100];
+      break;
+    case 'Electives':
+      color = deepPurple[500];
+      remainingColor = deepPurple[100];
+      break;
+    default:
+      color = grey[500];
+      remainingColor = grey[100];
+  }
+
   return (
     <Card
       className="dashboard-card"
@@ -24,79 +45,56 @@ const DashboardCard = ({ title, data}) => {
         >
           {title}
         </Typography>
-        {data.map((courseType, index) => (
-          <div key={index}>
-            <CircularWithValueLabel value={courseType.progress} />
-          </div>
-        ))}
-        {data.map((course, index) => (
-          <Stack direction={"column"}>
+        <CircularWithValueLabel value={progress} color={color} remainingColor={remainingColor}/>
+        <Stack direction={"column"}>
+          <Stack
+            direction="row"
+            spacing={2}
+            paddingLeft={3}
+            alignItems="center"
+            marginTop="10px"
+            marginY={2}
+          >
             <Stack
-              key={index}
-              direction="row"
-              spacing={2}
-              paddingLeft={4}
+              direction="column"
               alignItems="center"
-              marginTop="10px"
-              marginY={2}
+              spacing={1}
+              sx={{ minWidth: "60px" }}
             >
-              <Stack
-                direction="column"
-                alignItems="center" // Set this to center
-                spacing={1}
-                sx={{ minWidth: "60px" }}
+              <Typography
+                sx={{
+                  fontSize: 15,
+                  fontWeight: 500,
+                  color: "text.secondary",
+                }}
               >
-                <Typography
-                  sx={{
-                    fontSize: 15,
-                    fontWeight: 500,
-                    color: "text.secondary",
-                  }}
-                >
-                  Required
-                </Typography>
-                <Typography>{course.required}</Typography>
-              </Stack>
-              <Divider orientation="vertical" variant="middle" flexItem />
-              <Stack
-                direction="column"
-                alignItems="center" // Set this to center
-                spacing={1}
-                sx={{ minWidth: "60px" }}
+                Required
+              </Typography>
+              <Typography>{required}</Typography>
+            </Stack>
+            <Divider orientation="vertical" variant="middle" flexItem />
+            <Stack
+              direction="column"
+              alignItems="center"
+              spacing={1}
+              sx={{ minWidth: "60px" }}
+            >
+              <Typography
+                sx={{
+                  fontSize: 15,
+                  fontWeight: 500,
+                  color: "text.secondary",
+                }}
               >
-                <Typography
-                  sx={{
-                    fontSize: 15,
-                    fontWeight: 500,
-                    color: "text.secondary",
-                  }}
-                >
-                  Earned
-                </Typography>
-                <Typography>{course.earned}</Typography>
-              </Stack>
+                Completed
+              </Typography>
+              <Typography>{completed}</Typography>
             </Stack>
           </Stack>
-        ))}
+        </Stack>
       </CardContent>
     </Card>
   );
 };
-
-// Example data for different types of courses
-export const coreProgress = [
-  { progress: 75, earned: 2, required: 3 },
-  // Add more courses as needed
-];
-
-export const uniProgress = [
-  { progress: 90, earned: 2, required: 3 },
-  // Add more courses as needed
-];
-
-export const electiveProgress = [
-  { progress: 90, earned: 2, required: 3 },
-  // Add more courses as needed
-];
 
 export default DashboardCard;

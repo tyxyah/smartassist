@@ -146,7 +146,7 @@ const PieChartWithCenterLabel = ({ selectedSemester }) => {
               </Typography>
               <PieChart
                 colors={palette}
-                series={[{ data: filteredData, innerRadius: 70 }]}
+                series={[{ data: filteredData, innerRadius: 80 }]}
                 slotProps={{
                   legend: { hidden: true },
                 }}

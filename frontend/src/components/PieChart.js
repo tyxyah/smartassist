@@ -9,11 +9,37 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
+import { teal, red, deepPurple, grey } from "@mui/material/colors";
 
 const size = {
   width: 300,
   height: 200,
 };
+
+const getColorPalette = (courseType) => {
+  switch (courseType) {
+    case 1:
+      return {
+        text: teal[800], // Color for Typography
+        pie: [teal[500], teal[200]], // Teal colors for PieChart
+      };
+    case 2:
+      return {
+        text: red[800], // Color for Typography
+        pie: [red[500], red[200]], // Red colors for PieChart
+      };
+    case 3:
+      return {
+        text: deepPurple[800], // Color for Typography
+        pie: [deepPurple[500], deepPurple[200]], // Deep Purple colors for PieChart
+      };
+    default:
+      return {
+        text: grey[800], // Color for Typography
+        pie: [grey[500], grey[200]], // Grey colors for PieChart
+      };
+  }
+}
 
 const StyledText = styled("text")(({ theme }) => ({
   fill: theme.palette.text.primary,
@@ -30,8 +56,6 @@ function PieCenterLabel({ children }) {
     </StyledText>
   );
 }
-
-const palette = ["#1976D2", "#A7CAED"];
 
 // Function to calculate total credit hours
 const calculateTotalCreditHours = (courses) => {
@@ -73,8 +97,10 @@ const calculateProgressData = (selectedCourseType, courses) => {
 };
 
 export default function PieChartWithCenterLabel({ selectedCourseType }) {
+  const colorPalette = getColorPalette(selectedCourseType);
   const [filteredData, setFilteredData] = useState([]);
   const [percentage, setPercentage] = useState(0);
+  const [typographyColor, setTypographyColor] = useState(colorPalette.text); // Add typographyColor state
   const { user } = useAuthContext();
   const [courses, setCourses] = useState([]);
 
@@ -120,7 +146,9 @@ export default function PieChartWithCenterLabel({ selectedCourseType }) {
     }
 
     setFilteredData(progressData);
-  }, [selectedCourseType, courses]);
+    setTypographyColor(colorPalette.text);
+
+  }, [selectedCourseType, courses, colorPalette.text]);
 
   return (
     <div style={{ paddingTop: 16 }}>
@@ -129,12 +157,12 @@ export default function PieChartWithCenterLabel({ selectedCourseType }) {
       ) : (
         <Card sx={{ width: 240, padding: 2 }}>
           <CardContent sx={{ textAlign: "center" }}>
-            <Typography variant="h6" fontWeight="bold" color="primary" gutterBottom>
+            <Typography variant="h6" fontWeight="bold" color={typographyColor} gutterBottom>
               Progress Overview
             </Typography>
             <PieChart
-              colors={palette}
-              series={[{ data: filteredData, innerRadius: 70 }]}
+              colors={colorPalette.pie}
+              series={[{ data: filteredData, innerRadius: 80 }]}
               slotProps={{
                 legend: { hidden: true },
               }}

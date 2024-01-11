@@ -123,6 +123,7 @@ const calculateCreditHoursBySemester = async (StudySchemeModel, user_id) => {
   };
 /*********total credit hours until current semester */
 const calculateTotalCreditHoursUntilCurrentSemester = async (StudySchemeModel, user_id, currentSemester) => {
+  const totalCredit = await calculateTotalCreditHoursToGraduate(StudySchemeModel, user_id)
     try {
   
       // Find user courses up until the current semester
@@ -133,6 +134,7 @@ const calculateTotalCreditHoursUntilCurrentSemester = async (StudySchemeModel, u
         required: 0,
         completed: 0,
         progress: 0,
+        totalCredit: totalCredit,
       };
   
       // Calculate credit hours for courses up until the current semester
@@ -164,6 +166,34 @@ const calculateTotalCreditHoursUntilCurrentSemester = async (StudySchemeModel, u
       throw new Error(`Error calculating credit hours up until the current semester: ${error.message}`);
     }
   };  
+
+  const calculateTotalCreditHoursToGraduate = async (StudySchemeModel, user_id) => {
+    try {
+      // Fetch user's courses from the study scheme model
+      const userCourses = await StudySchemeModel.find({ user_id });
+  
+      // Initialize variable to store total credit hours needed
+      let totalCreditHoursToGraduate = 0;
+  
+      // Loop through each course and update the total credit hours needed
+      userCourses.forEach((course) => {
+        const creditHours = parseFloat(course.credit_hours);
+  
+        // Check if credit_hours is a valid numeric value
+        if (!isNaN(creditHours) && isFinite(creditHours)) {
+          totalCreditHoursToGraduate += creditHours;
+        } else {
+          console.warn(`Invalid credit_hours value for course ${course._id}. Skipping.`);
+        }
+      });
+  
+      // Return the total credit hours needed to graduate
+      return totalCreditHoursToGraduate;
+    } catch (error) {
+      console.error(`Error calculating total credit hours to graduate: ${error.message}`);
+      throw new Error(`Error calculating total credit hours to graduate: ${error.message}`);
+    }
+  };
 
   module.exports = {
     calculateCreditHoursBySemester,
