@@ -24,6 +24,76 @@ const getStudySchemeModel = (modelName) => {
   }
 };
 
+const getKokurikulumProgress = async (req,res) => {
+  try {
+    const user_id = req.user._id;
+    const user = await Student.findById(user_id);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const modelName = `StudyScheme${user.start_session}${user.muet}`;
+    const StudySchemeModel = getStudySchemeModel(modelName);
+
+    if (!isValidString(modelName) || !StudySchemeModel) {
+      return res.status(400).json({ error: "Invalid modelName" });
+    }
+
+    const KoKuOccurrences =
+      await dashboardUtils.calculateKokurikulumOccurrences(StudySchemeModel, user_id);
+      console.log(KoKuOccurrences)
+
+
+    console.log(
+      `getELExPackageProgress - Model: ${modelName}, User ID: ${user_id}`
+    );
+    res.status(200).json({
+      kokurikulum_progress: KoKuOccurrences
+    });
+  } catch (error) {
+    console.error("Error fetching ELEx package progress:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+const getELExPackageProgress = async (req, res) => {
+  try {
+    const user_id = req.user._id;
+    const user = await Student.findById(user_id);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const modelName = `StudyScheme${user.start_session}${user.muet}`;
+    const StudySchemeModel = getStudySchemeModel(modelName);
+
+    if (!isValidString(modelName) || !StudySchemeModel) {
+      return res.status(400).json({ error: "Invalid modelName" });
+    }
+
+    const elexOccurrences =
+      await dashboardUtils.calculateELExOccurrences(StudySchemeModel, user_id);
+      console.log(elexOccurrences)
+
+    const elexOccurrencesUntilCurrentSemester =
+    await dashboardUtils.calculateELExOccurrencesUntilCurrentSemester(StudySchemeModel, user_id, user.current_semester);
+    console.log(elexOccurrencesUntilCurrentSemester)
+
+    console.log(
+      `getELExPackageProgress - Model: ${modelName}, User ID: ${user_id}`
+    );
+    res.status(200).json({
+      elex_package_progress: elexOccurrences,
+      elex_package_progress_until_current_semester: elexOccurrencesUntilCurrentSemester,
+    });
+  } catch (error) {
+    console.error("Error fetching ELEx package progress:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 const getCreditHoursByType = async (req, res) => {
   try {
     const user_id = req.user._id;
@@ -143,4 +213,6 @@ module.exports = {
   getCreditHoursByType,
   getCreditHoursBySemester,
   getCreditHoursByCurrentSemester,
+  getELExPackageProgress,
+  getKokurikulumProgress,
 };

@@ -5,9 +5,14 @@ import Typography from "@mui/material/Typography";
 import LinearProgress from "@mui/material/LinearProgress";
 import Stack from "@mui/material/Stack";
 import Divider from "@mui/material/Divider";
+import { Link } from "react-router-dom";
 
 const ElexCard = ({ title, data }) => {
+  const cardLink = `/elex-packages/${title.toLowerCase()}`; // Modify the link as needed
+
+  const { progress, required, completed } = data;
   return (
+    <Link to={cardLink} style={{ textDecoration: "none" }}>
     <Card
       className="dashboard-card"
       style={{
@@ -24,86 +29,75 @@ const ElexCard = ({ title, data }) => {
         >
           {title}
         </Typography>
-        {data.map((course, index) => (
-          <Stack direction={"column"}>
+        <Stack direction={"column"}>
+          <Stack
+            direction="row"
+            spacing={2}
+            paddingLeft={4}
+            alignItems="center"
+            marginTop="10px"
+            marginY={2}
+          >
             <Stack
-              key={index}
-              direction="row"
-              spacing={2}
-              paddingLeft={4}
-              alignItems="center"
-              marginTop="10px"
-              marginY={2}
+              direction="column"
+              alignItems="center" // Set this to center
+              spacing={1}
+              sx={{ minWidth: "60px" }}
             >
-              <Stack
-                direction="column"
-                alignItems="center" // Set this to center
-                spacing={1}
-                sx={{ minWidth: "60px" }}
-              >
-                <Typography
-                  sx={{
-                    fontSize: 15,
-                    fontWeight: 500,
-                    color: "text.secondary",
-                  }}
-                >
-                  Required
-                </Typography>
-                <Typography>{course.required}</Typography>
-              </Stack>
-              <Divider orientation="vertical" variant="middle" flexItem />
-              <Stack
-                direction="column"
-                alignItems="center" // Set this to center
-                spacing={1}
-                sx={{ minWidth: "60px" }}
-              >
-                <Typography
-                  sx={{
-                    fontSize: 15,
-                    fontWeight: 500,
-                    color: "text.secondary",
-                  }}
-                >
-                  Earned
-                </Typography>
-                <Typography>{course.earned}</Typography>
-              </Stack>
-            </Stack>
-
-            <Stack direction="row" spacing={1} alignItems="center">
-              <LinearProgress
-                variant="determinate"
-                value={course.progress}
-                sx={{ height: 10, width: "100%" }}
-              />
               <Typography
-                variant="body2"
-                color="text.secondary"
-              >{`${course.progress}%`}</Typography>
+                sx={{
+                  fontSize: 15,
+                  fontWeight: 500,
+                  color: "text.secondary",
+                }}
+              >
+                Required
+              </Typography>
+              <Typography>{required}</Typography>
+            </Stack>
+            <Divider orientation="vertical" variant="middle" flexItem />
+            <Stack
+              direction="column"
+              alignItems="center" // Set this to center
+              spacing={1}
+              sx={{ minWidth: "60px" }}
+            >
+              <Typography
+                sx={{
+                  fontSize: 15,
+                  fontWeight: 500,
+                  color: "text.secondary",
+                }}
+              >
+                Completed
+              </Typography>
+              <Typography>{completed}</Typography>
             </Stack>
           </Stack>
-        ))}
+
+          <Stack direction="row" spacing={1} alignItems="center">
+            <LinearProgress
+              color={
+                progress >= 66
+                  ? "success"
+                  : progress >= 33
+                  ? "warning"
+                  : "error"
+              }
+              variant="determinate"
+              value={progress}
+              sx={{ height: 4, width: "100%" }}
+            />
+            <Typography
+              variant="body2"
+              color="text.secondary"
+            >{`${progress}%`}</Typography>
+          </Stack>
+        </Stack>
       </CardContent>
     </Card>
+    </Link>
   );
 };
-
-// Example data for different types of courses
-export const LAXProgress = [
-  { progress: 12, earned: 2, required: 3 },
-  // Add more courses as needed
-];
-
-export const CELProgress = [
-  { progress: 50, earned: 6, required: 24 },
-  // Add more courses as needed
-];
-
-export const LPEProgress = [
-  { progress: 30, earned: 2, required: 2 },
-  // Add more courses as needed
-];
 
 export default ElexCard;

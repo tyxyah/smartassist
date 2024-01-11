@@ -93,6 +93,33 @@ const getStudentDetails = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+// Function to update the current semester
+const updateCurrentSemester = async (req, res) => {
+  try {
+    // Extract student ID from the token
+    const userId = req.user && req.user._id;
 
+    if (!userId) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
 
-module.exports = { signupStudent, loginStudent, getStudentDetails };
+    // Your logic to update the current semester in the user document
+    const user = await Student.findByIdAndUpdate(
+      userId,
+      { $inc: { current_semester: 1 } },
+      { new: true }
+    );
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    console.log(`updateCurrentSemester - User ID: ${userId}`);
+    res.status(200).json({ current_semester: user.current_semester });
+  } catch (error) {
+    console.error('Error updating current semester:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+module.exports = { signupStudent, loginStudent, getStudentDetails, updateCurrentSemester };

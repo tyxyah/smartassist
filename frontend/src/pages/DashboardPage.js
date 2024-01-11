@@ -3,25 +3,30 @@ import Header from "../components/Header";
 import Sidebar from "../components/SideBar";
 import LinearProgress from "../components/LinearProgress";
 import { Box, Stack, Grid } from "@mui/material";
+import { Link } from "react-router-dom";
 import WelcomeCard from "../components/WelcomeCard";
-import ElexCard, {
-  LAXProgress,
-  LPEProgress,
-  CELProgress,
-} from "../components/ElexCard";
+import ElexCard from "../components/ElexCard";
 import DashboardCard from "../components/DashboardCard";
 import TotalCreditCard from "../components/TotalCreditCard";
+import TotalELEx from "../components/TotalELEx";
+import TotalKokurikulum from "../components/TotalKokurikulum";
 import RegistrationHistory from "../components/RegistrationHistory";
 import { useAuthContext } from "../hooks/useAuthContext";
 
 const DashboardPage = () => {
   const [progressData, setProgressData] = useState([]);
+  const [elexPackageProgress, setElexPackageProgress] = useState({
+    LAX: {},
+    LPE: {},
+    CEL: {},
+  });
   const { user } = useAuthContext();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
+        // Fetch credit hours data
+        const responseCreditHours = await fetch(
           "http://localhost:4000/api/dashboard/credit-hours-by-type",
           {
             headers: {
@@ -29,12 +34,29 @@ const DashboardPage = () => {
             },
           }
         );
-        if (response.ok) {
-          const data = await response.json();
-          console.log("Received Data:", data.credit_hours_by_type);
-          setProgressData(data.credit_hours_by_type);
+        if (responseCreditHours.ok) {
+          const dataCreditHours = await responseCreditHours.json();
+          console.log("Received Data:", dataCreditHours.credit_hours_by_type);
+          setProgressData(dataCreditHours.credit_hours_by_type);
         } else {
-          console.error("Failed to fetch data");
+          console.error("Failed to fetch credit hours data");
+        }
+
+        // Fetch ELEx package progress data
+        const responseElexPackage = await fetch(
+          "http://localhost:4000/api/dashboard/elex-package-progress",
+          {
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+            },
+          }
+        );
+        if (responseElexPackage.ok) {
+          const dataElexPackage = await responseElexPackage.json();
+          console.log("Received ELEx Package Data:", dataElexPackage);
+          setElexPackageProgress(dataElexPackage.elex_package_progress);
+        } else {
+          console.error("Failed to fetch ELEx package progress data");
         }
       } catch (error) {
         console.error("Error:", error);
@@ -50,7 +72,7 @@ const DashboardPage = () => {
       <LinearProgress />
 
       <Grid container spacing={1} paddingLeft={34} paddingBottom={10}>
-        <Grid item xs={8.5}>
+        <Grid item xs={8.8}>
           <Box>
             <Sidebar />
           </Box>
@@ -65,10 +87,8 @@ const DashboardPage = () => {
             <WelcomeCard />
           </Box>
 
-          <Stack direction="row" spacing={1.5}>
-            <Box sx={{ flexGrow: 1, bgcolor: "background.default" }}>
-              <RegistrationHistory />
-            </Box>
+          <Box sx={{ flexGrow: 1, bgcolor: "background.default" }}>
+          <Stack direction={"row"}>
             <Box
               sx={{
                 flexGrow: 1,
@@ -77,10 +97,34 @@ const DashboardPage = () => {
             >
               <TotalCreditCard />
             </Box>
+            <Box
+              sx={{
+                flexGrow: 1,
+                bgcolor: "background.default",
+                paddingLeft: 1,
+              }}
+            >
+              <TotalELEx />
+            </Box>
+            <Box
+              sx={{
+                flexGrow: 1,
+                bgcolor: "background.default",
+                paddingLeft: 1,
+              }}
+            >
+              <TotalKokurikulum />
+            </Box>
           </Stack>
-
-          <Box sx={{ flexGrow: 1, bgcolor: "background.default" }}>
-            <p style={{ fontSize: "18px" }}>Academic Progress</p>
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              alignItems="center"
+              paddingRight={5}
+            >
+              <p style={{ fontSize: "18px" }}>Academic Progress</p>
+              <Link to="/AcademicProgress">See All</Link>
+            </Stack>
             <Stack direction="row" spacing={2}>
               {Object.entries(progressData)
                 .filter(([key]) => key !== "NaN")
@@ -103,15 +147,19 @@ const DashboardPage = () => {
           </Box>
 
           <Box sx={{ flexGrow: 1, bgcolor: "background.default" }}>
-            <p style={{ fontSize: "18px" }}>ELEx Packages</p>
-            <Stack direction="row" spacing={2}>
-              <ElexCard title="LAX" data={LAXProgress} />
-              <ElexCard title="LPE" data={LPEProgress} />
-              <ElexCard title="CEL" data={CELProgress} />
-            </Stack>
+            
+              <Box sx={{ flexGrow: 1, bgcolor: "background.default" }}>
+                <RegistrationHistory />
+              </Box>
           </Box>
         </Grid>
-        <Grid item xs={2.5}></Grid>
+        <Grid item xs={2.2}> <p style={{ fontSize: "18px" }}>ELEx Packages</p>
+            <Stack direction="column" spacing={2}>
+              <ElexCard title="LAX" data={elexPackageProgress.LAX} />
+              <ElexCard title="LPE" data={elexPackageProgress.LPE} />
+              <ElexCard title="CEL" data={elexPackageProgress.CEL} />
+            </Stack>
+        </Grid>
       </Grid>
     </Box>
   );

@@ -7,6 +7,8 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TablePagination from "@mui/material/TablePagination";
 import Paper from "@mui/material/Paper";
+import { Stack } from "@mui/material";
+import { Link } from "react-router-dom";
 import Tooltip from "@mui/material/Tooltip";
 import { useAuthContext } from "../hooks/useAuthContext";
 
@@ -53,7 +55,15 @@ export default function HistoryTable() {
 
   return (
     <div style={{ width: 520 }}>
+      <Stack
+              direction="row"
+              justifyContent="space-between"
+              alignItems="center"
+              paddingRight={4}
+            >
       <p style={{ fontSize: "18px" }}>Registration History</p>
+      <Link to="/AcademicProgress">See All</Link>
+      </Stack>
       <TableContainer component={Paper} sx={{ width: 515, borderRadius: 1 }}>
         <Table size="small" aria-label="a dense table">
           <TableHead>

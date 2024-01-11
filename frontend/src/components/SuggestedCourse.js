@@ -155,87 +155,89 @@ const SuggestedCourses = () => {
 
             return (
               <div key={index} className="slick-slide">
-                <Card
-                  key={index}
-                  style={{
-                    maxWidth: "339px",
-                    maxHeight: "105px",
-                    margin: "2px 10px 10px 10px",
-                    position: "relative",
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
-                >
-                  <CardActions
-                    sx={{
-                      position: "absolute",
-                      top: "50%",
-                      right: 0,
-                      transform: "translateY(-50%)",
-                      "& button": {
-                        minWidth: "auto",
-                        minHeight: "auto",
-                        "&:hover": {
-                          backgroundColor: "transparent",
-                        },
-                      },
-                    }}
-                  >
-                    <Button
-                      style={{
-                        minWidth: "auto",
-                        minHeight: "auto",
-                      }}
-                      onClick={() => handleAddCourseClick(course)}
-                    >
-                      <AddCircleOutlineOutlinedIcon />
-                    </Button>
-                  </CardActions>
-                  <CardContent>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          flex: "1",
-                          marginRight: "17px",
-                        }}
-                      >
-                        <Avatar sx={{ bgcolor: avatarData.color }}>
-                          {avatarData.value}
-                        </Avatar>
-                        <div style={{ flex: "1", marginLeft: "12px" }}>
-                          <Typography
-                            variant="h6"
-                            style={{ fontSize: "1.1em" }}
-                          >
-                            {course.course_code}
-                          </Typography>
-                          <Typography
-                            variant="body2"
-                            style={{
-                              whiteSpace: "normal",
-                              overflow: "hidden",
-                              textOverflow: "ellipsis",
-                              display: "-webkit-box",
-                              WebkitLineClamp: 2,
-                              WebkitBoxOrient: "vertical",
-                            }}
-                          >
-                            {course.course_name}
-                          </Typography>
-                          {/* Add additional information here if needed */}
-                        </div>
-                      </div>
-                    </Box>
-                  </CardContent>
-                </Card>
+<Card
+  key={index}
+  style={{
+    width: "325px",
+    height: "105px",
+    margin: "2px 10px 10px 10px",
+    position: "relative",
+    display: "flex",
+    flexDirection: "column",
+  }}
+>
+  <CardActions
+    sx={{
+      position: "absolute",
+      top: "50%",
+      right: 0,
+      transform: "translateY(-50%)",
+      "& button": {
+        minWidth: "auto",
+        minHeight: "auto",
+        "&:hover": {
+          backgroundColor: "transparent",
+        },
+      },
+    }}
+  >
+    <Button
+      style={{
+        minWidth: "auto",
+        minHeight: "auto",
+      }}
+      onClick={() => handleAddCourseClick(course)}
+    >
+      <AddCircleOutlineOutlinedIcon />
+    </Button>
+  </CardActions>
+  <CardContent
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center", // Center vertically
+      textAlign: "left", // Align content to the left horizontally
+    }}
+  >
+    <Box>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          flex: "1",
+          marginRight: "17px",
+        }}
+      >
+        <Avatar sx={{ bgcolor: avatarData.color }}>
+          {avatarData.value}
+        </Avatar>
+        <div style={{ flex: "1", marginLeft: "12px" }}>
+          <Typography
+            variant="h6"
+            style={{ fontSize: "1.1em" }}
+          >
+            {course.course_code}
+          </Typography>
+          <Typography
+            variant="body2"
+            style={{
+              whiteSpace: "normal",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              display: "-webkit-box",
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: "vertical",
+            }}
+          >
+            {course.course_name}
+          </Typography>
+          {/* Add additional information here if needed */}
+        </div>
+      </div>
+    </Box>
+  </CardContent>
+</Card>
+
               </div>
             );
           })}

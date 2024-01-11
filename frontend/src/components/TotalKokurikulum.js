@@ -3,28 +3,18 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Alert from "@mui/material/Alert";
-import {
-  Divider,
-  Stack,
-  LinearProgress,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Button,
-} from "@mui/material";
+import { Divider, Stack, LinearProgress } from "@mui/material";
 import { useAuthContext } from "../hooks/useAuthContext";
 
-const TotalCreditCard = () => {
+const TotalKokurikulum = () => {
   const [progressData, setProgressData] = useState({});
   const { user } = useAuthContext();
-  const [isDialogOpen, setDialogOpen] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://localhost:4000/api/dashboard/credit-hours-until-current-semester",
+          "http://localhost:4000/api/dashboard/kokurikulum-progress",
           {
             headers: {
               Authorization: `Bearer ${user.token}`,
@@ -33,8 +23,8 @@ const TotalCreditCard = () => {
         );
         if (response.ok) {
           const data = await response.json();
-          console.log("Received Data:", data.credit_hours_by_current_semester);
-          setProgressData(data.credit_hours_by_current_semester);
+          console.log("Received Data:", data);
+          setProgressData(data);
         } else {
           console.error("Failed to fetch data");
         }
@@ -46,19 +36,14 @@ const TotalCreditCard = () => {
     fetchData();
   }, [user]);
 
-  const handleDialogOpen = () => {
-    setDialogOpen(true);
-  };
-
-  const handleDialogClose = () => {
-    setDialogOpen(false);
-  };
+  // Extract total progress for kokurikulum_progress
+  const totalProgressUntilCurrentSemester =
+    progressData.kokurikulum_progress?.Ko || {};
 
   return (
     <div>
       <Stack direction={"row"} alignItems="center" spacing={1.5} marginTop={2}>
-        <p style={{ fontSize: "18px" }}>Total Credit Hours</p>
-        <strong>{progressData.totalCredit}</strong>
+        <p style={{ fontSize: "18px" }}>Co-Curriculum</p>
       </Stack>
       <Card
         className="dashboard-card"
@@ -67,7 +52,6 @@ const TotalCreditCard = () => {
           borderRadius: 3,
           boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)", // Subtle shadow
         }}
-        onClick={handleDialogOpen}
       >
         <CardContent>
           <Stack direction={"column"}>
@@ -94,7 +78,9 @@ const TotalCreditCard = () => {
                 >
                   Required
                 </Typography>
-                <Typography>{progressData.required}</Typography>
+                <Typography>
+                  {totalProgressUntilCurrentSemester.required || 0}
+                </Typography>
               </Stack>
               <Divider orientation="vertical" variant="middle" flexItem />
               <Stack
@@ -112,16 +98,18 @@ const TotalCreditCard = () => {
                 >
                   Completed
                 </Typography>
-                <Typography>{progressData.completed}</Typography>
+                <Typography>
+                  {totalProgressUntilCurrentSemester.completed || 0}
+                </Typography>
               </Stack>
             </Stack>
             <LinearProgress
               variant="determinate"
-              value={parseFloat(progressData.progress)}
+              value={parseFloat(totalProgressUntilCurrentSemester.progress) || 0}
               color={
-                progressData.progress >= 66
+                totalProgressUntilCurrentSemester.progress >= 66
                   ? "success"
-                  : progressData.progress >= 33
+                  : totalProgressUntilCurrentSemester.progress >= 33
                   ? "warning"
                   : "error"
               }
@@ -132,65 +120,23 @@ const TotalCreditCard = () => {
           </Stack>
         </CardContent>
       </Card>
-      <Dialog open={isDialogOpen} onClose={handleDialogClose}>
-        <DialogTitle variant="body1">Description</DialogTitle>
-        <Divider />
-        <DialogContent>
-          <Typography variant="body1" sx={{ marginBottom: 2 }}>
-            <strong>Required</strong>
-          </Typography>
-          <Typography variant="body1" sx={{ marginBottom: 2, marginLeft: 2 }}>
-            Represents total credit hours you need to complete by the end of the
-            current semester.
-          </Typography>
-
-          <Typography variant="body1" sx={{ marginBottom: 2 }}>
-            <strong>Completed</strong>
-          </Typography>
-          <Typography
-            variant="body1"
-            sx={{ marginBottom: 2, marginLeft: 2, marginRight: 2 }}
-          >
-            Represents total credit hours you have successfully completed.
-          </Typography>
-
-          <Typography
-            variant="caption"
-            color="textSecondary"
-            sx={{ marginTop: 2, fontSize: 14 }}
-          >
-            <em>
-              Note: The percentage completion is a measure of your progress
-              according to the study scheme. It ensures you stay on track with
-              the credits completed until the current semester, not reflecting
-              the overall graduation percentage.
-            </em>
-          </Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button
-            onClick={handleDialogClose}
-            variant="contained"
-            color="primary"
-          >
-            Close
-          </Button>
-        </DialogActions>
-      </Dialog>
 
       <div style={{ paddingTop: 2 }}>
-        {progressData.progress !== undefined && (
+        {totalProgressUntilCurrentSemester.progress !== undefined && (
           <Alert
             severity={
-              progressData.progress >= 66
+              totalProgressUntilCurrentSemester.progress >= 66
                 ? "success"
-                : progressData.progress >= 33
+                : totalProgressUntilCurrentSemester.progress >= 33
                 ? "warning"
                 : "error"
             }
             sx={{ width: "218px", marginTop: 2 }}
           >
-            Progress: <strong>{progressData.progress}% On track</strong>
+            Progress:{" "}
+            <strong>
+              {totalProgressUntilCurrentSemester.progress}% On track
+            </strong>
           </Alert>
         )}
       </div>
@@ -198,4 +144,4 @@ const TotalCreditCard = () => {
   );
 };
 
-export default TotalCreditCard;
+export default TotalKokurikulum;

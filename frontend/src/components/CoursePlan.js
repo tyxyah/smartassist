@@ -15,6 +15,11 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import TablePagination from "@mui/material/TablePagination";
 import { mapCourseType } from "../components/CourseUtils";
 import { useAuthContext } from "../hooks/useAuthContext";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -59,6 +64,7 @@ export default function CoursePlan() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(4);
   const { user } = useAuthContext();
+  const [openDialog, setOpenDialog] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -136,6 +142,43 @@ export default function CoursePlan() {
 
     setCourses(updatedCourses);
   };
+  
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
+  const handleSemesterCompletion = async () => {
+    try {
+      // Use a functional update to ensure the correct value is used
+      setCurrentSemester(prevSemester => prevSemester + 1);
+  
+      const response = await fetch(`http://localhost:4000/api/student/update-current-semester`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ current_semester: currentSemester}), // Use updatedCurrentSemester here
+      });
+  
+      if (response.ok) {
+        console.log("Status updated successfully");
+        // Handle success, update state, or perform other actions
+      } else {
+        console.error("Failed to update status");
+        // Handle failure, show error message, or perform other actions
+      }
+    } catch (error) {
+      console.error("Error updating status:", error);
+      // Handle the error, show an error message, or perform other actions
+    } finally {
+      handleCloseDialog();
+    }
+  };  
 
   const handleToggleBulkStatus = async () => {
     try {
@@ -203,8 +246,27 @@ export default function CoursePlan() {
           alignItems="center"
           style={{ marginBottom: "15px" }}
         >
-          <p style={{ fontSize: '18px' }}>Course Plan for Semester {currentSemester + 1}</p>
+          <p style={{ fontSize: "18px" }}>
+            Course Plan for Semester {currentSemester + 1}
+          </p>
         </Stack>
+        <Stack paddingLeft={43}>
+        <Button onClick={handleOpenDialog}>Semester Completed</Button>
+        </Stack>
+        <Dialog open={openDialog} onClose={handleCloseDialog}>
+        <DialogTitle>Confirm Semester Completion</DialogTitle>
+        <DialogContent>
+          <p>Are you sure you want to mark the current semester as completed?</p>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleSemesterCompletion} color="primary">
+            Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
         <Stack
           direction="row"
           alignItems="center"
