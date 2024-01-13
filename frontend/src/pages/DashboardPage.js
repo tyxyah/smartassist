@@ -88,34 +88,34 @@ const DashboardPage = () => {
           </Box>
 
           <Box sx={{ flexGrow: 1, bgcolor: "background.default" }}>
-          <Stack direction={"row"}>
-            <Box
-              sx={{
-                flexGrow: 1,
-                bgcolor: "background.default",
-              }}
-            >
-              <TotalCreditCard />
-            </Box>
-            <Box
-              sx={{
-                flexGrow: 1,
-                bgcolor: "background.default",
-                paddingLeft: 1,
-              }}
-            >
-              <TotalELEx />
-            </Box>
-            <Box
-              sx={{
-                flexGrow: 1,
-                bgcolor: "background.default",
-                paddingLeft: 1,
-              }}
-            >
-              <TotalKokurikulum />
-            </Box>
-          </Stack>
+            <Stack direction={"row"}>
+              <Box
+                sx={{
+                  flexGrow: 1,
+                  bgcolor: "background.default",
+                }}
+              >
+                <TotalCreditCard />
+              </Box>
+              <Box
+                sx={{
+                  flexGrow: 1,
+                  bgcolor: "background.default",
+                  paddingLeft: 1,
+                }}
+              >
+                <TotalELEx />
+              </Box>
+              <Box
+                sx={{
+                  flexGrow: 1,
+                  bgcolor: "background.default",
+                  paddingLeft: 1,
+                }}
+              >
+                <TotalKokurikulum />
+              </Box>
+            </Stack>
             <Stack
               direction="row"
               justifyContent="space-between"
@@ -127,7 +127,7 @@ const DashboardPage = () => {
             </Stack>
             <Stack direction="row" spacing={2}>
               {Object.entries(progressData)
-                .filter(([key]) => key !== "NaN")
+                .filter(([key]) => key !== "NaN" && parseInt(key) <= 3)
                 .map(([key, courseType]) => (
                   <DashboardCard
                     key={key}
@@ -145,20 +145,17 @@ const DashboardPage = () => {
                 ))}
             </Stack>
           </Box>
-
-          <Box sx={{ flexGrow: 1, bgcolor: "background.default" }}>
-            
-              <Box sx={{ flexGrow: 1, bgcolor: "background.default" }}>
-                <RegistrationHistory />
-              </Box>
-          </Box>
+            <Box sx={{ flexGrow: 1, bgcolor: "background.default" }}>
+              <RegistrationHistory />
+            </Box>
         </Grid>
-        <Grid item xs={2.2}> <p style={{ fontSize: "18px" }}>ELEx Packages</p>
-            <Stack direction="column" spacing={2}>
-              <ElexCard title="LAX" data={elexPackageProgress.LAX} />
-              <ElexCard title="LPE" data={elexPackageProgress.LPE} />
-              <ElexCard title="CEL" data={elexPackageProgress.CEL} />
-            </Stack>
+        <Grid item xs={2.2}>
+          <p style={{ fontSize: "18px" }}>ELEx Packages</p>
+          <Stack direction="column" spacing={2}>
+            <ElexCard title="LAX" data={elexPackageProgress.LAX} />
+            <ElexCard title="LPE" data={elexPackageProgress.LPE} />
+            <ElexCard title="CEL" data={elexPackageProgress.CEL} />
+          </Stack>
         </Grid>
       </Grid>
     </Box>

@@ -1,4 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useState,
+  useImperativeHandle,
+  forwardRef,
+} from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -16,7 +21,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.white,
     color: theme.palette.common.black,
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
@@ -46,7 +51,7 @@ const PaginationWrapper = styled("div")({
   transform: "translateX(-50%)",
 });
 
-export default function CustomizedTables({ selectedSemester }) {
+const CustomizedTables = forwardRef(({ selectedSemester }, ref) => {
   const [courses, setCourses] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(6);
@@ -57,13 +62,13 @@ export default function CustomizedTables({ selectedSemester }) {
       try {
         const response = await fetch("http://localhost:4000/api/study_scheme", {
           headers: {
-            'Authorization': `Bearer ${user.token}`
-          }
+            Authorization: `Bearer ${user.token}`,
+          },
         });
         if (response.ok) {
           const data = await response.json();
           // Log the received data to inspect its structure
-          console.log('Received Data:', data.courses);
+          console.log("Received Data:", data.courses);
           setCourses(data.courses);
         } else {
           console.error("Failed to fetch data");
@@ -80,13 +85,13 @@ export default function CustomizedTables({ selectedSemester }) {
     const newStatus = event.target.value;
     const updatedCourses = courses.map((course) => {
       if (course._id === courseId) {
+        // Update the status to boolean, not string
         course.status = newStatus === "Completed" ? true : false;
-
         fetch(`http://localhost:4000/api/study_scheme/${course._id}`, {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
-            'Authorization': `Bearer ${user.token}`
+            Authorization: `Bearer ${user.token}`,
           },
           body: JSON.stringify({ status: course.status }),
         }).then((response) => {
@@ -105,53 +110,124 @@ export default function CustomizedTables({ selectedSemester }) {
     setCourses(updatedCourses);
   };
 
-  const filteredCourses = courses.filter((course) => course.semester_id === selectedSemester);
+  const filteredCourses = courses.filter(
+    (course) => course.semester_id === selectedSemester
+  );
 
-  const handleChangePage = (event,newPage) => {
+  const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0); // Reset to the first page when changing rows per page
-  };  
+  };
+
+// Function to handle completion of all courses for a specific semester
+const handleAllCoursesCompleted = async () => {
+  try {
+    const updatedCourses = filteredCourses.map((course) => ({
+      ...course,
+      status: "Completed",
+    }));
+
+    await Promise.all(
+      updatedCourses.map(async (course) => {
+        await fetch(`http://localhost:4000/api/study_scheme/update-all`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+          body: JSON.stringify({
+            courseId: course._id,
+            status: course.status,
+            semesterId: selectedSemester,
+          }),
+        });
+      })
+    );
+
+    // Update the local state with the new course statuses
+    setCourses((prevCourses) => {
+      // Merge the updated courses with the previous courses
+      const mergedCourses = prevCourses.map((prevCourse) => {
+        const updatedCourse = updatedCourses.find(
+          (updatedCourse) => updatedCourse._id === prevCourse._id
+        );
+        return updatedCourse || prevCourse;
+      });
+
+      return mergedCourses;
+    });
+  } catch (error) {
+    console.error("Error marking all courses as completed:", error);
+  }
+};
+
+  // Expose the function via ref
+  useImperativeHandle(ref, () => ({
+    handleAllCoursesCompleted,
+  }));
 
   return (
     <TableWrapper>
       <TableContainer sx={{ maxWidth: 790 }} component={Paper}>
         <Table sx={{ minWidth: 750 }} aria-label="customized table">
-        <caption># : Tidak dikira dalam kredit bergraduat</caption>
+          <caption># : Tidak dikira dalam kredit bergraduat</caption>
           <TableHead>
             <TableRow>
               <StyledTableCell sx={{ columnWidth: 2 }}>No.</StyledTableCell>
-              <StyledTableCell sx={{ columnWidth: 118.25, align: "left" }}>Course Code</StyledTableCell>
-              <StyledTableCell sx={{ columnWidth: 475, align: "left" }}>Course Name</StyledTableCell>
-              <StyledTableCell sx={{ columnWidth: 118.25, textAlign: "center" }}>Credit</StyledTableCell>
-              <StyledTableCell sx={{ columnWidth: 118.25, textAlign: "center" }}>Status</StyledTableCell>
+              <StyledTableCell sx={{ columnWidth: 118.25, align: "left" }}>
+                Course Code
+              </StyledTableCell>
+              <StyledTableCell sx={{ columnWidth: 475, align: "left" }}>
+                Course Name
+              </StyledTableCell>
+              <StyledTableCell
+                sx={{ columnWidth: 118.25, textAlign: "center" }}
+              >
+                Credit
+              </StyledTableCell>
+              <StyledTableCell
+                sx={{ columnWidth: 118.25, textAlign: "center" }}
+              >
+                Status
+              </StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {filteredCourses.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((course, index) => (
-              <StyledTableRow key={course._id}>
-                <StyledTableCell align="center" component="th" scope="row">
-                  {index + 1 + page * rowsPerPage + "."}
-                </StyledTableCell>
-                <StyledTableCell align="left">{course.course_code}</StyledTableCell>
-                <StyledTableCell align="left">{course.course_name}</StyledTableCell>
-                <StyledTableCell align="center">{course.credit_hours}</StyledTableCell>
-                <StyledTableCell align="center">
-                  <Select
-                    value={course.status ? "Completed" : "Failed"}
-                    onChange={(event) => handleStatusChange(event, course._id)}
-                    sx={{ width: 125, align: "center" }}
-                    size="small"
-                  >
-                    <MenuItem value="Completed">Completed</MenuItem>
-                    <MenuItem value="Failed">Failed</MenuItem>
-                  </Select>
-                </StyledTableCell>
-              </StyledTableRow>
-            ))}
+            {filteredCourses
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((course, index) => (
+                <StyledTableRow key={course._id}>
+                  <StyledTableCell align="center" component="th" scope="row">
+                    {index + 1 + page * rowsPerPage + "."}
+                  </StyledTableCell>
+                  <StyledTableCell align="left">
+                    {course.course_code}
+                  </StyledTableCell>
+                  <StyledTableCell align="left">
+                    {course.course_name}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {course.credit_hours}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    <Select
+                      value={course.status ? "Completed" : "Failed"}
+                      onChange={(event) =>
+                        handleStatusChange(event, course._id)
+                      }
+                      sx={{ width: 125, align: "center" }}
+                      size="small"
+                    >
+                      <MenuItem value="Completed">Completed</MenuItem>
+                      <MenuItem value="Failed">Failed</MenuItem>
+                    </Select>
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
@@ -169,4 +245,6 @@ export default function CustomizedTables({ selectedSemester }) {
       </PaginationWrapper>
     </TableWrapper>
   );
-}
+});
+
+export default CustomizedTables;

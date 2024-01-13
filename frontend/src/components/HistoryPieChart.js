@@ -77,6 +77,7 @@ const fetchData = async (userToken, setCourses) => {
     const response = await fetch(
       "http://localhost:4000/api/study_scheme",
       {
+        method: "GET",
         headers: {
           Authorization: `Bearer ${userToken}`,
         },

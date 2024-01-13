@@ -5,14 +5,11 @@ import Typography from "@mui/material/Typography";
 import LinearProgress from "@mui/material/LinearProgress";
 import Stack from "@mui/material/Stack";
 import Divider from "@mui/material/Divider";
-import { Link } from "react-router-dom";
 
 const ElexCard = ({ title, data }) => {
-  const cardLink = `/elex-packages/${title.toLowerCase()}`; // Modify the link as needed
 
   const { progress, required, completed } = data;
   return (
-    <Link to={cardLink} style={{ textDecoration: "none" }}>
     <Card
       className="dashboard-card"
       style={{
@@ -96,7 +93,6 @@ const ElexCard = ({ title, data }) => {
         </Stack>
       </CardContent>
     </Card>
-    </Link>
   );
 };
 

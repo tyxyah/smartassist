@@ -196,10 +196,56 @@ const suggestFailedCoursesController = async (req, res) => {
   }
 };
 
+// Controller function to update all courses for a user
+const updateAllCoursesCompleted = async (req, res) => {
+  const user_id = req.user._id;
+  const { semesterId } = req.body; // Assuming semesterId is provided in the request body
+
+  try {
+    // Fetch user data
+    const user = await Student.findById(user_id);
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    // Construct the model name based on user data
+    const modelName = `StudyScheme${user.start_session}${user.muet}`;
+
+    // Get the StudySchemeModel based on the dynamically determined modelName
+    const StudySchemeModel = getStudySchemeModel(modelName);
+
+    if (!isValidString(modelName) || !StudySchemeModel) {
+      return res.status(400).json({ error: 'Invalid modelName' });
+    }
+
+    // Fetch all courses for the user and the specified semester
+    const userCourses = await StudySchemeModel.find({
+      user_id: user._id,
+      semester_id: semesterId,
+    });
+
+    // Update all courses for the user and semester to 'Completed'
+    await Promise.all(
+      userCourses.map(async (course) => {
+        course.status = true;
+        await course.save();
+      })
+    );
+
+    console.log(`All courses marked as completed for Semester ${semesterId} - Model: ${modelName}, User ID: ${user_id}`);
+    res.status(200).json({ message: `All courses marked as completed for Semester ${semesterId}` });
+  } catch (error) {
+    console.error('Error updating all courses:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
 module.exports = {
   getCourses,
   getCourse,
   deleteCourse,
   updateCourse,
+  updateAllCoursesCompleted,
   suggestFailedCourses : suggestFailedCoursesController
 };

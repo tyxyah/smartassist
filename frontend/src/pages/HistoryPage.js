@@ -2,16 +2,52 @@ import React, { useState } from "react";
 import Header from "../components/Header";
 import Sidebar from "../components/SideBar";
 import Dropdown from "../components/Dropdown";
-import { Box } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import LinearProgress from "../components/LinearProgress";
 import Table from "../components/Table";
-import HistoryPieChart from "../components/HistoryPieChart"
+import HistoryPieChart from "../components/HistoryPieChart";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
 
 function HistoryPage() {
   const [selectedSemester, setSelectedSemester] = useState(1);
+  const [openDialog, setOpenDialog] = useState(false);
+
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
+  const handleAllCompletedButton = () => {
+    handleOpenDialog();
+  };
+
+  const handleConfirmAllCompleted = async () => {
+    try {
+      // Assuming 'tableRef' is the ref for the CustomizedTables component
+      if (tableRef.current) {
+        await tableRef.current.handleAllCoursesCompleted();
+      }
+
+      // Close the dialog after completing the logic
+      handleCloseDialog();
+    } catch (error) {
+      console.error("Error marking all courses as completed:", error);
+    }
+  };
+
   const handleSemesterChange = (newSemester) => {
     setSelectedSemester(newSemester);
   };
+
+  // Ref for CustomizedTables component
+  const tableRef = React.createRef();
 
   return (
     <div>
@@ -24,12 +60,19 @@ function HistoryPage() {
         component="main"
         sx={{ flexGrow: 1, bgcolor: "background.default", paddingLeft: 34 }}
       >
-        <div className="history-page" >
-          <p style={{ fontSize: '18px' }}>Registration History:</p>
-          <Dropdown onSemesterChange={handleSemesterChange} />
-        </div>
+        <Stack direction="row" alignItems="center" spacing={33}>
+          <div className="history-page">
+            <p style={{ fontSize: "18px" }}>Registration History:</p>
+            <Dropdown onSemesterChange={handleSemesterChange} />
+          </div>
+          <div>
+            <Button onClick={handleAllCompletedButton}>All Completed</Button>
+          </div>
+        </Stack>
+
         <Box sx={{ paddingTop: 1 }}>
-          <Table selectedSemester={selectedSemester} />
+          {/* Pass the ref to the CustomizedTables component */}
+          <Table ref={tableRef} selectedSemester={selectedSemester} />
         </Box>
         <Box sx={{ paddingLeft: 84 }}>
           <div
@@ -40,9 +83,25 @@ function HistoryPage() {
               flex: 1,
             }}
           >
+            {/* Pass the selectedSemester to HistoryPieChart */}
             <HistoryPieChart selectedSemester={selectedSemester} />
           </div>
         </Box>
+        {/* Confirmation Dialog */}
+        <Dialog open={openDialog} onClose={handleCloseDialog}>
+          <DialogTitle>Confirm All Completed</DialogTitle>
+          <DialogContent>
+            <p>Are you sure you want to mark all courses as completed?</p>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseDialog} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={handleConfirmAllCompleted} color="primary">
+              Confirm
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Box>
     </div>
   );

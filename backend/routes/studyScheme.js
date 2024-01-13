@@ -5,6 +5,7 @@ const {
   getCourse,
   deleteCourse,
   updateCourse,
+  updateAllCoursesCompleted,
   suggestFailedCourses
 } = require('../controllers/studySchemeController');
 const requireAuth = require('../middleware/requireAuth');
@@ -18,6 +19,8 @@ router.get('/', (req, res) => getCourses(req, res));
 router.get('/:id', (req, res) => getCourse(req, res));
 
 router.delete('/:modelName/:id', (req, res) => deleteCourse(req, res, req.params.modelName));
+
+router.patch('/update-all', updateAllCoursesCompleted);
 
 router.patch('/:id', (req, res) => updateCourse(req, res));
 

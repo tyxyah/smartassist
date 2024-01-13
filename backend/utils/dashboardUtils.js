@@ -185,42 +185,50 @@ const calculateELExOccurrencesUntilCurrentSemester = async (
       total: { required: 0, completed: 0, progress: 0 }, // New entry for total ELEx package
     };
 
+    // Create a Set to keep track of unique ELEx course codes
+    const uniqueELExCourseCodes = new Set();
+
     allELExCourses.forEach((course) => {
       const courseCode = course.course_code.toUpperCase(); // Convert to uppercase for case-insensitive comparison
 
-      // Extract the package (LPE, LAX, or CEL) from the course code
-      const packageCode = courseCode.substring(0, 3);
+      // Check if the ELEx course code is unique
+      if (!uniqueELExCourseCodes.has(courseCode)) {
+        uniqueELExCourseCodes.add(courseCode);
 
-      // Increment the required count for the corresponding package in the result object
-      if (packageCode === "LAX") {
-        result[packageCode].required += 6; // Multiply LAX requirement by 6
-      } else {
-        result[packageCode].required++;
-      }
+        // Extract the package (LPE, LAX, or CEL) from the course code
+        const packageCode = courseCode.substring(0, 3);
 
-      // Check if the status is true and increment the completed count
-      if (course.status) {
+        // Increment the required count for the corresponding package in the result object
         if (packageCode === "LAX") {
-          result[packageCode].completed += 6; // Multiply completed LAX count by 6
+          result[packageCode].required += 6; // Multiply LAX requirement by 6
         } else {
-          result[packageCode].completed++;
+          result[packageCode].required++;
+        }
+
+        // Check if the status is true and increment the completed count
+        if (course.status) {
+          if (packageCode === "LAX") {
+            result[packageCode].completed += 6; // Multiply completed LAX count by 6
+          } else {
+            result[packageCode].completed++;
+          }
+
+          // Calculate progress percentage for the corresponding package and round to 2 decimal places
+          result[packageCode].progress = parseFloat(
+            (
+              (result[packageCode].completed / result[packageCode].required) *
+              100
+            ).toFixed(2)
+          );
         }
       }
-
-      // Calculate progress percentage for the corresponding package and round to 2 decimal places
-      result[packageCode].progress = parseFloat(
-        (
-          (result[packageCode].completed / result[packageCode].required) *
-          100
-        ).toFixed(2)
-      );
-
-      // Increment the total required count for all ELEx packages
-      result.total.required += result[packageCode].required;
-
-      // Increment the total completed count for all ELEx packages
-      result.total.completed += result[packageCode].completed;
     });
+
+    // Increment the total required count for all ELEx packages
+    result.total.required += result.LPE.required + result.LAX.required + result.CEL.required;
+
+    // Increment the total completed count for all ELEx packages
+    result.total.completed += result.LPE.completed + result.LAX.completed + result.CEL.completed;
 
     // Calculate progress percentage for the total ELEx package and round to 2 decimal places
     result.total.progress = parseFloat(

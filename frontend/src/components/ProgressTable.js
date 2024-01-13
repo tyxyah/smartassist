@@ -98,7 +98,7 @@ const CustomizedTables = ({ selectedCourseType }) => {
             <TableRow>
               <StyledTableCell sx={{ columnWidth: 2 }}>No.</StyledTableCell>
               <StyledTableCell sx={{ columnWidth: 118.25, align: "left" }}>
-                Course Code
+                Code
               </StyledTableCell>
               <StyledTableCell sx={{ columnWidth: 275, align: "left" }}>
                 Course Name

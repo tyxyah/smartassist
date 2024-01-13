@@ -8,16 +8,16 @@ semester_id,course_code,course_name,credit_hours,prerequisite,course_type,status
 ",3,,1,false 
 1,PRT2009,Pertanian dan Kehidupan / Agriculture and Life,2,,1,false 
 1,LPE2401,Pembacaan Bagi Tujuan Akademik / Reading for Academic Purposes,3,,1,false 
-1,,Ko-kurikulum/ Co-curriculum,;1,,,false 
+1,,Ko-kurikulum/ Co-curriculum,1#,,4,false 
 2,SSK3101,Pengaturcaraan Komputer II / Computer Programming II,4,SSK3100,2,false 
 2,SSK3207,Organisasi Komputer dan Bahasa Himpunan / Computer Organization and Assembly Language,3,SSK3100,2,false 
 2,SSE3301,Kejuruteraan Keperluan Perisian / Software Requirements Engineering,3,SSK3100,2,false 
 2,SIM3251,Statistik bagi Sains Komputer / Statistics for Computer Science,3,,2,false 
 2,SKP3122*,Penghayatan Etika dan Peradaban / Internalization of Ethics and Civilization,2,,1,false 
 2,LPM2100**,Bahasa Melayu Komunikasi,2,,1,false 
-2,CEL2102,Effective Listening and Speaking,0,,,false 
-2,LAX ,,#6,,,false 
-2,,Ko-kurikulum/ Co-curriculum,;1,,,false 
+2,CEL2102,Effective Listening and Speaking,0,,4,false 
+2,LAX ,,0,,4,false 
+2,,Ko-kurikulum/ Co-curriculum,1#,,4,false 
 3,SSK3118,Struktur Data dan Algoritma / Data Structures and Algorithms,3,SSK3101,2,false 
 3,SSK3408,Pembangunan Aplikasi Pangkalan Data / Database Application Development,4,SSK3101,2,false 
 3,SSE3304,Reka Bentuk Perisian/ Software Design,3,"SSE3301 , SSE3001",2,false 
@@ -35,19 +35,19 @@ semester_id,course_code,course_name,credit_hours,prerequisite,course_type,status
 5,EL,Elektif / Electives,3,,3,false 
 5,EL,Elektif / Electives,3,,3,false 
 5,EL,Elektif / Electives,3,,3,false 
-5,LAX,,#6,,,false 
-5,LAX,,#6,,,false 
+5,LAX,,0,,4,false 
+5,LAX,,0,,4,false 
 6,SIM4208,Perdagangan Elektronik/ Electronic Commerce,3,SSE3150,2,false 
 6,SSE4356,Pembangunan Perisian Selamat / Secure Software Development,3,SSK3313,2,false 
 6,SSE4301,Projek Kejuruteraan Perisian Berpasukan / Software Engineering Team Project,3,SSE4300,2,false 
 6,SSE4949A,Projek Bacelor / Bachelor Project,2,,2,false 
 6,EL,Elektif / Electives,3,,3,false 
 6,EL,Elektif / Electives,3,,3,false 
-6,CEL2103,Writing Academic Texts,0,,,false 
+6,CEL2103,Writing Academic Texts,0,,4,false 
 7,SSE4949B,Projek Bacelor / Bachelor Project,4,,2,false 
 7,SIM4207,Etika dalam Pengkomputeran / Ethics in Computing,3,SSK3100,2,false 
 7,EL,Elektif / Electives,3,,3,false 
 7,EL,Elektif / Electives,3,,3,false 
-7,CEL2105 / CEL2106 / CEL2107,,0,,,false 
-7,LAX,,#6,,,false 
+7,CEL2105 / CEL2106 / CEL2107,,0,,4,false 
+7,LAX,,0,,4,false 
 8,SSE4901,Latihan Industri / Industrial Training,12,SSE4300,2,false 

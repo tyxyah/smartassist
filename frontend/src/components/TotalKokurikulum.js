@@ -6,7 +6,7 @@ import Alert from "@mui/material/Alert";
 import { Divider, Stack, LinearProgress } from "@mui/material";
 import { useAuthContext } from "../hooks/useAuthContext";
 
-const TotalKokurikulum = () => {
+const TotalKokurikulum = ({ showAlert = true }) => {
   const [progressData, setProgressData] = useState({});
   const { user } = useAuthContext();
 
@@ -120,24 +120,23 @@ const TotalKokurikulum = () => {
           </Stack>
         </CardContent>
       </Card>
-
       <div style={{ paddingTop: 2 }}>
-        {totalProgressUntilCurrentSemester.progress !== undefined && (
-          <Alert
-            severity={
-              totalProgressUntilCurrentSemester.progress >= 66
-                ? "success"
-                : totalProgressUntilCurrentSemester.progress >= 33
-                ? "warning"
-                : "error"
-            }
-            sx={{ width: "218px", marginTop: 2 }}
-          >
-            Progress:{" "}
-            <strong>
-              {totalProgressUntilCurrentSemester.progress}% On track
-            </strong>
-          </Alert>
+      {showAlert && totalProgressUntilCurrentSemester.progress !== undefined && (
+        <Alert
+          severity={
+            totalProgressUntilCurrentSemester.progress >= 66
+              ? "success"
+              : totalProgressUntilCurrentSemester.progress >= 33
+              ? "warning"
+              : "error"
+          }
+          sx={{ width: "218px", marginTop: 2 }}
+        >
+          Progress:{" "}
+          <strong>
+            {totalProgressUntilCurrentSemester.progress}% On track
+          </strong>
+        </Alert>
         )}
       </div>
     </div>
