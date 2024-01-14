@@ -197,11 +197,18 @@ const getCreditHoursByCurrentSemester = async (req, res) => {
         user.current_semester
       );
 
+    const creditHoursToGraduate = 
+    await dashboardUtils.calculateTotalCreditHoursToGraduate(
+        StudySchemeModel,
+        user_id,
+    )
+
     console.log(
       `getCreditHoursByCurrentSemester - Model: ${modelName}, User ID: ${user_id}`
     );
     res.status(200).json({
       credit_hours_by_current_semester: creditHoursByCurrentSemester,
+      credit_hours_to_graduate: creditHoursToGraduate,
     });
   } catch (error) {
     console.error("Error fetching credit hours by current semester:", error);

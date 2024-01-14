@@ -84,7 +84,7 @@ const CustomizedTables = ({ selectedCourseType }) => {
     (course) =>
       parseInt(course.course_type) === selectedCourseType &&
       (selectedTab === 0 ? course.status : !course.status) &&
-      course.semester_id < currentSemester
+      course.semester_id <= currentSemester
   );
 
   // Tab change handler

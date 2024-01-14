@@ -79,23 +79,25 @@ export default function CoursePlan() {
             },
           }
         );
-
+  
         if (courseResponse.ok) {
           const data = await courseResponse.json();
-
+  
           if (Array.isArray(data.courses)) {
             setCourses(data.courses);
-
+  
             setCurrentSemester(data.current_semester);
-            const upcomingCourses = data.courses.filter(
-              (course) => course.semester_id === currentSemester + 1
+  
+            // Filter courses for the current semester
+            const currentSemesterCourses = data.courses.filter(
+              (course) => course.semester_id === data.current_semester
             );
-            setUpcomingCourses(upcomingCourses);
-
+            setUpcomingCourses(currentSemesterCourses);
+  
             // Set the initial bulkStatus here based on some condition
             // For example, if all courses are completed, set bulkStatus to "completed"
             // Otherwise, set it to "failed"
-            const allCompleted = upcomingCourses.every(
+            const allCompleted = currentSemesterCourses.every(
               (course) => course.status
             );
             setBulkStatus(allCompleted ? "completed" : "failed");
@@ -111,10 +113,10 @@ export default function CoursePlan() {
         console.error("Error:", error);
       }
     };
-
+  
     fetchData();
-  }, [user, currentSemester]);
-
+  }, [user]);
+  
   const handleStatusChange = (courseId, newStatus) => {
     const updatedCourses = courses.map((course) => {
       if (course._id === courseId) {
@@ -162,7 +164,7 @@ export default function CoursePlan() {
           Authorization: `Bearer ${user.token}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ current_semester: currentSemester}), // Use updatedCurrentSemester here
+        body: JSON.stringify({ current_semester: currentSemester}), 
       });
   
       if (response.ok) {
@@ -188,7 +190,7 @@ export default function CoursePlan() {
 
       const updatedCourses = await Promise.all(
         courses.map(async (course) => {
-          if (course.semester_id === currentSemester + 1) {
+          if (course.semester_id === currentSemester) {
             const updatedCourse = {
               ...course,
               status: newBulkStatus === "completed",
@@ -247,7 +249,7 @@ export default function CoursePlan() {
           style={{ marginBottom: "15px" }}
         >
           <p style={{ fontSize: "18px" }}>
-            Course Plan for Semester {currentSemester + 1}
+            Course Plan for Semester {currentSemester}
           </p>
         </Stack>
         <Stack paddingLeft={43}>

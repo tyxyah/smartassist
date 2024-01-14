@@ -381,10 +381,7 @@ const calculateTotalCreditHoursUntilCurrentSemester = async (
   user_id,
   currentSemester
 ) => {
-  const totalCredit = await calculateTotalCreditHoursToGraduate(
-    StudySchemeModel,
-    user_id
-  );
+ 
   try {
     // Find user courses up until the current semester
     const userCourses = await StudySchemeModel.find({
@@ -397,7 +394,6 @@ const calculateTotalCreditHoursUntilCurrentSemester = async (
       required: 0,
       completed: 0,
       progress: 0,
-      totalCredit: totalCredit,
     };
 
     // Calculate credit hours for courses up until the current semester
@@ -439,25 +435,29 @@ const calculateTotalCreditHoursUntilCurrentSemester = async (
     );
   }
 };
-
-const calculateTotalCreditHoursToGraduate = async (
-  StudySchemeModel,
-  user_id
-) => {
+/*********total credit hours to graduate */
+const calculateTotalCreditHoursToGraduate = async (StudySchemeModel, user_id) => {
   try {
     // Fetch user's courses from the study scheme model
     const userCourses = await StudySchemeModel.find({ user_id });
 
-    // Initialize variable to store total credit hours needed
-    let totalCreditHoursToGraduate = 0;
+    // Initialize variables to store credit hours information
+    let requiredCreditHours = 0;
+    let completedCreditHours = 0;
+    let progress = 0;
 
-    // Loop through each course and update the total credit hours needed
+    // Loop through each course and update the required and completed credit hours
     userCourses.forEach((course) => {
       const creditHours = parseFloat(course.credit_hours);
 
       // Check if credit_hours is a valid numeric value
       if (!isNaN(creditHours) && isFinite(creditHours)) {
-        totalCreditHoursToGraduate += creditHours;
+        requiredCreditHours += creditHours;
+
+        // Update completed credit hours only if the course is marked as completed
+        if (course.status) {
+          completedCreditHours += creditHours;
+        }
       } else {
         console.warn(
           `Invalid credit_hours value for course ${course._id}. Skipping.`
@@ -465,14 +465,24 @@ const calculateTotalCreditHoursToGraduate = async (
       }
     });
 
-    // Return the total credit hours needed to graduate
-    return totalCreditHoursToGraduate;
+    // Calculate progress
+    progress =
+      requiredCreditHours !== 0
+        ? ((completedCreditHours / requiredCreditHours) * 100).toFixed(2)
+        : 0;
+
+    // Return the calculated credit hours information
+    return {
+      required: requiredCreditHours,
+      completed: completedCreditHours,
+      progress,
+    };
   } catch (error) {
     console.error(
-      `Error calculating total credit hours to graduate: ${error.message}`
+      `Error calculating credit hours for graduation: ${error.message}`
     );
     throw new Error(
-      `Error calculating total credit hours to graduate: ${error.message}`
+      `Error calculating credit hours for graduation: ${error.message}`
     );
   }
 };
@@ -482,6 +492,7 @@ module.exports = {
   calculateELExOccurrencesUntilCurrentSemester,
   calculateCreditHoursBySemester,
   calculateCreditHoursByCourseType,
+  calculateTotalCreditHoursToGraduate,
   calculateTotalCreditHoursUntilCurrentSemester,
   calculateKokurikulumOccurrences,
 };
