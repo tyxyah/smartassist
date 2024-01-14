@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Header from "../components/Header";
 import Sidebar from "../components/SideBar";
 import Dropdown from "../components/Dropdown";
+import Tooltip from "@mui/material/Tooltip";
 import { Box, Stack } from "@mui/material";
 import LinearProgress from "../components/LinearProgress";
 import Table from "../components/Table";
@@ -66,7 +67,13 @@ function HistoryPage() {
             <Dropdown onSemesterChange={handleSemesterChange} />
           </div>
           <div>
-            <Button onClick={handleAllCompletedButton}>All Completed</Button>
+            {/* Add Tooltip to the Button */}
+            <Tooltip
+              title="Mark All as Completed for the Selected Semester"
+              arrow
+            >
+              <Button onClick={handleAllCompletedButton}>All Completed</Button>
+            </Tooltip>
           </div>
         </Stack>
 

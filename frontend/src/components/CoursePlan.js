@@ -256,7 +256,8 @@ export default function CoursePlan() {
         <Dialog open={openDialog} onClose={handleCloseDialog}>
         <DialogTitle>Confirm Semester Completion</DialogTitle>
         <DialogContent>
-          <p>Are you sure you want to mark the current semester as completed?</p>
+          <p>Are you sure you want to mark the this semester as completed?</p>
+          <em>Note: This action cannot be reversed</em>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog} color="primary">

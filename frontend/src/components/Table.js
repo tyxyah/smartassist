@@ -179,7 +179,7 @@ const handleAllCoursesCompleted = async () => {
             <TableRow>
               <StyledTableCell sx={{ columnWidth: 2 }}>No.</StyledTableCell>
               <StyledTableCell sx={{ columnWidth: 118.25, align: "left" }}>
-                Course Code
+                Code
               </StyledTableCell>
               <StyledTableCell sx={{ columnWidth: 475, align: "left" }}>
                 Course Name
