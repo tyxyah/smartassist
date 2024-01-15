@@ -61,7 +61,7 @@ const removeManyDocuments = require('./deleteDocument');
 const uri = 'mongodb+srv://207704:OARS123@smartassist.nujj0n2.mongodb.net';
 const dbName = 'study_scheme';
 const collectionName = '1_1Model';
-const userId = '659123034ab427468abea4a9';
+const userId = '65a2d4f5d065ade974291fc6';
 
 //Call the function to remove many documents for the specified user
 //removeManyDocuments(uri, dbName, collectionName, userId)

@@ -148,7 +148,7 @@ const filterELExUntilCurrentSemester = async (
         (courseCode.startsWith("LAX") ||
           courseCode.startsWith("CEL") ||
           courseCode.startsWith("LPE")) &&
-        courseSemester <= currentSemester
+        courseSemester < currentSemester
       );
     });
 
@@ -386,7 +386,7 @@ const calculateTotalCreditHoursUntilCurrentSemester = async (
     // Find user courses up until the current semester
     const userCourses = await StudySchemeModel.find({
       user_id,
-      semester_id: { $lte: currentSemester },
+      semester_id: { $lt: currentSemester },
     });
 
     // Initialize data structure to store credit hours information

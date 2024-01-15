@@ -19,7 +19,7 @@ function SuggestionPage() {
         sx={{ flexGrow: 1, bgcolor: "background.default", paddingLeft: 34 }}
       >
         <div className="suggestion-page">
-          <p style={{ fontSize: '18px' }} >Suggested Course</p>
+          <p style={{ fontSize: '18px' }} >Suggested Failed Course</p>
           <SuggestedCourse />
         </div>
         {/* Add spacing between components using margin */}

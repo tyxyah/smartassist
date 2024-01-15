@@ -5,7 +5,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
 export default function Dropdown({ onSemesterChange }) {
-  const [semester, setSemester] = React.useState('');
+  const [semester, setSemester] = React.useState(1);
 
   const handleChange = (event) => {
     const newSemester = event.target.value;

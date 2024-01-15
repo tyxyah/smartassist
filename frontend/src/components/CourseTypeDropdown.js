@@ -5,7 +5,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
 export default function Dropdown({ onCourseTypeChange }) {
-  const [course_type, setCourseType] = React.useState('');
+  const [course_type, setCourseType] = React.useState(1);
 
   const handleChange = (event) => {
     const newCourseType = event.target.value;
@@ -23,7 +23,7 @@ export default function Dropdown({ onCourseTypeChange }) {
         label="Select Course Type"
         onChange={handleChange}
       >
-        <MenuItem value={1}>Universiti Courses</MenuItem>
+        <MenuItem value={1}>University Courses</MenuItem>
         <MenuItem value={2}>Core Courses</MenuItem>
         <MenuItem value={3}>Elective</MenuItem>
         <MenuItem value={4}>Others</MenuItem>

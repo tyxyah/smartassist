@@ -13,12 +13,14 @@ import {
   DialogActions,
   Button,
 } from "@mui/material";
+import ShowFailedCoursesDialog from "../components/ShowFailedCoursesDialog";
 import { useAuthContext } from "../hooks/useAuthContext";
 
 const TotalCreditCard = () => {
   const [progressData, setProgressData] = useState({});
   const { user } = useAuthContext();
   const [isDialogOpen, setDialogOpen] = useState(false);
+  const [isFailedCoursesDialogOpen, setFailedCoursesDialogOpen] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,6 +56,14 @@ const TotalCreditCard = () => {
     setDialogOpen(false);
   };
 
+  const handleFailedCoursesDialogOpen = () => {
+    setFailedCoursesDialogOpen(true);
+  };
+
+  const handleFailedCoursesDialogClose = () => {
+    setFailedCoursesDialogOpen(false);
+  };
+
   return (
     <div>
       <Stack direction={"row"} alignItems="center" spacing={1.5} marginTop={2}>
@@ -67,7 +77,6 @@ const TotalCreditCard = () => {
           borderRadius: 3,
           boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)", // Subtle shadow
         }}
-        onClick={handleDialogOpen}
       >
         <CardContent>
           <Stack direction={"column"}>
@@ -84,6 +93,7 @@ const TotalCreditCard = () => {
                 alignItems="center"
                 spacing={1}
                 sx={{ minWidth: "60px" }}
+                onClick={handleDialogOpen}
               >
                 <Typography
                   sx={{
@@ -102,6 +112,7 @@ const TotalCreditCard = () => {
                 alignItems="center"
                 spacing={1}
                 sx={{ minWidth: "60px" }}
+                onClick={handleFailedCoursesDialogOpen}
               >
                 <Typography
                   sx={{
@@ -132,6 +143,11 @@ const TotalCreditCard = () => {
           </Stack>
         </CardContent>
       </Card>
+      {/* Include the ShowFailedCoursesDialog component */}
+      <ShowFailedCoursesDialog
+        open={isFailedCoursesDialogOpen}
+        handleClose={handleFailedCoursesDialogClose}
+      />
       <Dialog open={isDialogOpen} onClose={handleDialogClose}>
         <DialogTitle variant="body1">Description</DialogTitle>
         <Divider />

@@ -4,7 +4,6 @@ import Sidebar from "../components/SideBar";
 import LinearProgress from "../components/LinearProgress";
 import { Box, Stack, Grid } from "@mui/material";
 import { Link } from "react-router-dom";
-import WelcomeCard from "../components/WelcomeCard";
 import ElexCard from "../components/ElexCard";
 import DashboardCard from "../components/DashboardCard";
 import TotalCreditCard from "../components/TotalCreditCard";
@@ -70,7 +69,6 @@ const DashboardPage = () => {
     <Box>
       <Header />
       <LinearProgress />
-
       <Grid container spacing={1} paddingLeft={34} paddingBottom={10}>
         <Grid item xs={8.8}>
           <Box>
@@ -84,7 +82,6 @@ const DashboardPage = () => {
               paddingTop: 1,
             }}
           >
-            <WelcomeCard />
           </Box>
 
           <Box sx={{ flexGrow: 1, bgcolor: "background.default" }}>

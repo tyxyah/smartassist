@@ -39,6 +39,9 @@ const studentSchema = new Schema({
         type: Number,
         required: true
     },
+    profile_picture: {
+        type: String, // Use String to store the file path or Buffer for the image data
+    },
 })
 
 // Static signup method

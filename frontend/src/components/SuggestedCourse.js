@@ -94,7 +94,7 @@ const SuggestedCourses = () => {
             Authorization: `Bearer ${user.token}`,
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ semester_id: currentSemester + 1 }),
+          body: JSON.stringify({ semester_id: currentSemester }),
         }
       );
 

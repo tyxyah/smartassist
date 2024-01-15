@@ -62,7 +62,7 @@ export default function HistoryTable() {
               paddingRight={4}
             >
       <p style={{ fontSize: "18px" }}>Registration History</p>
-      <Link to="/AcademicProgress">See All</Link>
+      <Link to="/History">See All</Link>
       </Stack>
       <TableContainer component={Paper} sx={{ width: 515, borderRadius: 1 }}>
         <Table size="small" aria-label="a dense table">
