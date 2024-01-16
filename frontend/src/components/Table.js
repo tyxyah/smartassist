@@ -85,8 +85,7 @@ const CustomizedTables = forwardRef(({ selectedSemester }, ref) => {
     const newStatus = event.target.value;
     const updatedCourses = courses.map((course) => {
       if (course._id === courseId) {
-        // Update the status to boolean, not string
-        course.status = newStatus === "Completed" ? true : false;
+        course.status = newStatus === "Completed";
         fetch(`http://localhost:4000/api/study_scheme/${course._id}`, {
           method: "PATCH",
           headers: {
@@ -101,14 +100,14 @@ const CustomizedTables = forwardRef(({ selectedSemester }, ref) => {
             console.error("Failed to update status");
           }
         });
-
+  
         return course;
       }
       return course;
     });
-
+  
     setCourses(updatedCourses);
-  };
+  };  
 
   const filteredCourses = courses.filter(
     (course) => course.semester_id === selectedSemester

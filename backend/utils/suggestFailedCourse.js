@@ -29,5 +29,5 @@ const suggestFailedCourses = async (StudySchemeModel, user_id, currentSemester) 
 };
 
 module.exports = {
-  suggestFailedCourses
+  suggestFailedCourses,
 };
