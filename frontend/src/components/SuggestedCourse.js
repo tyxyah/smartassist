@@ -53,10 +53,42 @@ const SuggestedCourses = () => {
     setSelectedCourse(null);
   }, [user]);
 
-  const handleAddCourseClick = (course) => {
-    setSelectedCourse(course);
-    setDialogOpen(true);
-  };
+  const handleAddCourseClick = async (course) => {
+    try {
+      // Make a request to the backend to check prerequisites
+      const prerequisiteCheckResponse = await fetch(
+        'http://localhost:4000/api/study_scheme/check-prerequisites',
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ courseCode: course.course_code }),
+        }
+      );
+  
+      if (!prerequisiteCheckResponse.ok) {
+        throw new Error(`Failed to check prerequisites: ${prerequisiteCheckResponse.statusText}`);
+      }
+  
+      const prerequisiteCheckData = await prerequisiteCheckResponse.json();
+  
+      if (prerequisiteCheckData.prerequisitesCompleted) {
+        // Prerequisites are completed, allow user to add the course
+        setSelectedCourse(course);
+        setDialogOpen(true);
+      } else {
+        // Display an alert with a message when prerequisites are not completed
+        const errorMessage = `Cannot add course ${course.course_code}. Prerequisite not completed.`;
+        window.alert(errorMessage);
+        console.error(errorMessage);
+        // You can also update state to show an error message to the user in the UI
+      }
+    } catch (error) {
+      console.error('Error checking prerequisites:', error);
+    }
+  };  
 
   const handleDialogClose = () => {
     setDialogOpen(false);
@@ -125,7 +157,7 @@ const SuggestedCourses = () => {
       case "3":
         return { value: "EL", color: deepPurple[500] };
       default:
-        return { value: "", color: "grey" };
+        return { value: "O", color: "grey" };
     }
   };
 
@@ -155,89 +187,88 @@ const SuggestedCourses = () => {
 
             return (
               <div key={index} className="slick-slide">
-<Card
-  key={index}
-  style={{
-    width: "325px",
-    height: "105px",
-    margin: "2px 10px 10px 10px",
-    position: "relative",
-    display: "flex",
-    flexDirection: "column",
-  }}
->
-  <CardActions
-    sx={{
-      position: "absolute",
-      top: "50%",
-      right: 0,
-      transform: "translateY(-50%)",
-      "& button": {
-        minWidth: "auto",
-        minHeight: "auto",
-        "&:hover": {
-          backgroundColor: "transparent",
-        },
-      },
-    }}
-  >
-    <Button
-      style={{
-        minWidth: "auto",
-        minHeight: "auto",
-      }}
-      onClick={() => handleAddCourseClick(course)}
-    >
-      <AddCircleOutlineOutlinedIcon />
-    </Button>
-  </CardActions>
-  <CardContent
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center", // Center vertically
-      textAlign: "left", // Align content to the left horizontally
-    }}
-  >
-    <Box>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          flex: "1",
-          marginRight: "17px",
-        }}
-      >
-        <Avatar sx={{ bgcolor: avatarData.color }}>
-          {avatarData.value}
-        </Avatar>
-        <div style={{ flex: "1", marginLeft: "12px" }}>
-          <Typography
-            variant="h6"
-            style={{ fontSize: "1.1em" }}
-          >
-            {course.course_code}
-          </Typography>
-          <Typography
-            variant="body2"
-            style={{
-              whiteSpace: "normal",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              display: "-webkit-box",
-              WebkitLineClamp: 2,
-              WebkitBoxOrient: "vertical",
-            }}
-          >
-            {course.course_name}
-          </Typography>
-          {/* Add additional information here if needed */}
-        </div>
-      </div>
-    </Box>
-  </CardContent>
-</Card>
-
+                <Card
+                  key={index}
+                  style={{
+                    width: "325px",
+                    height: "105px",
+                    margin: "2px 10px 10px 10px",
+                    position: "relative",
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
+                  <CardActions
+                    sx={{
+                      position: "absolute",
+                      top: "50%",
+                      right: 0,
+                      transform: "translateY(-50%)",
+                      "& button": {
+                        minWidth: "auto",
+                        minHeight: "auto",
+                        "&:hover": {
+                          backgroundColor: "transparent",
+                        },
+                      },
+                    }}
+                  >
+                    <Button
+                      style={{
+                        minWidth: "auto",
+                        minHeight: "auto",
+                      }}
+                      onClick={() => handleAddCourseClick(course)}
+                    >
+                      <AddCircleOutlineOutlinedIcon />
+                    </Button>
+                  </CardActions>
+                  <CardContent
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center", // Center vertically
+                      textAlign: "left", // Align content to the left horizontally
+                    }}
+                  >
+                    <Box>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          flex: "1",
+                          marginRight: "17px",
+                        }}
+                      >
+                        <Avatar sx={{ bgcolor: avatarData.color }}>
+                          {avatarData.value}
+                        </Avatar>
+                        <div style={{ flex: "1", marginLeft: "12px" }}>
+                          <Typography
+                            variant="h6"
+                            style={{ fontSize: "1.1em" }}
+                          >
+                            {course.course_code}
+                          </Typography>
+                          <Typography
+                            variant="body2"
+                            style={{
+                              whiteSpace: "normal",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              display: "-webkit-box",
+                              WebkitLineClamp: 2,
+                              WebkitBoxOrient: "vertical",
+                            }}
+                          >
+                            {course.course_name}
+                          </Typography>
+                          {/* Add additional information here if needed */}
+                        </div>
+                      </div>
+                    </Box>
+                  </CardContent>
+                </Card>
               </div>
             );
           })}

@@ -6,7 +6,8 @@ const {
   deleteCourse,
   updateCourse,
   updateAllCoursesCompleted,
-  suggestFailedCourses
+  suggestFailedCourses,
+  checkPrerequisites,
 } = require('../controllers/studySchemeController');
 const requireAuth = require('../middleware/requireAuth');
 
@@ -26,5 +27,7 @@ router.patch('/:id', (req, res) => updateCourse(req, res));
 
 // Route for suggesting failed courses
 router.post('/suggest-failed-courses', (req,res) => suggestFailedCourses(req, res));
+
+router.post('/check-prerequisites', checkPrerequisites);
 
 module.exports = router;

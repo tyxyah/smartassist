@@ -13,7 +13,6 @@ import Stack from "@mui/material/Stack";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import TablePagination from "@mui/material/TablePagination";
-import { mapCourseType } from "../components/CourseUtils";
 import { useAuthContext } from "../hooks/useAuthContext";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -312,7 +311,7 @@ export default function CoursePlan() {
                 Credit
               </StyledTableCell>
               <StyledTableCell sx={{ columnWidth: 121.25, textAlign: "left" }}>
-                Course Type
+                Prerequisite
               </StyledTableCell>
               <StyledTableCell sx={{ columnWidth: 120.25, textAlign: "left" }}>
                 Status
@@ -339,7 +338,7 @@ export default function CoursePlan() {
                 </StyledTableCell>
                 <StyledTableCell>{course.credit_hours}</StyledTableCell>
                 <StyledTableCell>
-                  {mapCourseType(course.course_type)}
+                  {course.prerequisite}
                 </StyledTableCell>
                 <StyledTableCell>
                   <Stack direction="row">
