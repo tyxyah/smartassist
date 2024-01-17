@@ -1,5 +1,4 @@
 import React, {
-  useEffect,
   useState,
   useImperativeHandle,
   forwardRef,
@@ -51,35 +50,35 @@ const PaginationWrapper = styled("div")({
   transform: "translateX(-50%)",
 });
 
-const CustomizedTables = forwardRef(({ selectedSemester }, ref) => {
-  const [courses, setCourses] = useState([]);
+const CustomizedTables = forwardRef(({ selectedSemester,courses,setCourses}, ref) => {
+  // const [courses, setCourses] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(6);
   const { user } = useAuthContext();
 
-  useEffect(() => {
-    const fetchCourses = async () => {
-      try {
-        const response = await fetch("http://localhost:4000/api/study_scheme", {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        });
-        if (response.ok) {
-          const data = await response.json();
-          // Log the received data to inspect its structure
-          console.log("Received Data:", data.courses);
-          setCourses(data.courses);
-        } else {
-          console.error("Failed to fetch data");
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchCourses = async () => {
+  //     try {
+  //       const response = await fetch("http://localhost:4000/api/study_scheme", {
+  //         headers: {
+  //           Authorization: `Bearer ${user.token}`,
+  //         },
+  //       });
+  //       if (response.ok) {
+  //         const data = await response.json();
+  //         // Log the received data to inspect its structure
+  //         console.log("Received Data:", data.courses);
+  //         setCourses(data.courses);
+  //       } else {
+  //         console.error("Failed to fetch data");
+  //       }
+  //     } catch (error) {
+  //       console.error("Error:", error);
+  //     }
+  //   };
 
-    fetchCourses();
-  }, [user]);
+  //   fetchCourses();
+  // }, [user]);
 
   const handleStatusChange = (event, courseId) => {
     const newStatus = event.target.value;

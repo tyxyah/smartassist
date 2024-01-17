@@ -3,7 +3,6 @@ import { PieChart } from "@mui/x-charts/PieChart";
 import { styled } from "@mui/material/styles";
 import DoneIcon from "@mui/icons-material/Done";
 import { useDrawingArea } from "@mui/x-charts/hooks";
-import { useAuthContext } from "../hooks/useAuthContext";
 import PendingIcon from "@mui/icons-material/Pending";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -72,7 +71,7 @@ const calculateProgressData = (selectedSemester, courses) => {
   ];
 };
 
-const fetchData = async (userToken, setCourses) => {
+/* const fetchData = async (userToken, setCourses) => {
   try {
     const response = await fetch(
       "http://localhost:4000/api/study_scheme",
@@ -87,6 +86,7 @@ const fetchData = async (userToken, setCourses) => {
     if (response.ok) {
       const data = await response.json();
       setCourses(data.courses);
+      console.log("DataCOurses",data.courses)
     } else {
       console.error("Failed to fetch data");
       setCourses([]);
@@ -95,17 +95,19 @@ const fetchData = async (userToken, setCourses) => {
     console.error("Error:", error);
     setCourses([]);
   }
-};
+};*/
 
-const PieChartWithCenterLabel = ({ selectedSemester }) => {
+const PieChartWithCenterLabel = ({ selectedSemester, courses }) => {
   const [filteredData, setFilteredData] = useState([]);
   const [percentage, setPercentage] = useState(0);
-  const { user } = useAuthContext();
-  const [courses, setCourses] = useState([]);
+  
+  // const { user } = useAuthContext();
+  // const [courses, setCourses] = useState([]);
 
-  useEffect(() => {
-    fetchData(user.token, setCourses);
-  }, [selectedSemester, user.token]);
+  // useEffect(() => {
+  //   console.log("isChanged",isChanged)
+  //   fetchData(user.token, setCourses);
+  // }, [selectedSemester, user.token,isChanged]);
 
   useEffect(() => {
     const progressData = calculateProgressData(selectedSemester, courses);

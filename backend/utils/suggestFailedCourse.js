@@ -12,7 +12,7 @@ const suggestFailedCourses = async (StudySchemeModel, user_id, currentSemester) 
         status: false,
         semester_id: { $lt: currentSemester },
       },
-      { course_code: 1, course_name: 1, course_type: 1 } // Include the specified fields in the result
+      { course_code: 1, course_name: 1, course_type: 1, prerequisite: 1, } // Include the specified fields in the result
     )
     .sort({ semester_id: 1 }); // Sort the result in ascending order by semester_id
 

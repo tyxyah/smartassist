@@ -85,12 +85,12 @@ const calculateProgressData = (selectedCourseType, courses) => {
   return [
     {
       value: totalCreditHrsCompleted,
-      label: `${totalCreditHrsCompleted} Hours Completed`,
+      label: `${totalCreditHrsCompleted} Credit Completed`,
       icon: <DoneIcon />,
     },
     {
       value: remainingCreditHrs,
-      label: `${remainingCreditHrs} Hours Remaining`,
+      label: `${remainingCreditHrs} Credit Remaining`,
       icon: <PendingIcon />,
     },
   ];

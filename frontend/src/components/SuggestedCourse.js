@@ -15,7 +15,7 @@ import Alert from "@mui/material/Alert";
 import Slider from "react-slick";
 import Box from "@mui/material/Box";
 
-const SuggestedCourses = () => {
+const SuggestedCourses = ({currentSemesterCourses,renderKey,setRenderKey}) => {
   const [suggestedCourses, setSuggestedCourses] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -64,7 +64,7 @@ const SuggestedCourses = () => {
             Authorization: `Bearer ${user.token}`,
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ courseCode: course.course_code }),
+          body: JSON.stringify({ courseCode: course.course_code, coursePrerequisite: course.prerequisite }),
         }
       );
   
@@ -80,7 +80,7 @@ const SuggestedCourses = () => {
         setDialogOpen(true);
       } else {
         // Display an alert with a message when prerequisites are not completed
-        const errorMessage = `Cannot add course ${course.course_code}. Prerequisite not completed.`;
+        const errorMessage = `Cannot add course ${course.course_code}. Prerequisite ${course.prerequisite} is not completed.`;
         window.alert(errorMessage);
         console.error(errorMessage);
         // You can also update state to show an error message to the user in the UI
@@ -116,7 +116,7 @@ const SuggestedCourses = () => {
 
       const data = await currentSemesterResponse.json();
       const currentSemester = data.current_semester;
-
+        // const currentSemester = currentSemesterCourses;
       // Make a network request to update the course's semester_id
       const response = await fetch(
         `http://localhost:4000/api/study_scheme/${selectedCourse._id}`,
@@ -139,7 +139,7 @@ const SuggestedCourses = () => {
         (course) => course._id !== selectedCourse._id
       );
       setSuggestedCourses(updatedCourses);
-
+      setRenderKey((prev) => prev +1)
       // Close the dialog
       setDialogOpen(false);
     } catch (error) {

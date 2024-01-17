@@ -55,7 +55,7 @@ const PaginationWrapper = styled("div")({
   transform: "translateX(-50%)",
 });
 
-export default function CoursePlan() {
+export default function CoursePlan({currentSemesterCourses,renderKey,setRenderKey}) {
   const [courses, setCourses] = useState([]);
   const [currentSemester, setCurrentSemester] = useState(0);
   const [upcomingCourses, setUpcomingCourses] = useState([]);
@@ -66,55 +66,29 @@ export default function CoursePlan() {
   const [openDialog, setOpenDialog] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const courseResponse = await fetch(
-          "http://localhost:4000/api/study_scheme",
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${user.token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
+    console.log("currentsss",currentSemesterCourses)
+    if (currentSemesterCourses) {
+      setCourses(currentSemesterCourses.courses);
+      setCurrentSemester(currentSemesterCourses.current_semester);
+      console.log(currentSemesterCourses.courses, currentSemesterCourses.current_semester)
   
-        if (courseResponse.ok) {
-          const data = await courseResponse.json();
+      // Filter courses for the current semester
+      const filteredCourses = currentSemesterCourses.courses.filter(
+        (course) => course.semester_id === currentSemesterCourses.current_semester
+      );
+      setUpcomingCourses(filteredCourses);
   
-          if (Array.isArray(data.courses)) {
-            setCourses(data.courses);
-  
-            setCurrentSemester(data.current_semester);
-  
-            // Filter courses for the current semester
-            const currentSemesterCourses = data.courses.filter(
-              (course) => course.semester_id === data.current_semester
-            );
-            setUpcomingCourses(currentSemesterCourses);
-  
-            // Set the initial bulkStatus here based on some condition
-            // For example, if all courses are completed, set bulkStatus to "completed"
-            // Otherwise, set it to "failed"
-            const allCompleted = currentSemesterCourses.every(
-              (course) => course.status
-            );
-            setBulkStatus(allCompleted ? "completed" : "failed");
-          } else {
-            console.error(
-              "Invalid or missing 'courses' property in the received data"
-            );
-          }
-        } else {
-          console.error("Failed to fetch course data");
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    };
-  
-    fetchData();
-  }, [user]);
+      // Set the initial bulkStatus here based on some condition
+      // For example, if all courses are completed, set bulkStatus to "completed"
+      // Otherwise, set it to "failed"
+      const allCompleted = filteredCourses.every((course) => course.status);
+      setBulkStatus(allCompleted ? "completed" : "failed");
+    } else {
+      console.error(
+        "Invalid or missing 'courses' property in the received data"
+      );
+    }
+  }, [currentSemesterCourses]);  
   
   const handleStatusChange = (courseId, newStatus) => {
     const updatedCourses = courses.map((course) => {
