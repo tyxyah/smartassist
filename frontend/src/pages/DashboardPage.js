@@ -5,12 +5,12 @@ import LinearProgress from "../components/LinearProgress";
 import { Box, Stack, Grid } from "@mui/material";
 import { Link } from "react-router-dom";
 import ElexCard from "../components/ElexCard";
-import DashboardCard from "../components/DashboardCard";
 import TotalCreditCard from "../components/TotalCreditCard";
-import TotalELEx from "../components/TotalELEx";
 import TotalKokurikulum from "../components/TotalKokurikulum";
-import RegistrationHistory from "../components/RegistrationHistory";
 import { useAuthContext } from "../hooks/useAuthContext";
+import ProgressChart from "../components/ProgressChart";
+import WelcomeCard from "../components/WelcomeCard"
+import DashboardCard from "../components/DashboardCard";
 
 const DashboardPage = () => {
   const [progressData, setProgressData] = useState([]);
@@ -19,6 +19,9 @@ const DashboardPage = () => {
     LPE: {},
     CEL: {},
   });
+  const [completedElex, setCompletedElex] = useState({LAX: {},
+    LPE: {},
+    CEL: {},});
   const { user } = useAuthContext();
 
   useEffect(() => {
@@ -53,7 +56,10 @@ const DashboardPage = () => {
         if (responseElexPackage.ok) {
           const dataElexPackage = await responseElexPackage.json();
           console.log("Received ELEx Package Data:", dataElexPackage);
-          setElexPackageProgress(dataElexPackage.elex_package_progress);
+          setElexPackageProgress(
+            dataElexPackage.elex_package_progress_until_current_semester
+          );
+          setCompletedElex(dataElexPackage.elex_package_progress);
         } else {
           console.error("Failed to fetch ELEx package progress data");
         }
@@ -69,57 +75,41 @@ const DashboardPage = () => {
     <Box>
       <Header />
       <LinearProgress />
-      <Grid container spacing={1} paddingLeft={34} paddingBottom={10}>
-        <Grid item xs={8.8}>
+      <Grid
+        container
+        spacing={1}
+        paddingLeft={34}
+        paddingBottom={5}
+        paddingRight={3}
+      >
+        <Grid item xs={9}>
           <Box>
             <Sidebar />
           </Box>
-
           <Box
-            sx={{
-              flexGrow: 1,
-              bgcolor: "background.default",
-              paddingTop: 1,
-            }}
+            sx={{ flexGrow: 1, bgcolor: "background.default", paddingTop: 1 }}
           >
-          </Box>
-
-          <Box sx={{ flexGrow: 1, bgcolor: "background.default" }}>
-            <Stack direction={"row"}>
-              <Box
-                sx={{
-                  flexGrow: 1,
-                  bgcolor: "background.default",
-                }}
-              >
-                <TotalCreditCard />
-              </Box>
-              <Box
-                sx={{
-                  flexGrow: 1,
-                  bgcolor: "background.default",
-                  paddingLeft: 1,
-                }}
-              >
-                <TotalELEx />
-              </Box>
-              <Box
-                sx={{
-                  flexGrow: 1,
-                  bgcolor: "background.default",
-                  paddingLeft: 1,
-                }}
-              >
-                <TotalKokurikulum />
-              </Box>
-            </Stack>
-            <Stack
+            <WelcomeCard />
+            <Box
+              sx={{
+                flexGrow: 1,
+                bgcolor: "background.default",
+              }}
+            >
+              <ProgressChart />
+            </Box>
+             <Stack
               direction="row"
               justifyContent="space-between"
               alignItems="center"
               paddingRight={5}
+              marginTop={1}
             >
-              <p style={{ fontSize: "18px" }}>Academic Progress</p>
+              <p
+              style={{ fontFamily: "Arial", fontWeight: "bold", marginLeft: 5 }}
+            >
+              Courses Completed
+            </p>
               <Link to="/AcademicProgress">See All</Link>
             </Stack>
             <Stack direction="row" spacing={2}>
@@ -142,16 +132,34 @@ const DashboardPage = () => {
                 ))}
             </Stack>
           </Box>
-            <Box sx={{ flexGrow: 1, bgcolor: "background.default" }}>
-              <RegistrationHistory />
-            </Box>
         </Grid>
-        <Grid item xs={2.2}>
-          <p style={{ fontSize: "18px" }}>ELEx Packages</p>
-          <Stack direction="column" spacing={2}>
-            <ElexCard title="LAX" data={elexPackageProgress.LAX} />
-            <ElexCard title="LPE" data={elexPackageProgress.LPE} />
-            <ElexCard title="CEL" data={elexPackageProgress.CEL} />
+        <Grid item xs={3}>
+          <Stack direction="column" spacing={2} marginLeft={2} paddingTop={1}>
+            <Box
+              sx={{
+                flexGrow: 1,
+                bgcolor: "background.default",
+              }}
+            >
+              <TotalCreditCard />
+            </Box>
+            <Box
+              sx={{
+                flexGrow: 1,
+                bgcolor: "background.default",
+              }}
+            >
+              <TotalKokurikulum />
+            </Box>
+
+            <p
+              style={{ fontFamily: "Arial", fontWeight: "bold", marginLeft: 5 }}
+            >
+              ELEx Completed
+            </p>
+            <ElexCard title="LAX (Point)" data={elexPackageProgress.LAX} completedData={completedElex.LAX}/>
+            <ElexCard title="CEL (Subject)" data={elexPackageProgress.CEL} completedData={completedElex.CEL}/>
+            <ElexCard title="LPE (Subject)" data={elexPackageProgress.LPE} completedData={completedElex.LPE}/>
           </Stack>
         </Grid>
       </Grid>

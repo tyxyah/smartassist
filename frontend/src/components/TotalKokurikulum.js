@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
-import Alert from "@mui/material/Alert";
-import { Divider, Stack, LinearProgress } from "@mui/material";
+import { Box } from "@mui/material";
+import TrendingUp from "@mui/icons-material/TrendingUpRounded";
+import TrendingDown from "@mui/icons-material/TrendingDownRounded";
+import DoneIcon from "@mui/icons-material/DoneRounded";
 import { useAuthContext } from "../hooks/useAuthContext";
 
 const TotalKokurikulum = ({ showAlert = true }) => {
@@ -42,103 +41,79 @@ const TotalKokurikulum = ({ showAlert = true }) => {
 
   return (
     <div>
-      <Stack direction={"row"} alignItems="center" spacing={1.5} marginTop={2}>
-        <p style={{ fontSize: "18px" }}>Co-Curriculum</p>
-      </Stack>
-      <Card
-        className="dashboard-card"
-        style={{
-          width: "248px",
-          borderRadius: 3,
-          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)", // Subtle shadow
+      <Box
+        sx={{
+          bgcolor: "background.paper",
+          boxShadow: 1,
+          borderRadius: 2,
+          p: 2,
+          width: 175,
+          minHeight: 100,
         }}
       >
-        <CardContent>
-          <Stack direction={"column"}>
-            <Stack
-              direction="row"
-              spacing={2}
-              paddingLeft={2.5}
-              alignItems="center"
-              marginTop="10px"
-              marginY={2}
-            >
-              <Stack
-                direction="column"
-                alignItems="center"
-                spacing={1}
-                sx={{ minWidth: "60px" }}
-              >
-                <Typography
-                  sx={{
-                    fontSize: 15,
-                    fontWeight: 500,
-                    color: "text.secondary",
-                  }}
-                >
-                  Required
-                </Typography>
-                <Typography>
-                  {totalProgressUntilCurrentSemester.required || 0}
-                </Typography>
-              </Stack>
-              <Divider orientation="vertical" variant="middle" flexItem />
-              <Stack
-                direction="column"
-                alignItems="center"
-                spacing={1}
-                sx={{ minWidth: "60px" }}
-              >
-                <Typography
-                  sx={{
-                    fontSize: 15,
-                    fontWeight: 500,
-                    color: "text.secondary",
-                  }}
-                >
-                  Completed
-                </Typography>
-                <Typography>
-                  {totalProgressUntilCurrentSemester.completed || 0}
-                </Typography>
-              </Stack>
-            </Stack>
-            <LinearProgress
-              variant="determinate"
-              value={parseFloat(totalProgressUntilCurrentSemester.progress) || 0}
-              color={
-                totalProgressUntilCurrentSemester.progress >= 66
-                  ? "success"
-                  : totalProgressUntilCurrentSemester.progress >= 33
-                  ? "warning"
-                  : "error"
-              }
-              sx={{
-                height: 4,
-              }}
-            />
-          </Stack>
-        </CardContent>
-      </Card>
-      <div style={{ paddingTop: 2 }}>
-      {showAlert && totalProgressUntilCurrentSemester.progress !== undefined && (
-        <Alert
-          severity={
-            totalProgressUntilCurrentSemester.progress >= 66
-              ? "success"
-              : totalProgressUntilCurrentSemester.progress >= 33
-              ? "warning"
-              : "error"
-          }
-          sx={{ width: "218px", marginTop: 2 }}
+        <Box sx={{ color: "text.secondary", marginBottom: 1 }}>
+          Co-curricular
+        </Box>
+        <Box
+          sx={{
+            color: "text.primary",
+            fontSize: 34,
+            fontWeight: "medium",
+            marginLeft: 1,
+          }}
         >
-          Progress:{" "}
-          <strong>
-            {totalProgressUntilCurrentSemester.progress}% On track
-          </strong>
-        </Alert>
-        )}
-      </div>
+          {totalProgressUntilCurrentSemester.completed || 0}
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "flex-end",
+            color:
+              totalProgressUntilCurrentSemester.completed -
+                totalProgressUntilCurrentSemester.required ===
+              0
+                ? "#009688" // color for complete status
+                : totalProgressUntilCurrentSemester.completed -
+                    totalProgressUntilCurrentSemester.required <
+                  0
+                ? "#ff1744" // color for negative status
+                : "#009688", // color for positive status
+            fontSize: 14,
+            fontWeight: "bold",
+            alignItems: "center",
+          }}
+        >
+          {totalProgressUntilCurrentSemester.completed -
+            totalProgressUntilCurrentSemester.required <
+          0 ? (
+            <TrendingDown sx={{ marginRight: 0.5, display: "inline" }} />
+          ) : totalProgressUntilCurrentSemester.completed -
+              totalProgressUntilCurrentSemester.required >
+            0 ? (
+            <TrendingUp sx={{ marginRight: 0.5, display: "inline" }} />
+          ) : (
+            <DoneIcon sx={{ marginRight: 0.5, display: "inline" }} />
+          )}
+          {totalProgressUntilCurrentSemester.completed -
+            totalProgressUntilCurrentSemester.required !==
+          0 ? (
+            <>
+              {totalProgressUntilCurrentSemester.completed -
+                totalProgressUntilCurrentSemester.required <
+              0
+                ? "-"
+                : "+"}
+              {Math.abs(
+                totalProgressUntilCurrentSemester.completed -
+                  totalProgressUntilCurrentSemester.required
+              )}{" "}
+              Subject
+            </>
+          ) : (
+            <>Complete</>
+          )}
+        </Box>
+      </Box>
     </div>
   );
 };

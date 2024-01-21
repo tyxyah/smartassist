@@ -8,7 +8,7 @@ async function importStudySchemeCsvToDB(csvFilePath, user_id, start_session, mue
     try {
         // Determine the model based on start_session and muet
         const modelName = `StudyScheme${start_session}${muet}`;
-        console.log(modelName)
+        console.log(modelName);
         
         // Check if the model exists in Mongoose
         const StudySchemeModel = studySchemeModels[modelName];
@@ -32,9 +32,12 @@ async function importStudySchemeCsvToDB(csvFilePath, user_id, start_session, mue
         const filteredRows = jsonArrayWithUserId.filter(row => userCourseCodes.includes(row.course_code));
 
         // Insert the filtered JSON data into the MongoDB collection
-        await StudySchemeModel.insertMany(filteredRows, { validate: false });
+        const insertedData = await StudySchemeModel.insertMany(filteredRows, { validate: false });
 
         console.log('Study scheme import completed.');
+
+        // Return the inserted data
+        return insertedData;
     } catch (error) {
         console.error('Error during study scheme CSV import:', error);
         throw error; // Propagate the error to handle it appropriately in your application

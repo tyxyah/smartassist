@@ -60,8 +60,8 @@ const removeManyDocuments = require('./deleteDocument');
 // Replace with your MongoDB Atlas details
 const uri = 'mongodb+srv://207704:OARS123@smartassist.nujj0n2.mongodb.net';
 const dbName = 'study_scheme';
-const collectionName = '1_1Model';
-const userId = '65a2d4f5d065ade974291fc6';
+const collectionName = '1_2Model';
+//const userId = '65acc7613a3d03bd88a459b2';
 
 //Call the function to remove many documents for the specified user
 //removeManyDocuments(uri, dbName, collectionName, userId)

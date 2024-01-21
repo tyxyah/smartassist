@@ -1,12 +1,15 @@
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import CircularWithValueLabel from "./CircularLabel";
-import { Stack, Divider } from "@mui/material";
+import { PieChart } from '@mui/x-charts/PieChart';
+import { useDrawingArea } from "@mui/x-charts/hooks";
+import { styled } from "@mui/material/styles";
 import { red, teal, deepPurple, grey } from "@mui/material/colors";
 
 const DashboardCard = ({ title, courseType }) => {
   const { progress, required, completed } = courseType;
+  const formattedProgress = Math.round(progress); // Format progress to one decimal place
+
   let color;
   let remainingColor;
   switch (title) {
@@ -27,13 +30,38 @@ const DashboardCard = ({ title, courseType }) => {
       remainingColor = grey[100];
   }
 
+  const data = [
+    { value: completed, label: " Credit Completed", color: color },
+    { value: required - completed, label: "Credit Remaining", color: remainingColor  },
+  ];
+  
+  const size = {
+    width: 310,
+    height: 150,
+  };
+
+  const StyledText = styled("text")(({ theme }) => ({
+    fill: theme.palette.text.primary,
+    textAnchor: "middle",
+    dominantBaseline: "central",
+    fontSize: 16,
+  }));
+
+  function PieCenterLabel({ children }) {
+    const { width, height, left, top } = useDrawingArea();
+    return (
+      <StyledText x={left + width / 2} y={top + height / 2}>
+        {children}
+      </StyledText>
+    );
+  }
+
   return (
     <Card
       className="dashboard-card"
       style={{
-        minWidth: "248px",
-        height: "255px", // Increased height to accommodate circular progress
-        borderRadius: 3,
+        minWidth: "248px",// Increased height to accommodate circular progress
+        borderRadius: 10,
         boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)", // Subtle shadow
       }}
     >
@@ -41,57 +69,15 @@ const DashboardCard = ({ title, courseType }) => {
         <Typography
           variant="body"
           component="div"
-          sx={{ fontWeight: 500, marginBottom: "10px", textAlign: "left" }}
+          sx={{ fontFamily: 'Arial', fontWeight: "bold", marginBottom: "20px", textAlign: "left" }}
         >
           {title}
         </Typography>
-        <CircularWithValueLabel value={progress} color={color} remainingColor={remainingColor}/>
-        <Stack direction={"column"}>
-          <Stack
-            direction="row"
-            spacing={2}
-            paddingLeft={3}
-            alignItems="center"
-            marginTop="10px"
-            marginY={2}
-          >
-            <Stack
-              direction="column"
-              alignItems="center"
-              spacing={1}
-              sx={{ minWidth: "60px" }}
-            >
-              <Typography
-                sx={{
-                  fontSize: 15,
-                  fontWeight: 500,
-                  color: "text.secondary",
-                }}
-              >
-                Required
-              </Typography>
-              <Typography>{required}</Typography>
-            </Stack>
-            <Divider orientation="vertical" variant="middle" flexItem />
-            <Stack
-              direction="column"
-              alignItems="center"
-              spacing={1}
-              sx={{ minWidth: "60px" }}
-            >
-              <Typography
-                sx={{
-                  fontSize: 15,
-                  fontWeight: 500,
-                  color: "text.secondary",
-                }}
-              >
-                Completed
-              </Typography>
-              <Typography>{completed}</Typography>
-            </Stack>
-          </Stack>
-        </Stack>
+      <PieChart series={[{ data, innerRadius: 60, outerRadius: 73 }]} {...size} slotProps={{
+    legend: { hidden: true },
+  }}>
+      <PieCenterLabel >{formattedProgress}%</PieCenterLabel>
+    </PieChart>
       </CardContent>
     </Card>
   );

@@ -4,6 +4,7 @@ import HistoryPage from "./pages/HistoryPage";
 import ProgressPage from "./pages/AcademicProgressPage";
 import DashboardPage from "./pages/DashboardPage";
 import LoginPage from "./pages/LoginPage";
+import FAQPage from "./pages/FAQPage"
 import SignupPage from "./pages/SignupPage";
 import { useAuthContext } from "./hooks/useAuthContext";
 
@@ -19,6 +20,7 @@ function App() {
           <Route path="/Dashboard" element={user? <DashboardPage /> : <Navigate to="/"/>} />
           <Route path="/Suggestion" element={user? <SuggestionPage /> : <Navigate to="/"/>} />
           <Route path="/History" element={user? <HistoryPage /> : <Navigate to="/"/>} />
+          <Route path="/FAQ" element={user? <FAQPage /> : <Navigate to="/"/>} />
         </Routes>
       </BrowserRouter>
   );

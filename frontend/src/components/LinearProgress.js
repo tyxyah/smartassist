@@ -5,13 +5,10 @@ import Box from '@mui/material/Box';
 import { useAuthContext } from '../hooks/useAuthContext';
 
 function LinearProgressWithLabel({ progress }) {
-  const getColor = () => {
-    return progress >= 66 ? 'success' : progress >= 33 ? 'warning' : 'error';
-  };
 
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', paddingLeft: 34 }}>
-      <Box sx={{ width: '90%', mr: 1 }}>
+      <Box sx={{ width: '93%', mr: 1 }}>
         <LinearProgress
           variant="determinate"
           value={progress}
@@ -19,14 +16,14 @@ function LinearProgressWithLabel({ progress }) {
             height: '4px',
             borderRadius: '8px',
           }}
-          color={getColor()}
+          color={"primary"}
         />
       </Box>
       <Box sx={{ minWidth: 35 }}>
         <Typography
           variant="body2"
           color="text.secondary"
-          style={{ color: getColor() }}
+          style={{ color: "primary" }}
         >{`${progress.toFixed(2)}%`}</Typography>
       </Box>
     </Box>

@@ -2,6 +2,7 @@ import React, {
   useState,
   useImperativeHandle,
   forwardRef,
+  useEffect,
 } from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
@@ -50,36 +51,43 @@ const PaginationWrapper = styled("div")({
   transform: "translateX(-50%)",
 });
 
-const CustomizedTables = forwardRef(({ selectedSemester,courses,setCourses}, ref) => {
-  // const [courses, setCourses] = useState([]);
+const CustomizedTables = forwardRef(({ selectedSemester,courses,setCourses,fetchCourses}, ref) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(6);
+  const [prerequisiteData, setPrerequisiteData] = useState([]);
   const { user } = useAuthContext();
 
-  // useEffect(() => {
-  //   const fetchCourses = async () => {
-  //     try {
-  //       const response = await fetch("http://localhost:4000/api/study_scheme", {
-  //         headers: {
-  //           Authorization: `Bearer ${user.token}`,
-  //         },
-  //       });
-  //       if (response.ok) {
-  //         const data = await response.json();
-  //         // Log the received data to inspect its structure
-  //         console.log("Received Data:", data.courses);
-  //         setCourses(data.courses);
-  //       } else {
-  //         console.error("Failed to fetch data");
-  //       }
-  //     } catch (error) {
-  //       console.error("Error:", error);
-  //     }
-  //   };
+  useEffect(() => {
+    // Fetch prerequisite data from the API
+    const fetchPrerequisiteData = async () => {
+      try {
+        const response = await fetch("http://localhost:4000/api/study_scheme");
+        if (response.ok) {
+          const data = await response.json();
+          setPrerequisiteData(data);
+        } else {
+          console.error("Failed to fetch prerequisite data");
+        }
+      } catch (error) {
+        console.error("Error fetching prerequisite data:", error);
+      }
+    };
 
-  //   fetchCourses();
-  // }, [user]);
+    fetchPrerequisiteData();
+  }, []); // Run once when the component mounts
 
+  // Function to check if a course's prerequisite is completed
+  const isPrerequisiteCompleted = (courseId) => {
+    const course = courses.find((c) => c._id === courseId);
+    if (!course || !course.prerequisite) {
+      return true; // If no prerequisite or course not found, consider it completed
+    }
+
+    // Check if the prerequisite course is marked as completed
+    const prerequisiteCourse = prerequisiteData.find((c) => c._id === course.prerequisite);
+    return prerequisiteCourse && prerequisiteCourse.status === "Completed";
+  };
+  
   const handleStatusChange = (event, courseId) => {
     const newStatus = event.target.value;
     const updatedCourses = courses.map((course) => {
@@ -104,9 +112,10 @@ const CustomizedTables = forwardRef(({ selectedSemester,courses,setCourses}, ref
       }
       return course;
     });
-  
+    
     setCourses(updatedCourses);
-  };  
+    fetchCourses();
+  }; 
 
   const filteredCourses = courses.filter(
     (course) => course.semester_id === selectedSemester
@@ -124,13 +133,9 @@ const CustomizedTables = forwardRef(({ selectedSemester,courses,setCourses}, ref
 // Function to handle completion of all courses for a specific semester
 const handleAllCoursesCompleted = async () => {
   try {
-    const updatedCourses = filteredCourses.map((course) => ({
-      ...course,
-      status: "Completed",
-    }));
-
-    await Promise.all(
-      updatedCourses.map(async (course) => {
+    const updatedCourses = await Promise.all(
+      filteredCourses.map(async (course) => {
+        // Update the course status on the server
         await fetch(`http://localhost:4000/api/study_scheme/update-all`, {
           method: "PATCH",
           headers: {
@@ -139,25 +144,18 @@ const handleAllCoursesCompleted = async () => {
           },
           body: JSON.stringify({
             courseId: course._id,
-            status: course.status,
+            status: "Completed",
             semesterId: selectedSemester,
           }),
         });
+
+        // Return the updated course directly or the original course if not found
+        return filteredCourses.find((c) => c._id === course._id) || course;
       })
     );
 
     // Update the local state with the new course statuses
-    setCourses((prevCourses) => {
-      // Merge the updated courses with the previous courses
-      const mergedCourses = prevCourses.map((prevCourse) => {
-        const updatedCourse = updatedCourses.find(
-          (updatedCourse) => updatedCourse._id === prevCourse._id
-        );
-        return updatedCourse || prevCourse;
-      });
-
-      return mergedCourses;
-    });
+    setCourses(updatedCourses);
   } catch (error) {
     console.error("Error marking all courses as completed:", error);
   }
@@ -190,6 +188,11 @@ const handleAllCoursesCompleted = async () => {
               <StyledTableCell
                 sx={{ columnWidth: 118.25, textAlign: "center" }}
               >
+                Prerequisite
+              </StyledTableCell>
+              <StyledTableCell
+                sx={{ columnWidth: 118.25, textAlign: "center" }}
+              >
                 Status
               </StyledTableCell>
             </TableRow>
@@ -212,6 +215,9 @@ const handleAllCoursesCompleted = async () => {
                     {course.credit_hours}
                   </StyledTableCell>
                   <StyledTableCell align="center">
+                    {course.prerequisite}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
                     <Select
                       value={course.status ? "Completed" : "Failed"}
                       onChange={(event) =>
@@ -219,6 +225,7 @@ const handleAllCoursesCompleted = async () => {
                       }
                       sx={{ width: 125, align: "center" }}
                       size="small"
+                      //disabled={!isPrerequisiteCompleted(course._id)}
                     >
                       <MenuItem value="Completed">Completed</MenuItem>
                       <MenuItem value="Failed">Failed</MenuItem>

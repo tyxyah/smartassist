@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Sidebar from "../components/SideBar";
 import Dropdown from "../components/Dropdown";
@@ -18,6 +18,27 @@ function HistoryPage() {
   const [openDialog, setOpenDialog] = useState(false);
   const { user } = useAuthContext();
   const [courses, setCourses] = useState([]);
+
+  const fetchCourses = async () => {
+    try {
+      const response = await fetch("http://localhost:4000/api/study_scheme", {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        // Log the received data to inspect its structure
+        console.log("Received Data:", data.courses);
+        setCourses(data.courses);
+      } else {
+        console.error("Failed to fetch data");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
 
   // || LOAD COURSES
   useEffect(() => {
@@ -100,7 +121,13 @@ function HistoryPage() {
 
         <Box sx={{ paddingTop: 1 }}>
           {/* Pass the ref to the CustomizedTables component */}
-          <Table ref={tableRef} selectedSemester={selectedSemester} courses={courses} setCourses={setCourses} />
+          <Table
+            ref={tableRef}
+            selectedSemester={selectedSemester}
+            courses={courses}
+            setCourses={setCourses}
+            fetchCourses={fetchCourses}
+          />
         </Box>
         <Box sx={{ paddingLeft: 84 }}>
           <div
@@ -112,7 +139,10 @@ function HistoryPage() {
             }}
           >
             {/* Pass the selectedSemester to HistoryPieChart */}
-            <HistoryPieChart selectedSemester={selectedSemester} courses={courses} />
+            <HistoryPieChart
+              selectedSemester={selectedSemester}
+              courses={courses}
+            />
           </div>
         </Box>
         {/* Confirmation Dialog */}

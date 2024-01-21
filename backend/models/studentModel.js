@@ -4,6 +4,7 @@ const validator = require('validator')
 const path = require('path');
 const { connectToUserDatabase } = require('../db');
 const { importStudySchemeCsvToDB } = require('../importCsvFilesToDB');
+const { updateCourseStatusAfterImport } = require('../utils/updateCourseStatusAfterImport')
 
 const Schema = mongoose.Schema
 
@@ -84,8 +85,12 @@ studentSchema.statics.signup = async function (
         console.log(csvFilePath);
 
         // Call the import function with the provided parameters
-        await importStudySchemeCsvToDB(csvFilePath, user._id, start_session, muet, student_type);
+        const insertedData = await importStudySchemeCsvToDB(csvFilePath, user._id, start_session, muet, student_type);
 
+        // Update the course status for the inserted data
+        await updateCourseStatusAfterImport(insertedData, current_semester);
+
+        console.log(insertedData)
         // Log the success message
         console.log('Study scheme import completed for the user with ID:', user._id, 'student type', student_type);
 

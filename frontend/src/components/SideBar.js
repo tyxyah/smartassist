@@ -11,6 +11,7 @@ import ShowChartOutlinedIcon from "@mui/icons-material/ShowChartOutlined";
 import EditCalendarOutlinedIcon from "@mui/icons-material/EditCalendarOutlined";
 import HistoryOutlinedIcon from "@mui/icons-material/HistoryOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
+import FAQIcon from '@mui/icons-material/QuizRounded';
 //import ProfilePicture from './ProfilePicture';
 import { Link, useLocation } from "react-router-dom";
 import { useLogout } from "../hooks/useLogout";
@@ -33,6 +34,7 @@ export default function PermanentDrawerLeft() {
       link: "AcademicProgress",
     },
     { text: "History", icon: <HistoryOutlinedIcon />, link: "History" },
+    {text: "FAQ", icon: <FAQIcon />, link: "FAQ"},
   ];
 
   const logoutItem = { text: "Logout", icon: <LogoutOutlinedIcon />, link: "" };

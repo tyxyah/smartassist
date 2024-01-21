@@ -120,11 +120,19 @@ const getCreditHoursByType = async (req, res) => {
         user_id
       );
 
+      // Use the new function to calculate credit hours by type and semester
+    const creditHoursByTypeAndSemester =
+    await dashboardUtils.calculateCreditHoursByCourseTypeAndSemester(
+      StudySchemeModel,
+      user_id
+    );
+
     console.log(
       `getCreditHoursByType - Model: ${modelName}, User ID: ${user_id}`
     );
     res.status(200).json({
       credit_hours_by_type: creditHoursByType,
+      credit_hours_by_type_and_semester: creditHoursByTypeAndSemester,
     });
   } catch (error) {
     console.error("Error fetching credit hours by type:", error);
@@ -158,11 +166,19 @@ const getCreditHoursBySemester = async (req, res) => {
         user_id
       );
 
+    // Use the new function to calculate credit hours by type and semester
+    const creditHoursByTypeAndSemester =
+    await dashboardUtils.calculateCreditHoursByCourseTypeAndSemester(
+      StudySchemeModel,
+      user_id
+    );
+
     console.log(
       `getCreditHoursBySemester - Model: ${modelName}, User ID: ${user_id}`
     );
     res.status(200).json({
       credit_hours_by_semester: creditHoursBySemester,
+      credit_hours_by_type_and_semester: creditHoursByTypeAndSemester,
     });
   } catch (error) {
     console.error("Error fetching credit hours by semester:", error);

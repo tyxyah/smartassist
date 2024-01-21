@@ -1,50 +1,50 @@
 semester_id,course_code,course_name,credit_hours,prerequisite,course_type,status
-1,SSK3100,Pengaturcaraan Komputer I / Computer Programming I,4,,Core
-1,SSK3003,Struktur Diskret / Discrete Structures,3,,Core
-1,SKP2101*,Kenegaraan Malaysia / Malaysian Nationhood,3,,University
-1,FEM2401**,Politik Malaysia dan Masyarakat,2,,University
-1,SKP3112*,Falsafah dan Isu Semasa / Philosophy and Current Issues,2,,University
+1,SSK3100,Pengaturcaraan Komputer I / Computer Programming I,4,,2,false 
+1,SSK3003,Struktur Diskret / Discrete Structures,3,,2,false 
+1,SKP2101*,Kenegaraan Malaysia / Malaysian Nationhood,3,,1,false 
+1,FEM2401**,Politik Malaysia dan Masyarakat,2,,1,false 
+1,SKP3112*,Falsafah dan Isu Semasa / Philosophy and Current Issues,2,,1,false 
 1,"SKP3113** ,  SKP3123**","Falsafah dan Isu Semasa Masyarakat Sivil / Philosophy and Current Issues in Civil Society , Penghayatan Etika dan Peradaban di Malaysia / Internalization of Ethics and Civilization in Malaysia
-",3,,University
-1,PRT2009,Pertanian dan Kehidupan / Agriculture and Life,2,,University
-1,,Ko-kurikulum/ Co-curriculum,;1,,
-1,LAX,,#6,,
-2,SSK3101,Pengaturcaraan Komputer II / Computer Programming II,4,SSK3100,Core
-2,SSK3207,Organisasi Komputer dan Bahasa Himpunan / Computer Organization and Assembly Language,3,SSK3100,Core
-2,SSE3301,Kejuruteraan Keperluan Perisian / Software Requirements Engineering,3,SSK3100,Core
-2,SIM3251,Statistik bagi Sains Komputer / Statistics for Computer Science,3,,Core
-2,SKP3122*,Penghayatan Etika dan Peradaban / Internalization of Ethics and Civilization,2,,University
-2,LPM2100**,Bahasa Melayu Komunikasi,2,,University
-2,CEL2103,Writing Academic Texts,0,,University
-2,,Ko-kurikulum/ Co-curriculum,;1,,
-3,SSK3118,Struktur Data dan Algoritma / Data Structures and Algorithms,3,SSK3101,Core
-3,SSK3408,Pembangunan Aplikasi Pangkalan Data / Database Application Development,4,SSK3101,Core
-3,SSE3304,Reka Bentuk Perisian/ Software Design,3,"SSE3301 , SSE3001",Core
-3,SKR3200,Komunikasi dan Rangkaian Komputer / Computer Network and Communication,3,,Core
-3,LPE2502,Kemahiran Penulisan Kreatif / Creative Writing Skills,3,,University
-4,SSK3313,Sistem Pengoperasian / Operating System,3,SSK3207,Core
-4,SSE3305,Pengujian Perisian / Software Testing,3,SSE3304,Core
-4,SSE3307,Antara Muka Pengguna dan Pengalaman Pengguna / User Interface and User Experience,3,"SSE3304 , SSE3001",Core
-4,SSE4350,Seni Bina Perisian / Software Architecture,3,SSE3304,Core
-4,EL,Elektif / Electives,3,,Elective
-4,EL,Elektif / Electives,3,,Elective
-4,LAX,,#6,,
-5,SSE4306,Kualiti Perisian / Software Quality,3,SSE3305,Core
-5,SSE4300,Pengurusan Projek Perisian / Software Project Management,3,"SSE3301 , SSE3001",Core
-5,SSE4351,Penyelenggaraan dan Evolusi Perisian / Software Maintenance And Evolution,3,SSE3301,Core
-5,EL,Elektif / Electives,3,,Elective
-5,EL,Elektif / Electives,3,,Elective
-5,LPE2402 / Bahasa Global,,3,,University
-6,SIM4208,Perdagangan Elektronik/ Electronic Commerce,3,SSE3150,Core
-6,SSE4356,Pembangunan Perisian Selamat / Secure Software Development,3,SSK3313,Core
-6,SSE4301,Projek Kejuruteraan Perisian Berpasukan / Software Engineering Team Project,3,SSE4300,Core
-6,SSE4949A,Projek Bacelor / Bachelor Project,2,,Project
-6,EL,Elektif / Electives,3,,Elective
-6,EL,Elektif / Electives,3,,Elective
-6,LAX,,#6,,
-7,SSE4949B,Projek Bacelor / Bachelor Project,4,,Project
-7,SIM4207,Etika dalam Pengkomputeran / Ethics in Computing,3,SSK3100,Core
-7,EL,Elektif / Electives,3,,Elective
-7,EL,Elektif / Electives,3,,Elective
-7,LAX,,#6,,
-8,SSE4901,Latihan Industri / Industrial Training,12,SSE4300,Project
+",3,,1,false 
+1,PRT2009,Pertanian dan Kehidupan / Agriculture and Life,2,,1,false 
+1,,Ko-kurikulum/ Co-curriculum,;1,,4,false 
+1,LAX,,#6,,4,false 
+2,SSK3101,Pengaturcaraan Komputer II / Computer Programming II,4,SSK3100,2,false 
+2,SSK3207,Organisasi Komputer dan Bahasa Himpunan / Computer Organization and Assembly Language,3,SSK3100,2,false 
+2,SSE3301,Kejuruteraan Keperluan Perisian / Software Requirements Engineering,3,SSK3100,2,false 
+2,SIM3251,Statistik bagi Sains Komputer / Statistics for Computer Science,3,,2,false 
+2,SKP3122*,Penghayatan Etika dan Peradaban / Internalization of Ethics and Civilization,2,,1,false 
+2,LPM2100**,Bahasa Melayu Komunikasi,2,,1,false 
+2,CEL2103,Writing Academic Texts,0,,1,false 
+2,,Ko-kurikulum/ Co-curriculum,;1,,4,false 
+3,SSK3118,Struktur Data dan Algoritma / Data Structures and Algorithms,3,SSK3101,2,false 
+3,SSK3408,Pembangunan Aplikasi Pangkalan Data / Database Application Development,4,SSK3101,2,false 
+3,SSE3304,Reka Bentuk Perisian/ Software Design,3,"SSE3301 , SSE3001",2,false 
+3,SKR3200,Komunikasi dan Rangkaian Komputer / Computer Network and Communication,3,,2,false 
+3,LPE2502,Kemahiran Penulisan Kreatif / Creative Writing Skills,3,,1,false 
+4,SSK3313,Sistem Pengoperasian / Operating System,3,SSK3207,2,false 
+4,SSE3305,Pengujian Perisian / Software Testing,3,SSE3304,2,false 
+4,SSE3307,Antara Muka Pengguna dan Pengalaman Pengguna / User Interface and User Experience,3,"SSE3304 , SSE3001",2,false 
+4,SSE4350,Seni Bina Perisian / Software Architecture,3,SSE3304,2,false 
+4,EL,Elektif / Electives,3,,3,false 
+4,EL,Elektif / Electives,3,,3,false 
+4,LAX,,#6,,4,false 
+5,SSE4306,Kualiti Perisian / Software Quality,3,SSE3305,2,false 
+5,SSE4300,Pengurusan Projek Perisian / Software Project Management,3,"SSE3301 , SSE3001",2,false 
+5,SSE4351,Penyelenggaraan dan Evolusi Perisian / Software Maintenance And Evolution,3,SSE3301,2,false 
+5,EL,Elektif / Electives,3,,3,false 
+5,EL,Elektif / Electives,3,,3,false 
+5,LPE2402 / Bahasa Global,,3,,1,false 
+6,SIM4208,Perdagangan Elektronik/ Electronic Commerce,3,SSE3150,2,false 
+6,SSE4356,Pembangunan Perisian Selamat / Secure Software Development,3,SSK3313,2,false 
+6,SSE4301,Projek Kejuruteraan Perisian Berpasukan / Software Engineering Team Project,3,SSE4300,2,false 
+6,SSE4949A,Projek Bacelor / Bachelor Project,2,,3,false 
+6,EL,Elektif / Electives,3,,3,false 
+6,EL,Elektif / Electives,3,,3,false 
+6,LAX,,#6,,4,false 
+7,SSE4949B,Projek Bacelor / Bachelor Project,4,,3,false 
+7,SIM4207,Etika dalam Pengkomputeran / Ethics in Computing,3,SSK3100,2,false 
+7,EL,Elektif / Electives,3,,3,false 
+7,EL,Elektif / Electives,3,,3,false 
+7,LAX,,#6,,4,false 
+8,SSE4901,Latihan Industri / Industrial Training,12,SSE4300,3,false 

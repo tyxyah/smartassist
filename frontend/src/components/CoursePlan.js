@@ -155,7 +155,7 @@ export default function CoursePlan({currentSemesterCourses,renderKey,setRenderKe
     }
   };  
 
-  const handleToggleBulkStatus = async () => {
+  {/* const handleToggleBulkStatus = async () => {
     try {
       const newBulkStatus = bulkStatus === "completed" ? "failed" : "completed";
       console.log(`Bulk Status: ${newBulkStatus}`);
@@ -202,7 +202,7 @@ export default function CoursePlan({currentSemesterCourses,renderKey,setRenderKe
     } catch (error) {
       console.error("Error updating bulk status:", error);
     }
-  };
+  }; */}
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -225,7 +225,7 @@ export default function CoursePlan({currentSemesterCourses,renderKey,setRenderKe
             Course Plan for Semester {currentSemester}
           </p>
         </Stack>
-        <Stack paddingLeft={43}>
+        <Stack paddingRight={6}>
         <Button onClick={handleOpenDialog}>Semester Completed</Button>
         </Stack>
         <Dialog open={openDialog} onClose={handleCloseDialog}>
@@ -242,8 +242,8 @@ export default function CoursePlan({currentSemesterCourses,renderKey,setRenderKe
             Confirm
           </Button>
         </DialogActions>
-      </Dialog>
-        <Stack
+     </Dialog>
+        {/* <
           direction="row"
           alignItems="center"
           style={{ marginRight: "85px" }}
@@ -264,8 +264,8 @@ export default function CoursePlan({currentSemesterCourses,renderKey,setRenderKe
               <CheckOutlinedIcon style={{ color: "green" }} />
             </ToggleButton>
           </ToggleButtonGroup>
-        </Stack>
-      </Stack>
+        </Stack>*/}
+          </Stack>
 
       <TableContainer sx={{ maxWidth: 1050 }} component={Paper}>
         <Table sx={{ minWidth: 750 }} aria-label="customized table">

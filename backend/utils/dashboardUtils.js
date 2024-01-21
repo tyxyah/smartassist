@@ -191,37 +191,32 @@ const calculateELExOccurrencesUntilCurrentSemester = async (
     allELExCourses.forEach((course) => {
       const courseCode = course.course_code.toUpperCase(); // Convert to uppercase for case-insensitive comparison
 
-      // Check if the ELEx course code is unique
-      if (!uniqueELExCourseCodes.has(courseCode)) {
-        uniqueELExCourseCodes.add(courseCode);
+      // Extract the package (LPE, LAX, or CEL) from the course code
+      const packageCode = courseCode.substring(0, 3);
 
-        // Extract the package (LPE, LAX, or CEL) from the course code
-        const packageCode = courseCode.substring(0, 3);
+      // Increment the required count for the corresponding package in the result object
+      if (packageCode === "LAX") {
+        result[packageCode].required += 6; // Multiply LAX requirement by 6
+      } else {
+        result[packageCode].required++;
+      }
 
-        // Increment the required count for the corresponding package in the result object
+      // Check if the status is true and increment the completed count
+      if (course.status) {
         if (packageCode === "LAX") {
-          result[packageCode].required += 6; // Multiply LAX requirement by 6
+          result[packageCode].completed += 6; // Multiply completed LAX count by 6
         } else {
-          result[packageCode].required++;
-        }
-
-        // Check if the status is true and increment the completed count
-        if (course.status) {
-          if (packageCode === "LAX") {
-            result[packageCode].completed += 6; // Multiply completed LAX count by 6
-          } else {
-            result[packageCode].completed++;
-          }
-
-          // Calculate progress percentage for the corresponding package and round to 2 decimal places
-          result[packageCode].progress = parseFloat(
-            (
-              (result[packageCode].completed / result[packageCode].required) *
-              100
-            ).toFixed(2)
-          );
+          result[packageCode].completed++;
         }
       }
+
+      // Calculate progress percentage for the corresponding package and round to 2 decimal places
+      result[packageCode].progress = parseFloat(
+        (
+          (result[packageCode].completed / result[packageCode].required) *
+          100
+        ).toFixed(2)
+      );
     });
 
     // Increment the total required count for all ELEx packages
@@ -486,6 +481,63 @@ const calculateTotalCreditHoursToGraduate = async (StudySchemeModel, user_id) =>
     );
   }
 };
+/*********total credit hours by semester and type*/
+const calculateCreditHoursByCourseTypeAndSemester = async (StudySchemeModel, user_id) => {
+  try {
+    // Fetch user's courses from the study scheme model
+    const userCourses = await StudySchemeModel.find({ user_id });
+
+    // Initialize data structure to store results by semester and course type
+    const creditHoursData = {};
+
+    // Loop through each course and update the credit hours data
+    userCourses.forEach((course) => {
+      const semesterId = course.semester_id;
+      const courseType = parseFloat(course.course_type);
+      const creditHours = parseFloat(course.credit_hours);
+
+      // Check if credit_hours is a valid numeric value
+      if (isNaN(creditHours) || !isFinite(creditHours)) {
+        console.warn(
+          `Invalid credit_hours value for course ${course._id}. Skipping.`
+        );
+        return;
+      }
+
+      // Initialize semester data if not exists
+      if (!creditHoursData[semesterId]) {
+        creditHoursData[semesterId] = {};
+      }
+
+      // Initialize course type data if not exists
+      if (!creditHoursData[semesterId][courseType]) {
+        creditHoursData[semesterId][courseType] = {
+          required: 0,
+          completed: 0,
+        };
+      }
+
+      // Update credit hours for the semester and course type
+      creditHoursData[semesterId][courseType].required += creditHours;
+
+      // Update completed credit hours only if the course is marked as completed
+      if (course.status) {
+        creditHoursData[semesterId][courseType].completed += creditHours;
+      }
+    });
+
+    // Return the calculated credit hours data
+    return creditHoursData;
+  } catch (error) {
+    // Handle errors during the calculation process
+    console.error(
+      `Error calculating credit hours by semester and course type: ${error.message}`
+    );
+    throw new Error(
+      `Error calculating credit hours by semester and course type: ${error.message}`
+    );
+  }
+};
 
 module.exports = {
   calculateELExOccurrences,
@@ -495,4 +547,5 @@ module.exports = {
   calculateTotalCreditHoursToGraduate,
   calculateTotalCreditHoursUntilCurrentSemester,
   calculateKokurikulumOccurrences,
+  calculateCreditHoursByCourseTypeAndSemester,
 };

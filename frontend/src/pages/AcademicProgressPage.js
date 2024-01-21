@@ -18,6 +18,11 @@ function ProgressPage() {
     LPE: {},
     CEL: {},
   });
+  const [completedElex, setCompletedElex] = useState({
+    LAX: {},
+    LPE: {},
+    CEL: {},
+  });
   const { user } = useAuthContext();
 
   useEffect(() => {
@@ -53,6 +58,7 @@ function ProgressPage() {
           const dataElexPackage = await responseElexPackage.json();
           console.log("Received ELEx Package Data:", dataElexPackage);
           setElexPackageProgress(dataElexPackage.elex_package_progress);
+          setCompletedElex(dataElexPackage.elex_package_progress);
         } else {
           console.error("Failed to fetch ELEx package progress data");
         }
@@ -85,22 +91,33 @@ function ProgressPage() {
         </div>
         <Box sx={{ display: "flex", paddingTop: 2 }}>
           <div style={{ flex: 1 }}>
-            <ProgressTable selectedCourseType={selectedCourseType} progressData={progressData} />
+            <ProgressTable
+              selectedCourseType={selectedCourseType}
+              progressData={progressData}
+            />
           </div>
           {selectedCourseType === 4 ? (
             <div
               style={{
                 position: "absolute",
                 top: "142px",
-                right: "16px",
+                right: "50px",
                 flex: 1,
               }}
             >
               <Stack direction="column" spacing={2}>
-              <TotalKokurikulum showAlert={false} />
-              <p style={{ fontSize: "18px" }}>ELEx Packages</p>
-              <ElexCard title="LAX" data={elexPackageProgress.LAX} />
-              <ElexCard title="CEL" data={elexPackageProgress.CEL} />
+                <TotalKokurikulum showAlert={false} />
+                <p style={{ fontSize: "18px" }}>ELEx Packages</p>
+                <ElexCard
+                  title="LAX (Point)"
+                  data={elexPackageProgress.LAX}
+                  completedData={completedElex.LAX}
+                />
+                <ElexCard
+                  title="CEL (Subject)"
+                  data={elexPackageProgress.CEL}
+                  completedData={completedElex.CEL}
+                />
               </Stack>
             </div>
           ) : (
